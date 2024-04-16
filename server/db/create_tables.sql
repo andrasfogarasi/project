@@ -1,66 +1,67 @@
 USE works_for_students;
 DROP TABLE IF EXISTS banned;
 DROP TABLE IF EXISTS guidance;
-DROP TABLE IF EXISTS notifications;
-DROP TABLE IF EXISTS problems;
-DROP TABLE IF EXISTS applications;
+DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS problem;
+DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS job_categories;
-DROP TABLE IF EXISTS companies;
+DROP TABLE IF EXISTS job_category;
+DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS admins;
-DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS role;
 
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS role (
     id INT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(50) UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    flag VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS students (
+CREATE TABLE IF NOT EXISTS student (
 	 id INT AUTO_INCREMENT PRIMARY KEY,
 	 user_id INT UNIQUE,
 	 university_name VARCHAR(30),
-	 YEAR INT NOT NULL,
+	 year INT NOT NULL,
 	 cv_filename VARCHAR(30),
 	 mother_tongue VARCHAR(30),
 	 experience TEXT,
-	 DESCRIPTION TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+	 description TEXT,
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE IF NOT EXISTS admins (
+CREATE TABLE IF NOT EXISTS admin (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE IF NOT EXISTS companies (
+CREATE TABLE IF NOT EXISTS company (
     id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(50),
     location VARCHAR(60) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    RATING INT DEFAULT 0,
+    rating INT DEFAULT 0,
     user_id INT UNIQUE,  #az ember a cegtol
-    FOREIGN KEY (user_id) REFERENCES users(id) 
+    FOREIGN KEY (user_id) REFERENCES user(id) 
 );
 
-CREATE TABLE IF NOT EXISTS job_categories (
+CREATE TABLE IF NOT EXISTS job_category (
 	 id INT AUTO_INCREMENT PRIMARY KEY,
 	 category_name VARCHAR(50),
-	 DESCRIPTION Text
+	 description Text
 );
 
-CREATE TABLE IF NOT EXISTS posts (
+CREATE TABLE IF NOT EXISTS post (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     description TEXT,
@@ -69,36 +70,35 @@ CREATE TABLE IF NOT EXISTS posts (
     company_id INT NOT NULL,
     category_id INT,
     job_time VARCHAR(20) NOT NULL,
-    FOREIGN KEY (company_id) REFERENCES companies(id),
-    FOREIGN KEY (category_id) REFERENCES job_categories(id)
+    FOREIGN KEY (company_id) REFERENCES company(id),
+    FOREIGN KEY (category_id) REFERENCES job_category(id)
 );
 
-CREATE TABLE IF NOT EXISTS applications (
-    #id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS application (
 	 date_application TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	 student_id INT NOT NULL,
 	 post_id INT NOT NULL,
 	 accept BOOLEAN,
 	 PRIMARY KEY (student_id, post_id),
-    FOREIGN KEY (student_id) REFERENCES students(id),
-    FOREIGN KEY (post_id) REFERENCES posts(id)
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (post_id) REFERENCES post(id)
 );
 
-CREATE TABLE IF NOT EXISTS problems (
+CREATE TABLE IF NOT EXISTS problem (
 	 id INT AUTO_INCREMENT PRIMARY KEY,
 	 user_id INT NOT NULL,
-	 DESCRIPTION TEXT,
+	 description TEXT,
 	 solved BOOLEAN,
-	 FOREIGN KEY (user_id) REFERENCES users(id)
+	 FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE IF NOT EXISTS notifications (
+CREATE TABLE IF NOT EXISTS notification (
 	 id INT AUTO_INCREMENT PRIMARY KEY,
 	 message TEXT, 
 	 from_member INT NOT NULL,
 	 to_member INT NOT NULL,
-	 FOREIGN KEY (from_member) REFERENCES users(id),
-	 FOREIGN KEY (to_member) REFERENCES users(id)
+	 FOREIGN KEY (from_member) REFERENCES user(id),
+	 FOREIGN KEY (to_member) REFERENCES user(id)
 );
 	 
 CREATE TABLE IF NOT EXISTS guidance (
@@ -106,14 +106,14 @@ CREATE TABLE IF NOT EXISTS guidance (
 	 text TEXT NOT NULL,
 	 file_name VARCHAR(20),
 	 company_id INT NOT NULL,
-	 FOREIGN KEY(company_id) REFERENCES companies(id)
+	 FOREIGN KEY(company_id) REFERENCES company(id)
 );
 
 CREATE TABLE IF NOT EXISTS banned (
 	 id INT AUTO_INCREMENT PRIMARY KEY,
 	 description TEXT,
 	 user_id INT NOT NULL,
-	 FOREIGN KEY(user_id) REFERENCES users(id)
+	 FOREIGN KEY(user_id) REFERENCES user(id)
 );
 
 SHOW TABLES;
