@@ -6,25 +6,30 @@ DROP TABLE IF EXISTS problem;
 DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS job_category;
-DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS company;
 
-CREATE TABLE IF NOT EXISTS role (
+CREATE TABLE IF NOT EXISTS company (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    role_name VARCHAR(50) UNIQUE
+    company_name VARCHAR(50),
+    location VARCHAR(60) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rating INT DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
+	username VARCHAR(30),
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    flag VARCHAR(10) NOT NULL
+    flag VARCHAR(10) NOT NULL,
+	company_id INT,
+	FOREIGN KEY (company_id) REFERENCES company(company_id)
 );
 
 CREATE TABLE IF NOT EXISTS student (
@@ -32,7 +37,7 @@ CREATE TABLE IF NOT EXISTS student (
 	 user_id INT UNIQUE,
 	 university_name VARCHAR(30),
 	 year INT NOT NULL,
-	 cv_filename VARCHAR(30),
+	 cv_filename VARCHAR(30), 
 	 mother_tongue VARCHAR(30),
 	 experience TEXT,
 	 description TEXT,
@@ -43,16 +48,6 @@ CREATE TABLE IF NOT EXISTS admin (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-CREATE TABLE IF NOT EXISTS company (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    company_name VARCHAR(50),
-    location VARCHAR(60) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    rating INT DEFAULT 0,
-    user_id INT UNIQUE,  #az ember a cegtol
-    FOREIGN KEY (user_id) REFERENCES user(id) 
 );
 
 CREATE TABLE IF NOT EXISTS job_category (
