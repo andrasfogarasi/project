@@ -19,6 +19,11 @@ CREATE TABLE IF NOT EXISTS company (
     rating INT DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS language (
+	language_id INT AUTO_INCREMENT PRIMARY KEY,
+	language_name VARCHAR(30),
+);
+
 CREATE TABLE IF NOT EXISTS user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
@@ -37,17 +42,20 @@ CREATE TABLE IF NOT EXISTS student (
 	 user_id INT UNIQUE,
 	 university_name VARCHAR(30),
 	 year INT NOT NULL,
-	 cv_filename VARCHAR(30), 
+	 cv_filename VARCHAR(30),   -- file_name
 	 mother_tongue VARCHAR(30),
 	 experience TEXT,
 	 description TEXT,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE IF NOT EXISTS admin (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+CREATE TABLE IF NOT EXISTS spoken_language (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	student_id INT,
+	language_id INT,
+	level VARCHAR(3),
+	FOREIGN KEY (student_id) REFERENCES user(id),
+	FOREIGN KEY (language_id) REFERENCES language(language_id)
 );
 
 CREATE TABLE IF NOT EXISTS job_category (
