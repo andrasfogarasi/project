@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+import LoginForm from "./Components/LoginForm/LoginForm";
 
 function App() {
+
+  return (
+    <div>
+      <LoginForm />
+    </div>
+  );
+
+  /*
   const [backendData, setBackendData] = useState([{}]);
 
   useEffect(() => {
@@ -19,7 +28,7 @@ function App() {
         backendData.users.map((user, i) => <p key={i}>{user}</p>)
       )}
     </div>
-  );
+  ); */
 }
 
 export default App;
