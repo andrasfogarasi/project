@@ -13,7 +13,8 @@
   "author": "Fogarasi András",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.1"
+    "express": "^4.19.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
