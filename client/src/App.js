@@ -1,34 +1,18 @@
-// import React, { useEffect, useState } from "react";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginForm from "./Components/LoginForm/LoginForm";
+import RegisterForm from "./Components/RegisterForm/RegisterForm";
 
-function App() {
-
+const App = () => {
   return (
-    <div>
-      <LoginForm />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={LoginForm} />
+        <Route path="/register" component={RegisterForm} />
+      </Switch>
+    </Router>
   );
+};
 
-  /*
-  const [backendData, setBackendData] = useState([{}]);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-      });
-  }, []);
-
-  return (
-    <div>
-      {typeof backendData.users === "undefined" ? (
-        <p>Loading...</p>
-      ) : (
-        backendData.users.map((user, i) => <p key={i}>{user}</p>)
-      )}
-    </div>
-  ); */
-}
 
 export default App;
