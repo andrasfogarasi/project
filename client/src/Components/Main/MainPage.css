@@ -1,0 +1,19 @@
+.dashboard {
+    padding: 20px;
+  }
+  
+  .job-post {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px 0;
+  }
+  
+  .job-post h2 {
+    margin: 0 0 8px 0;
+  }
+  
+  .job-post h3 {
+    margin: 0 0 12px 0;
+    color: #666;
+  }
+  

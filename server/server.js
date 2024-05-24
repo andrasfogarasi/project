@@ -21,9 +21,4 @@ app.post('/register', (req, res) => {
     res.json({ success: true, message: 'Registration request received' });
 });
 
-/*
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});*/
-
 app.listen(5000, () => { console.log("Server started on port 5000") })
