@@ -3,7 +3,9 @@ import React from "react";
 const Register = () => {
   return (
     <div className="wrapper">
-      <form action="/api/register" method="POST">
+      <h1>Register form</h1>
+
+      <form action="http://localhost:5000/register" method="POST">
         <div className="input-box">
           <input type="text" placeholder="Username" name="username" required />
         </div>

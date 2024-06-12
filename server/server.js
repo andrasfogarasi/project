@@ -1,7 +1,13 @@
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import login from "./requests/login";
 
 const app = express();
 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -12,9 +18,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/api", (req, res) => {
-    res.json({ "users": ["userOne", "userTwo"] })
-});
+app.use('/register', login);
 
 app.post('/register', (req, res) => {
     console.log(req.body);

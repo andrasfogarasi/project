@@ -3,3 +3,4 @@
 - server: npm run dev
 - client: npm start
 - electron: yarn electron:serve
+- faim21320514
