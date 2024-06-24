@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import login from "./requests/login";
+// import login from "./requests/login";
+import { createTable } from "./db/create_tables.js";
 
 const app = express();
 
@@ -18,11 +19,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/register', login);
+// app.use('/register', login);
 
 app.post('/register', (req, res) => {
     console.log(req.body);
     res.json({ success: true, message: 'Registration request received' });
 });
 
-app.listen(5000, () => { console.log("Server started on port 5000") })
+createTable().then(() => {
+    app.listen(5000, () => {
+        console.log(`Server listening on http://localhost:${port}/...`);
+    });
+});

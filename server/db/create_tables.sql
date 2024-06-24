@@ -115,4 +115,4 @@ CREATE TABLE IF NOT EXISTS guidance (  -- works_for_studentscegnek kuldeni valam
 	FOREIGN KEY(company_id) REFERENCES company(id)
 );
 
-SHOW TABLES;
+SHOW TABLES;works_for_studentsworks_for_students

@@ -1,4 +1,4 @@
-import database_connection from "./database_connection";
+import database_connection from "./database_connection.js";
 
 export const createTable = async () => {
     try {
@@ -114,21 +114,8 @@ export const createTable = async () => {
         FOREIGN KEY(company_id) REFERENCES company(id)
     );
     `);
-
-        await database_connection.executeQuery(`
-        CREATE TABLE IF NOT EXISTS application (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        date_application TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        student_id INT NOT NULL,
-        job_id INT NOT NULL,
-        accept BOOLEAN,
-        UNIQUE KEY (student_id, job_id),
-        FOREIGN KEY (student_id) REFERENCES student(id),
-        FOREIGN KEY (job_id) REFERENCES job(id)
-    );
-    `);
     } catch (err) {
-        console.error(`Hiba a tablak letrehozasanal!: ${err}`);
+        console.error(`Error while creating the table: ${err}`);
         process.exit(1);
     }
 };
