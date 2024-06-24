@@ -2,6 +2,9 @@ import database_connection from "./database_connection.js";
 
 export const createTable = async () => {
     try {
+
+        await database_connection.executeQuery('USE works_for_students;');
+
         await database_connection.executeQuery(`
     CREATE TABLE IF NOT EXISTS company (
         id INT AUTO_INCREMENT PRIMARY KEY,
