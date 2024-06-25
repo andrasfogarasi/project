@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import { createTable } from "./db/create_tables.js";
 
 const app = express();
+const port = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());

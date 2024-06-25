@@ -6,6 +6,7 @@ dotenv.config();
 
 class DbConnection {
     constructor() {
+
         this.pool = mysql2.createPool({
             connectionLimit: parseInt(process.env.DB_CONN_LIMIT, 10),
             host: process.env.DB_HOST,
