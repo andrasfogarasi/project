@@ -1,11 +1,11 @@
-import database_connection from "./database_connection.js";
+import databaseConnection from "./databaseConnection.js";
 
 export const createTable = async () => {
     try {
 
-        await database_connection.executeQuery('USE works_for_students;');
+        await databaseConnection.executeQuery('USE works_for_students;');
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
     CREATE TABLE IF NOT EXISTS company (
         id INT AUTO_INCREMENT PRIMARY KEY,
         company_name VARCHAR(50),
@@ -15,7 +15,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
     CREATE TABLE IF NOT EXISTS user (
         id INT AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(50),
@@ -31,7 +31,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS student (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT UNIQUE,
@@ -45,14 +45,14 @@ export const createTable = async () => {
     );
         `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS language (
         language_id INT AUTO_INCREMENT PRIMARY KEY,
         language_name VARCHAR(30)
     );
             `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
     CREATE TABLE IF NOT EXISTS spoken_language (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	student_id INT,
@@ -63,7 +63,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS job_category (
         id INT AUTO_INCREMENT PRIMARY KEY,
         category_name VARCHAR(50),
@@ -71,7 +71,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
             CREATE TABLE IF NOT EXISTS job (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(30) NOT NULL,
@@ -87,7 +87,7 @@ export const createTable = async () => {
         );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS problem (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -97,7 +97,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS notification (  
         id INT AUTO_INCREMENT PRIMARY KEY,
         message TEXT, 
@@ -108,7 +108,7 @@ export const createTable = async () => {
     );
     `);
 
-        await database_connection.executeQuery(`
+        await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS guidance (  
         id INT AUTO_INCREMENT PRIMARY KEY,
         text TEXT NOT NULL,

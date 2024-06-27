@@ -1,8 +1,8 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-// import login from "./requests/login";
-import { createTable } from "./db/create_tables.js";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { createTable } from './db/create_tables.js';
+import register from './requests/register.js';
 
 const app = express();
 const port = 5000;
@@ -20,12 +20,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.use('/register', login);
-
-app.post('/register', (req, res) => {
-    console.log(req.body);
-    res.json({ success: true, message: 'Registration request received' });
-});
+app.use('/register', register);
 
 createTable().then(() => {
     app.listen(5000, () => {
