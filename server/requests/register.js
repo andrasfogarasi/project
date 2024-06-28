@@ -1,5 +1,5 @@
 import express from 'express';
-import * as db from '../db/queries'
+import * as db from '../db/queries';
 
 const router = express.Router();
 router.use(express.json());
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         }*/
 
         const fid = await db.selectFelhasznaloID(felnev);
-        // mar be volt olvasva
+
         if (fid != null) {
             console.log('regisztracios form: 409: Mar letezik ez a szemely!');
             const error = 'regisztracios form: 409: Mar letezik ez a szemely!';

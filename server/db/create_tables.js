@@ -1,4 +1,4 @@
-import databaseConnection from "./databaseConnection.js";
+import databaseConnection from './databaseConnection.js';
 
 export const createTable = async () => {
     try {
