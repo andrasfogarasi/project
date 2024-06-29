@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginForm from './Components/LoginForm/LoginForm';
-import RegisterForm from './Components/RegisterForm/RegisterForm';
+import RegisterForm from './Components/Register/RegisterForm';
 import MainPage from './Components/Main/MainPage';
 import JobDetails from './Components/Main/JobDetail';
 
