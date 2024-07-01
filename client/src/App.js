@@ -4,6 +4,7 @@ import LoginForm from './Components/LoginForm/LoginForm';
 import RegisterPage from './Components/Register/RegisterPage';
 import MainPage from './Components/Main/MainPage';
 import JobDetails from './Components/Main/JobDetail';
+import NotFoundPage from './Components/Error/NotFoundPage';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/register/*' element={<RegisterPage />} />
         <Route path='/jobs/:id' component={<JobDetails />} />
+        <Route path='/*' component={<NotFoundPage />} />
       </Routes>
     </Router>
   );
