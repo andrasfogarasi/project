@@ -1,6 +1,6 @@
 import express from 'express';
-import * as db from '../db/queries';
-import checkPassword from '../functions/ckeckPassword';
+import * as db from '../db/queries.js';
+import { checkPassword } from '../functions/ckeckPassword.js';
 import bcrypt from 'bcrypt';
 
 const router = express.Router();
@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
     return res.redirect('/tantargyak');*/
 
     } catch (err) {
-        return res.status(500).render('error', { message: `500: Error: ${err.message}` });
+        return res.status(500).render('error', { error: `500: Error: ${err.message}` });
     }
 });
 

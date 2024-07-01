@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "./RegisterPage.css";
 import RegisterStudent from "./RegisterStudent";
+import RegisterCompany from "./RegisterCompany";
 
 const RegisterPage = () => {
   return (
@@ -19,7 +20,7 @@ const RegisterPage = () => {
       </header>
       <Routes>
         <Route path="student" element={<RegisterStudent />} />
-        {/* Add other routes here */}
+        <Route path="student" element={<RegisterCompany />} />
       </Routes>
     </div>
   );

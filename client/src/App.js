@@ -5,6 +5,8 @@ import RegisterPage from './Components/Register/RegisterPage';
 import MainPage from './Components/Main/MainPage';
 import JobDetails from './Components/Main/JobDetail';
 import NotFoundPage from './Components/Error/NotFoundPage';
+import RegisterStudent from './Components/Register/RegisterStudent';
+import RegisterCompany from './Components/Register/RegisterCompany';
 
 const App = () => {
   return (
@@ -13,9 +15,10 @@ const App = () => {
         <Route exact path='/' element={<MainPage />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path='/register' element={<RegisterPage />} />
-        <Route path='/register/*' element={<RegisterPage />} />
-        <Route path='/jobs/:id' component={<JobDetails />} />
-        <Route path='/*' component={<NotFoundPage />} />
+        <Route path='/register/student' element={<RegisterStudent />} />
+        <Route path='/register/company' element={<RegisterCompany />} />
+        <Route path='/jobs/:id' element={<JobDetails />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
