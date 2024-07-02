@@ -1,6 +1,6 @@
 import express from 'express';
 import * as db from '../db/queries.js';
-import { checkPassword } from '../functions/ckeckPassword.js';
+import { checkPassword } from '../checkings/ckeckPassword.js';
 import bcrypt from 'bcrypt';
 
 const router = express.Router();
@@ -15,28 +15,38 @@ router.post('/', async (req, res) => {
             console.log('Regisztracios form: 400: Ures adatot adtal meg!');
             const error = 'Regisztracios form: 400: Ures adatot adtal meg!';
             return res.status(400).render('register', { uzenet: `Hiba tortent!: ${error}` });
-        }*/
+        }
 
         const userId = db.selectUserIdByUsername(username); //email alapjan is lehet
-
         console.log(userId);
 
-        if (fid != null) {
+        if (userId != null) {
             const errorMessage = 'User already existed!';
+            console.log(errorMessage);
+            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
+        }*/
+
+        console.log('bonjour');
+        /*
+
+        if (!checkPassword(passwd)) {
+            const errorMessage = 'Password must contain uppercase letter, lowercase letter, number and longer than 7!';
+            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
         }
 
-        if (checkPassword(passwd)) {
-            const errorMessage = 'Password must contain uppercase letter, lowercase letter, number and longer than 7!';
-            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
-        }
+        console.log('bonjour');
 
         if (passwd != confirm_passwd) {
             const errorMessage = 'User already existed!';
+            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
-        }
+        }*/
+
+        console.log('bonjour');
 
         const encryptedPassword = await bcrypt.hash(passwd, 10);
+        db.insertUser(username, email, firstname, lastname, encryptedPassword, 2);
 
         return res.status(200);
 
