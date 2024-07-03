@@ -2,58 +2,52 @@ import express from 'express';
 import * as db from '../db/queries.js';
 import { checkPassword } from '../checkings/ckeckPassword.js';
 import bcrypt from 'bcrypt';
+import { validateEmail } from '../checkings/validateEmail.js';
 
 const router = express.Router();
 router.use(express.json());
+const failedRegistring = 'Registration failed';
 
 router.post('/', async (req, res) => {
     try {
         console.log(req.body);
 
-        const { username, email, firstname, lastname, passwd, confirm_passwd } = req.body;
-        /*if (username === '' || firstname === '' || email === '' || lastname === '' || passwd === undefined || jelszo === undefined) {
-            console.log('Regisztracios form: 400: Ures adatot adtal meg!');
-            const error = 'Regisztracios form: 400: Ures adatot adtal meg!';
-            return res.status(400).render('register', { uzenet: `Hiba tortent!: ${error}` });
+        const { username, email, firstname, lastname, password, confirmPassword } = req.body;
+        if (username === '' || email === '' || password === '' || confirmPassword === '') {
+            const errorMessage = 'No enough data given!';
+            res.status(409).json({ message: failedRegistring, error: errorMessage });
         }
 
-        const userId = db.selectUserIdByUsername(username); //email alapjan is lehet
-        console.log(userId);
+        if (!validateEmail(email)) {
+            const errorMessage = 'Wrong email format!';
+            res.status(409).json({ message: failedRegistring, error: errorMessage });
+        }
 
-        if (userId != null) {
-            const errorMessage = 'User already existed!';
-            console.log(errorMessage);
-            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
-        }*/
+        const userEmail = await db.selectUserIdByEmail(username);
 
-        console.log('bonjour');
-        /*
+        if (userEmail != undefined) {
+            const errorMessage = 'User already existed in this email!';
+            res.status(409).json({ message: failedRegistring, error: errorMessage });
+        }
 
-        if (!checkPassword(passwd)) {
+        if (!checkPassword(password)) {
             const errorMessage = 'Password must contain uppercase letter, lowercase letter, number and longer than 7!';
-            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
         }
 
-        console.log('bonjour');
-
-        if (passwd != confirm_passwd) {
+        if (password != confirmPassword) {
             const errorMessage = 'User already existed!';
-            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
-        }*/
+        }
 
-        console.log('bonjour');
+        console.log('Bonjour');
 
-        const encryptedPassword = await bcrypt.hash(passwd, 10);
-        db.insertUser(username, email, firstname, lastname, encryptedPassword, 2);
+        const encryptedPassword = await bcrypt.hash(password, 10);
+        const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, 3);
 
         return res.status(200);
 
         /*
-
-    const fid = await db.selectFelhasznaloID(felnev);
-
     
     const encryptedPassWd = await bcrypt.hash(jelszo, 10);
     const ujAdat = {
@@ -71,8 +65,9 @@ router.post('/', async (req, res) => {
     aut.createJWT(uid, 3);
     return res.redirect('/tantargyak');*/
 
-    } catch (err) {
-        return res.status(500).render('error', { error: `500: Error: ${err.message}` });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: failedRegistring, error: error.message });
     }
 });
 

@@ -4,8 +4,8 @@ const RegisterStudent = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     password: "",
     confirmPassword: "",
   });
@@ -70,8 +70,8 @@ const RegisterStudent = () => {
           <input
             type="text"
             placeholder="First Name"
-            name="firstName"
-            value={formData.firstName}
+            name="firstname"
+            value={formData.firstname}
             onChange={handleChange}
             required
           />
@@ -80,8 +80,8 @@ const RegisterStudent = () => {
           <input
             type="text"
             placeholder="Last Name"
-            name="lastName"
-            value={formData.lastName}
+            name="lastname"
+            value={formData.lastname}
             onChange={handleChange}
             required
           />
