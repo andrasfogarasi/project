@@ -4,10 +4,11 @@ const RegisterStudent = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     password: "",
     confirmPassword: "",
+    flag: 3,
   });
 
   const handleChange = (e) => {
@@ -17,29 +18,28 @@ const RegisterStudent = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:5000/register", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          console.log("Registration successful:", response);
-        } else {
-          console.error("Registration failed:", xhr.statusText);
-        }
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Registration successful:", result);
+      } else {
+        console.error("Registration failed:", response.statusText);
+        alert("Error");
       }
-    };
-
-    xhr.onerror = () => {
-      console.error("Network error");
-    };
-
-    xhr.send(JSON.stringify(formData));
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   return (

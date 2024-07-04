@@ -8,6 +8,7 @@ const RegisterCompany = () => {
     lastName: "",
     password: "",
     confirmPassword: "",
+    flag: 2,
   });
 
   const handleChange = (e) => {
@@ -17,34 +18,39 @@ const RegisterCompany = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:5000/register", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          console.log("Registration successful:", response);
-        } else {
-          console.error("Registration failed:", xhr.statusText);
-        }
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Registration successful:", result);
+      } else {
+        console.error("Registration failed:", response.statusText);
+        alert("Registration failed: " + response.statusText); // Use alert to notify the user
       }
-    };
-
-    xhr.onerror = () => {
-      console.error("Network error");
-    };
-
-    xhr.send(JSON.stringify(formData));
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("Network error: " + error.message); // Use alert to notify the user
+    }
   };
 
   return (
     <div className="wrapper">
-      <h1>Register form</h1>
+      <h1>Register Form</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
           <input

@@ -10,60 +10,52 @@ const failedRegistring = 'Registration failed';
 
 router.post('/', async (req, res) => {
     try {
-        console.log(req.body);
 
-        const { username, email, firstname, lastname, password, confirmPassword } = req.body;
+        console.log(req.body);
+        const { username, email, firstname, lastname, password, confirmPassword, flag } = req.body;
         if (username === '' || email === '' || password === '' || confirmPassword === '') {
             const errorMessage = 'No enough data given!';
-            res.status(409).json({ message: failedRegistring, error: errorMessage });
+            console.log(errorMessage);
+            return res.status(409).json({ message: failedRegistring, error: errorMessage });
         }
 
         if (!validateEmail(email)) {
             const errorMessage = 'Wrong email format!';
-            res.status(409).json({ message: failedRegistring, error: errorMessage });
+            console.log(errorMessage);
+            return res.status(409).json({ message: failedRegistring, error: errorMessage });
         }
 
-        const userEmail = await db.selectUserIdByEmail(username);
+        const userId = await db.selectUserIdByEmail(email);
+        console.log(userId);
 
-        if (userEmail != undefined) {
+        if (userId != undefined) {
             const errorMessage = 'User already existed in this email!';
-            res.status(409).json({ message: failedRegistring, error: errorMessage });
+            console.log(errorMessage);
+            return res.status(409).json({ message: failedRegistring, error: errorMessage });
         }
 
         if (!checkPassword(password)) {
             const errorMessage = 'Password must contain uppercase letter, lowercase letter, number and longer than 7!';
+            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
         }
 
         if (password != confirmPassword) {
             const errorMessage = 'User already existed!';
+            console.log(errorMessage);
             return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
         }
 
-        console.log('Bonjour');
-
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, 3);
+        const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, flag);
 
+        console.log("siker");
         return res.status(200);
 
         /*
-    
-    const encryptedPassWd = await bcrypt.hash(jelszo, 10);
-    const ujAdat = {
-        namef: csnev,
-        namek: knev,
-        emailCim: email,
-        uname: felnev,
-        pass: encryptedPassWd,
-    };
-    await db.felhasznaloLetrehozas(ujAdat);
-    const mess = 'regisztracios form: 201: Sikeres regisztracio!';
-    console.log(mess);
-    // szerepet berakni a tokenbe (kezdetbe 3 - diak)
+
     const uid = await db.selectFelhasznaloID(felnev);
-    aut.createJWT(uid, 3);
-    return res.redirect('/tantargyak');*/
+    aut.createJWT(uid, 3);*/
 
     } catch (error) {
         console.log(error);
