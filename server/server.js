@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { createTable } from './db/create_tables.js';
 import register from './requests/register.js';
+import jobs from './requests/jobs.js';
 
 const app = express();
 const port = 5000;
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/register', register);
+app.use('/jobs', jobs);
 
 createTable().then(() => {
     app.listen(5000, () => {

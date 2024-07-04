@@ -17,3 +17,9 @@ export const selectUsers = async () => {
     const result = await databaseConnection.executeQuery(query);
     return result;
 };
+
+export const selectJobs = async () => {
+    const query = 'SELECT * FROM job';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
