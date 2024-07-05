@@ -12,14 +12,21 @@ export const selectUserIdByEmail = async (email) => {
     return result;
 };
 
-export const selectUsers = async () => {
-    const query = 'SELECT * FROM user';
-    const result = await databaseConnection.executeQuery(query);
+export const selectPasswordById = async (id) => {
+    const query = 'SELECT password FROM user WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
+
 
 export const selectJobs = async () => {
     const query = 'SELECT * FROM job';
     const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
+export const selectJobById = async (id) => {
+    const query = 'SELECT * FROM job where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };

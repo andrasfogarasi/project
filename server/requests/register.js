@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         if (username === '' || email === '' || password === '' || confirmPassword === '') {
             const errorMessage = 'Not enough data given!';
             console.log(errorMessage);
-            return res.status(409).json({ message: failedRegistring, error: errorMessage });
+            return res.status(400).json({ message: failedRegistring, error: errorMessage });
         }
 
         if (!validateEmail(email)) {

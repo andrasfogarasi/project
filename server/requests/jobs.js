@@ -3,23 +3,33 @@ import * as db from '../db/queries.js';
 
 const router = express.Router();
 router.use(express.json());
+const internalServerError = 'Internal Server Error';
 
 router.get('/', async (req, res) => {
     try {
 
         const result = await db.selectJobs();
-
-        if (password != confirmPassword) {
-            const errorMessage = 'User already existed!';
-            console.log(errorMessage);
-            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
-        }
-
-        return res.status(200);
+        return res.status(200).json(result);
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: failedRegistring, error: error.message });
+        res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await db.selectJobById(id);
+        if (result) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: internalServerError, error: error.message });
     }
 });
 

@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS application (
 	student_id INT NOT NULL,
 	job_id INT NOT NULL,
 	accept BOOLEAN,
+	message TEXT,
 	UNIQUE KEY (student_id, job_id),
     FOREIGN KEY (student_id) REFERENCES student(id),
     FOREIGN KEY (job_id) REFERENCES job(id)

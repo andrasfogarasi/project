@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { createTable } from './db/create_tables.js';
+import { createTables } from './db/createTables.js';
 import register from './requests/register.js';
 import jobs from './requests/jobs.js';
+import application from './requests/application.js';
+import login from './requests/login.js';
 
 const app = express();
 const port = 5000;
@@ -23,8 +25,10 @@ app.use((req, res, next) => {
 
 app.use('/register', register);
 app.use('/jobs', jobs);
+app.use('/application', application);
+app.use('/login', login);
 
-createTable().then(() => {
+createTables().then(() => {
     app.listen(5000, () => {
         console.log(`Server listening on http://localhost:${port}/...`);
     });

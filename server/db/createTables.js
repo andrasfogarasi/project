@@ -1,6 +1,6 @@
 import databaseConnection from './databaseConnection.js';
 
-export const createTable = async () => {
+export const createTables = async () => {
     try {
 
         await databaseConnection.executeQuery('USE works_for_students;');
@@ -85,6 +85,20 @@ export const createTable = async () => {
         FOREIGN KEY (company_id) REFERENCES company(id),
         FOREIGN KEY (category_id) REFERENCES job_category(id)
         );
+    `);
+
+        await databaseConnection.executeQuery(`
+        CREATE TABLE IF NOT EXISTS application (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        date_application TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        student_id INT NOT NULL,
+        job_id INT NOT NULL,
+        accept BOOLEAN,
+        message TEXT,
+        UNIQUE KEY (student_id, job_id),
+        FOREIGN KEY (student_id) REFERENCES student(id),
+        FOREIGN KEY (job_id) REFERENCES job(id)
+    );
     `);
 
         await databaseConnection.executeQuery(`

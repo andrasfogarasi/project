@@ -1,59 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import "./LoginForm.css";
-import { FaUser, FaLock } from "react-icons/fa";
+import RegisterPage from "../Register/RegisterPage";
 
 const LoginForm = () => {
-  const handleRegisterClick = (event) => {
-    event.preventDefault();
-    console.log("Hola");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: "User wants to register" }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        window.location.href = "/register";
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLoginButton = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Login successful:", result);
+      } else {
+        console.error("Login failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   return (
     <div className="wrapper">
-      <form action="">
+      <form onSubmit={handleLoginButton}>
         <h1>Login</h1>
         <div className="input-box">
-          <input type="text" placeholder="Username" required />
-          <FaUser className="icon" />
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="input-box">
-          <input type="password" placeholder="Password" required />
-          <FaLock className="icon" />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <div className="remember-forgot">
-          <label>
-            <input type="checkbox" /> Remember me{" "}
-          </label>
-        </div>
-
-        <button type="submit">Login</button>
+        <button id="loginButton" type="submit" onClick={handleLoginButton}>
+          Login
+        </button>
 
         <div className="register-link">
           <p>
-            Don't have an account?
-            <a href="/register" onClick={handleRegisterClick}>
-              Register
-            </a>
+            Don't have an account? <Link to="/register">Register</Link>
           </p>
         </div>
       </form>
+
+      <Routes>
+        <Route path="register" element={<RegisterPage />} />
+      </Routes>
     </div>
   );
 };
