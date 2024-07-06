@@ -59,7 +59,7 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: failedRegistring, error: error.message });
+        return res.status(500).json({ message: failedRegistring, error: error.message });
     }
 });
 

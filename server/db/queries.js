@@ -18,6 +18,12 @@ export const selectPasswordById = async (id) => {
     return result;
 };
 
+export const selectFlagById = async (id) => {
+    const query = 'SELECT flag FROM user WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 
 export const selectJobs = async () => {
     const query = 'SELECT * FROM job';

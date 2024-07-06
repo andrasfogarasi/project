@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginForm from './Components/LoginForm/LoginForm';
+import LoginPage from './Components/LoginForm/LoginPage';
 import RegisterPage from './Components/Register/RegisterPage';
 import MainPage from './Components/Main/MainPage';
 import JobDetail from './Components/Main/JobDetail';
@@ -13,7 +13,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route exact path='/' element={<MainPage />} />
-        <Route path='/login' element={<LoginForm />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/register/student' element={<RegisterStudent />} />
         <Route path='/register/company' element={<RegisterCompany />} />

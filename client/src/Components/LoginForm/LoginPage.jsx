@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import "./LoginForm.css";
+import "./LoginPage.css";
 import RegisterPage from "../Register/RegisterPage";
 
-const LoginForm = () => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,6 +26,7 @@ const LoginForm = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -83,4 +84,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

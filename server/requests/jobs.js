@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: internalServerError, error: error.message });
+        return res.status(500).json({ message: internalServerError, error: error.message });
     }
 });
 
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: internalServerError, error: error.message });
+        return res.status(500).json({ message: internalServerError, error: error.message });
     }
 });
 
