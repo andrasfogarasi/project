@@ -10,7 +10,6 @@ import login from './requests/login.js';
 const app = express();
 const port = 5000;
 
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

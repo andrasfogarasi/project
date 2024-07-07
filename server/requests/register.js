@@ -4,10 +4,11 @@ import { checkPassword } from '../checkings/ckeckPassword.js';
 import bcrypt from 'bcrypt';
 import { validateEmail } from '../checkings/validateEmail.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 const router = express.Router();
 router.use(express.json());
-const failedRegistring = 'Registration failed';
+const failedRegistration = 'Registration failed';
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -27,13 +28,13 @@ router.post('/', async (req, res) => {
         if (username === '' || email === '' || password === '' || confirmPassword === '') {
             const errorMessage = 'Not enough data given!';
             console.log(errorMessage);
-            return res.status(400).json({ message: failedRegistring, error: errorMessage });
+            return res.status(400).json({ message: failedRegistration, error: errorMessage });
         }
 
         if (!validateEmail(email)) {
             const errorMessage = 'Wrong email format!';
             console.log(errorMessage);
-            return res.status(409).json({ message: failedRegistring, error: errorMessage });
+            return res.status(409).json({ message: failedRegistration, error: errorMessage });
         }
 
         const userId = await db.selectUserIdByEmail(email);
@@ -42,19 +43,19 @@ router.post('/', async (req, res) => {
         if (userId != undefined) {
             const errorMessage = 'User already existed in this email!';
             console.log(errorMessage);
-            return res.status(409).json({ message: failedRegistring, error: errorMessage });
+            return res.status(409).json({ message: failedRegistration, error: errorMessage });
         }
 
         if (!checkPassword(password)) {
             const errorMessage = 'Password must contain uppercase letter, lowercase letter, number and longer than 7!';
             console.log(errorMessage);
-            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
+            return res.status(409).json({ message: failedRegistration, error: errorMessage });
         }
 
         if (password != confirmPassword) {
             const errorMessage = 'User already existed!';
             console.log(errorMessage);
-            return res.status(409).render('register', { error: `Error!: ${errorMessage}` });
+            return res.status(409).json({ message: failedRegistration, error: errorMessage });
         }
 
         const encryptedPassword = await bcrypt.hash(password, 10);
@@ -64,13 +65,12 @@ router.post('/', async (req, res) => {
         return res.status(200);
 
         /*
-
     const uid = await db.selectFelhasznaloID(felnev);
     aut.createJWT(uid, 3);*/
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: failedRegistring, error: error.message });
+        return res.status(500).json({ message: failedRegistration, error: error.message });
     }
 });
 

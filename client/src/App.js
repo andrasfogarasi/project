@@ -7,20 +7,23 @@ import JobDetail from './Components/Main/JobDetail';
 import NotFoundPage from './Components/Error/NotFoundPage';
 import RegisterStudent from './Components/Register/RegisterStudent';
 import RegisterCompany from './Components/Register/RegisterCompany';
+import { AuthProvider } from './AuthContext';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route exact path='/' element={<MainPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/register/student' element={<RegisterStudent />} />
-        <Route path='/register/company' element={<RegisterCompany />} />
-        <Route path='/job/:jobId' element={<JobDetail />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<MainPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/register/student' element={<RegisterStudent />} />
+          <Route path='/register/company' element={<RegisterCompany />} />
+          <Route path='/job/:jobId' element={<JobDetail />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

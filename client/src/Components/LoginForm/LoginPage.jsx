@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import "./LoginPage.css";
 import RegisterPage from "../Register/RegisterPage";
+import { useAuth } from "../../AuthContext";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+  const { setAuthToken } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -31,11 +35,14 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
+        console.log("Bonjour");
         const result = await response.json();
         const token = result.token;
         const decodedToken = jwtDecode(token);
         console.log("Decoded token:", decodedToken);
-        console.log("Login successful:", result);
+
+        setAuthToken(token);
+        navigate("/");
       } else {
         console.error("Login failed:", response.statusText);
         alert("Error");
