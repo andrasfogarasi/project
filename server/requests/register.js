@@ -3,10 +3,21 @@ import * as db from '../db/queries.js';
 import { checkPassword } from '../checkings/ckeckPassword.js';
 import bcrypt from 'bcrypt';
 import { validateEmail } from '../checkings/validateEmail.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 router.use(express.json());
 const failedRegistring = 'Registration failed';
+
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET;
+
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Lax',
+    maxAge: 24 * 60 * 60 * 1000,
+};
 
 router.post('/', async (req, res) => {
     try {
