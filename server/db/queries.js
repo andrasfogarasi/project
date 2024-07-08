@@ -24,6 +24,17 @@ export const selectFlagById = async (id) => {
     return result;
 };
 
+export const selectUsernameById = async (id) => {
+    const query = 'SELECT username FROM user WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectUserById = async (id) => {
+    const query = 'SELECT * FROM user where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
 
 export const selectJobs = async () => {
     const query = 'SELECT * FROM job';

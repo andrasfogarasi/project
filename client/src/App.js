@@ -8,6 +8,7 @@ import NotFoundPage from './Components/Error/NotFoundPage';
 import RegisterStudent from './Components/Register/RegisterStudent';
 import RegisterCompany from './Components/Register/RegisterCompany';
 import { AuthProvider } from './AuthContext';
+import UserProfile from './Components/Profile/UserProfile';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/register/student' element={<RegisterStudent />} />
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
+          <Route path='/profile' element={<UserProfile />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

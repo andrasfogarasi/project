@@ -1,11 +1,8 @@
 import "./MainPage.css";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const MainPage = () => {
+const UserProfile = () => {
   const [jobPosts, setJobPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,8 +10,26 @@ const MainPage = () => {
 
   useEffect(() => {
     const fetchJobPosts = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          console.log(decodedToken.name.username);
+
+          if (decodedToken) {
+            setUserName(decodedToken.name.username);
+            fetchJobPosts(decodedToken.userId.id); //
+          }
+        } catch (error) {
+          console.error("Failed to decode token:", error);
+        }
+      } else {
+        setLoading(false);
+        setError(new Error("No token found"));
+      }
+
       try {
-        const response = await fetch("http://localhost:5000/jobs");
+        const response = await fetch("http://localhost:5000/profile/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -63,4 +78,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default UserProfile;

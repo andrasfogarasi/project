@@ -46,7 +46,8 @@ router.post('/', async (req, res) => {
         }
 
         const flag = await db.selectFlagById(userId.id);
-        const token = jwt.sign({ userId, flag }, JWT_SECRET, { expiresIn: '1d' });
+        const username = await db.selectUsernameById(userId.id);
+        const token = jwt.sign({ userId, flag, name: username }, JWT_SECRET, { expiresIn: '1d' });
 
         res.cookie('authToken', token, cookieOptions);
         return res.status(200).json({ token });

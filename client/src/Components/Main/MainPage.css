@@ -16,4 +16,36 @@
     margin: 0 0 12px 0;
     color: #666;
   }
+
+  .user-info-link {
+    text-decoration: none; 
+  }
+  
+  .user-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .user-info:hover {
+    background-color: #f0f0f0; 
+  }
+  
+  .user-info p {
+    margin: 0 0 0 10px; 
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .job-post {
+    margin-bottom: 20px;
+  }  
   
