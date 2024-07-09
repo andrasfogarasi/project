@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "./RegisterPage.css";
 import RegisterStudent from "./RegisterStudent";
 import RegisterCompany from "./RegisterCompany";
 
 const RegisterPage = () => {
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">

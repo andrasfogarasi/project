@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,10 @@ const RegisterStudent = () => {
     confirmPassword: "",
     flag: 3,
   });
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({

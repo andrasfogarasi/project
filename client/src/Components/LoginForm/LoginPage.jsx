@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import RegisterPage from "../Register/RegisterPage";
+import { setTokenWithExpiry } from "../Functions/tokenUtils.js";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,10 @@ const LoginPage = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -35,7 +40,7 @@ const LoginPage = () => {
         const result = await response.json();
         const token = result.token;
 
-        localStorage.setItem("token", token);
+        setTokenWithExpiry("token", token, 3600 * 1000);
         navigate("/");
       } else {
         console.error("Login failed:", response.statusText);

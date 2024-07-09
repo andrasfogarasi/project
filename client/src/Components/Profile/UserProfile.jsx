@@ -1,40 +1,24 @@
-import "./MainPage.css";
+import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { getTokenWithExpiry } from "../Functions/tokenUtils.js";
 
 const UserProfile = () => {
-  const [jobPosts, setJobPosts] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
-    const fetchJobPosts = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);
-          console.log(decodedToken.name.username);
-
-          if (decodedToken) {
-            setUserName(decodedToken.name.username);
-            fetchJobPosts(decodedToken.userId.id); //
-          }
-        } catch (error) {
-          console.error("Failed to decode token:", error);
-        }
-      } else {
-        setLoading(false);
-        setError(new Error("No token found"));
-      }
-
+    const fetchUserData = async (userId) => {
       try {
-        const response = await fetch("http://localhost:5000/profile/");
+        const response = await fetch(`http://localhost:5000/profile/${userId}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setJobPosts(data);
+        console.log(data);
+        setUserData(data[0]);
       } catch (error) {
         setError(error);
       } finally {
@@ -42,15 +26,24 @@ const UserProfile = () => {
       }
     };
 
-    fetchJobPosts();
-
-    const token = localStorage.getItem("token");
+    const token = getTokenWithExpiry("token");
     if (token) {
-      const decodedToken = jwtDecode(token);
-      console.log(decodedToken.name.username);
-      if (decodedToken && decodedToken.flag && decodedToken.flag.flag === "3") {
-        setUserName(decodedToken.name.username);
+      try {
+        const decodedToken = jwtDecode(token);
+        console.log(decodedToken.name.username);
+
+        if (decodedToken && decodedToken.flag) {
+          setUserName(decodedToken.name.username);
+          fetchUserData(decodedToken.userId.id);
+        }
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        setError(new Error("Invalid token"));
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
+      setError(new Error("No token found"));
     }
   }, []);
 
@@ -59,21 +52,21 @@ const UserProfile = () => {
 
   return (
     <div>
-      {userName && (
-        <Link to="/profile" className="user-info-link">
-          <div className="user-info">
-            <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
-          </div>
-        </Link>
-      )}
-      {jobPosts.map((job) => (
-        <div key={job.id} className="job-post">
-          <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
-            <h2>{job.name}</h2>
-          </Link>
-          <h3>{job.company_id}</h3>
+      <h1>Welcome, {userName}</h1>
+      {userData && (
+        <div>
+          <h2>Your Profile</h2>
+          <p>
+            <strong>Name:</strong> {userData.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {userData.email}
+          </p>
+          <p>
+            <strong>Username:</strong> {userData.username}
+          </p>
         </div>
-      ))}
+      )}
     </div>
   );
 };
