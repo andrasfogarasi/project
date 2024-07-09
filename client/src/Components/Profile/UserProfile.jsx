@@ -2,6 +2,7 @@ import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../Functions/tokenUtils.js";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -52,7 +53,14 @@ const UserProfile = () => {
 
   return (
     <div>
-      <h1>Welcome, {userName}</h1>
+      <div className="header">
+        <h1>Welcome, {userName}</h1>
+        <Link to="/login" className="user-info-link">
+          <div className="logout-button">
+            <p>Logout</p>
+          </div>
+        </Link>
+      </div>
       {userData && (
         <div>
           <h2>Your Profile</h2>

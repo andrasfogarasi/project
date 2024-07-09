@@ -44,13 +44,24 @@ const MainPage = () => {
 
   return (
     <div>
-      {userName && (
-        <Link to="/profile" className="user-info-link">
-          <div className="user-info">
-            <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
+      <div className="header">
+        {userName ? (
+          <Link to="/profile" className="user-info-link">
+            <div className="user-info">
+              <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
+            </div>
+          </Link>
+        ) : (
+          <div>
+            <Link to="/login">
+              <button className="auth-button">Login</button>
+            </Link>
+            <Link to="/register">
+              <button className="auth-button">Register</button>
+            </Link>
           </div>
-        </Link>
-      )}
+        )}
+      </div>
       {jobPosts.map((job) => (
         <div key={job.id} className="job-post">
           <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
