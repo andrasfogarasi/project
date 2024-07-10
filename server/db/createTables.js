@@ -25,6 +25,7 @@ export const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         flag VARCHAR(10) NOT NULL,
+        CNP VARCHAR(13),
         company_id INT,
         banned BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (company_id) REFERENCES company(id)
@@ -36,7 +37,7 @@ export const createTables = async () => {
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT UNIQUE,
         university_name VARCHAR(30),
-        year INT NOT NULL,
+        birthday_date DATE,
         cv_filename VARCHAR(30),  
         mother_tongue VARCHAR(30),
         experience TEXT,  

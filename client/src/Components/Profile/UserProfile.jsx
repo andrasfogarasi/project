@@ -10,6 +10,23 @@ const UserProfile = () => {
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
 
+  const [age, setAge] = useState("");
+  const [experience, setExperience] = useState("");
+
+  const handleAgeChange = (e) => {
+    setAge(e.target.value);
+  };
+
+  const handleExperienceChange = (e) => {
+    setExperience(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Age:", age);
+    console.log("Experience:", experience);
+  };
+
   useEffect(() => {
     const fetchUserData = async (userId) => {
       try {
@@ -75,6 +92,31 @@ const UserProfile = () => {
           </p>
         </div>
       )}
+
+      <div>
+        <h2>Update Your Information</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="age">Age:</label>
+            <input
+              type="number"
+              id="age"
+              value={age}
+              onChange={handleAgeChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="experience">Experience:</label>
+            <input
+              type="text"
+              id="experience"
+              value={experience}
+              onChange={handleExperienceChange}
+            />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 };
