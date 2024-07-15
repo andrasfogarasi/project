@@ -69,7 +69,7 @@ const JobDetail = () => {
   return (
     <div>
       <h1>{job.name}</h1>
-      <h2>Company ID: {job.company_id}</h2>
+      <h2>Working hours: {job.working_hours}</h2>
       <p>Salary: {job.salary}</p>
 
       <form onSubmit={handleFormSubmit}>

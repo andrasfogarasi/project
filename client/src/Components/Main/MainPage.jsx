@@ -67,7 +67,6 @@ const MainPage = () => {
           <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
             <h2>{job.name}</h2>
           </Link>
-          <h3>{job.company_id}</h3>
         </div>
       ))}
     </div>

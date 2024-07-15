@@ -40,11 +40,11 @@ const RegisterCompany = () => {
         console.log("Registration successful:", result);
       } else {
         console.error("Registration failed:", response.statusText);
-        alert("Registration failed: " + response.statusText); // Use alert to notify the user
+        alert("Registration failed: " + response.statusText);
       }
     } catch (error) {
       console.error("Network error:", error);
-      alert("Network error: " + error.message); // Use alert to notify the user
+      alert("Network error: " + error.message);
     }
   };
 

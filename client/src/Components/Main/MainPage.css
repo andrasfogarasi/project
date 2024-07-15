@@ -1,107 +1,112 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
 .dashboard {
-    padding: 20px;
-  }
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  .job-post {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 8px;
-    text-align: left;
-  }
-  
-  .job-post h2 {
-    margin: 0;
-    color: #333;
-  }
-  
-  .job-post h3 {
-    margin: 0;
-    color: #777;
-  }
-  
-  .user-info-link {
-    text-decoration: none; 
-  }
-  
-  .user-info {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .user-info:hover {
-    background-color: #f0f0f0; 
-  }
-  
-  .user-info p {
-    margin: 0 0 0 10px; 
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .job-post {
-    margin-bottom: 20px;
-  }  
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logout-button {
-    margin-right: 10px;
-    padding: 8px 16px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background-color: #d32f2f;
-  }
+.header .auth-buttons {
+  display: flex;
+  gap: 10px;
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.auth-button {
+  padding: 8px 16px;
+  background-color: #6c757d; /* Neutral background color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .user-info p {
-    margin-left: 8px;
-  }
-  
-  .auth-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .auth-button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .auth-button:hover {
-    background-color: #45a049;
-  } 
+.auth-button:hover {
+  background-color: #5a6268; /* Darker neutral color for hover */
+}
+
+.logout-button {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Job post styles */
+.job-post {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 20px 0;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  max-width: 90%; /* Making the job post a bit shorter */
+}
+
+.job-post:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.job-post h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.job-post h3 {
+  margin: 0;
+  color: #777;
+  font-size: 1.2em;
+}
+
+/* User info styles */
+.user-info {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-info:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-info p {
+  margin: 0 0 0 10px;
+  font-weight: bold;
+  color: #333;
+}
