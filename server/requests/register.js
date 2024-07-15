@@ -61,12 +61,10 @@ router.post('/', async (req, res) => {
         const encryptedPassword = await bcrypt.hash(password, 10);
         const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, flag);
 
-        console.log("siker");
-        return res.status(200);
+        const token = jwt.sign({ userId, flag, name: username }, JWT_SECRET, { expiresIn: '1d' });
 
-        /*
-    const uid = await db.selectFelhasznaloID(felnev);
-    aut.createJWT(uid, 3);*/
+        res.cookie('authToken', token, cookieOptions);
+        return res.status(200).json({ token });
 
     } catch (error) {
         console.log(error);
