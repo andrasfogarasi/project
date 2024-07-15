@@ -60,8 +60,9 @@ router.post('/', async (req, res) => {
 
         const encryptedPassword = await bcrypt.hash(password, 10);
         const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, flag);
+        const uId = await db.selectUserIdByEmail(email);
 
-        const token = jwt.sign({ userId, flag, name: username }, JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: uId, flag: flag, name: username }, JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('authToken', token, cookieOptions);
         return res.status(200).json({ token });

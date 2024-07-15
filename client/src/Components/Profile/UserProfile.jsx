@@ -52,7 +52,7 @@ const UserProfile = () => {
 
         if (decodedToken && decodedToken.flag) {
           setUserName(decodedToken.name.username);
-          fetchUserData(decodedToken.userId.id);
+          fetchUserData(decodedToken.id.id);
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
