@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../Functions/tokenUtils.js";
 import { Link } from "react-router-dom";
 
-const UserProfile = () => {
+const UserCompany = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,14 +23,12 @@ const UserProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Age:", age);
-    console.log("Experience:", experience);
   };
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:5000/profile/${userId}`);
+        const response = await fetch(`http://localhost:5000/company/${userId}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -120,4 +118,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserCompany;

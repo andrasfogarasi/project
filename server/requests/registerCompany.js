@@ -20,15 +20,17 @@ const cookieOptions = {
     maxAge: 24 * 60 * 60 * 1000,
 };
 
+const flag = "2";
+
 router.post('/', async (req, res) => {
     try {
 
         console.log(req.body);
-        const { username, email, firstname, lastname, password, confirmPassword, flag } = req.body;
+        const { companyName, email, password, confirmPassword } = req.body;
 
         res.clearCookie('authToken', cookieOptions);
 
-        if (username === '' || email === '' || password === '' || confirmPassword === '') {
+        if (companyName === '' || email === '' || password === '' || confirmPassword === '') {
             const errorMessage = 'Not enough data given!';
             console.log(errorMessage);
             return res.status(400).json({ message: failedRegistration, error: errorMessage });
@@ -40,10 +42,10 @@ router.post('/', async (req, res) => {
             return res.status(409).json({ message: failedRegistration, error: errorMessage });
         }
 
-        const userId = await db.selectUserIdByEmail(email);
-        console.log(userId);
+        const company = await db.selectCompanyIdByEmail(email);
+        console.log(company);
 
-        if (userId != undefined) {
+        if (company != undefined) {
             const errorMessage = 'User already existed in this email!';
             console.log(errorMessage);
             return res.status(409).json({ message: failedRegistration, error: errorMessage });
@@ -62,14 +64,14 @@ router.post('/', async (req, res) => {
         }
 
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const result = await db.insertUser(username, email, firstname, lastname, encryptedPassword, flag);
-        const uId = await db.selectUserIdByEmail(email);
 
-        const token = jwt.sign({ id: uId, flag: flag.toString(), name: username }, JWT_SECRET, { expiresIn: '1h' });
+        const result = await db.insertCompany(companyName, email, encryptedPassword, flag);
+
+        const companyId = await db.selectCompanyIdByEmail(email);
+        const token = jwt.sign({ id: companyId, flag: flag, companyName: companyName }, JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('authToken', token, cookieOptions);
         return res.status(200).json({ token });
-
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: failedRegistration, error: error.message });

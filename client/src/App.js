@@ -5,10 +5,11 @@ import RegisterPage from './Components/Register/RegisterPage';
 import MainPage from './Components/Main/MainPage';
 import JobDetail from './Components/Main/JobDetail';
 import NotFoundPage from './Components/Error/NotFoundPage';
-import RegisterStudent from './Components/Register/RegisterStudent';
+import RegisterUser from './Components/Register/RegisterUser';
 import RegisterCompany from './Components/Register/RegisterCompany';
 import { AuthProvider } from './AuthContext';
 import UserProfile from './Components/Profile/UserProfile';
+import CreateNewJob from './Components/Application/CreateNewJob';
 
 const App = () => {
   return (
@@ -18,10 +19,11 @@ const App = () => {
           <Route exact path='/' element={<MainPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
-          <Route path='/register/student' element={<RegisterStudent />} />
+          <Route path='/register/student' element={<RegisterUser />} />
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
           <Route path='/profile' element={<UserProfile />} />
+          <Route path='/company/:companyId/createJob' element={<CreateNewJob />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

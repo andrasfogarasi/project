@@ -9,7 +9,6 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
-
   const [age, setAge] = useState("");
   const [experience, setExperience] = useState("");
 
@@ -48,10 +47,9 @@ const UserProfile = () => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken.name.username);
 
         if (decodedToken && decodedToken.flag) {
-          setUserName(decodedToken.name.username);
+          setUserName(decodedToken.name);
           fetchUserData(decodedToken.id.id);
         }
       } catch (error) {
@@ -81,13 +79,13 @@ const UserProfile = () => {
       {userData && (
         <div>
           <p>
-            <strong>Name:</strong> {userData.name}
+            <strong>First Name:</strong> {userData.first_name}
+          </p>
+          <p>
+            <strong>Last Name:</strong> {userData.last_name}
           </p>
           <p>
             <strong>Email:</strong> {userData.email}
-          </p>
-          <p>
-            <strong>Username:</strong> {userData.username}
           </p>
         </div>
       )}

@@ -7,6 +7,7 @@ import jobs from './requests/jobs.js';
 import application from './requests/application.js';
 import login from './requests/login.js';
 import profile from './requests/profile.js';
+import RegisterCompany from './requests/registerCompany.js';
 
 const app = express();
 const port = 5000;
@@ -33,6 +34,7 @@ app.use('/jobs', jobs);
 app.use('/application', application);
 app.use('/login', login);
 app.use('/profile', profile);
+app.use('/registerCompany', RegisterCompany);
 
 createTables().then(() => {
     app.listen(5000, () => {

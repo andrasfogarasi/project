@@ -1,9 +1,9 @@
 /* General styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #f4f4f9;
   color: #333;
 }
 
@@ -18,71 +18,102 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 15px 30px;
   background-color: #4CAF50;
   color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.header .auth-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.auth-button {
-  padding: 8px 16px;
-  background-color: #6c757d; /* Neutral background color */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.auth-button:hover {
-  background-color: #5a6268; /* Darker neutral color for hover */
-}
 
 .logout-button {
   padding: 8px 16px;
   background-color: #f44336;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  max-width: 120px; /* Set a maximum width */
+  text-align: center; /* Center the text */
 }
 
 .logout-button:hover {
   background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.header .auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.auth-button {
+  padding: 8px 16px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  max-width: 120px; /* Set a maximum width */
+  text-align: center; /* Center the text */
+}
+
+.auth-button:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* New window button styles */
+.new-window-button {
+  padding: 8px 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  max-width: 120px; /* Set a maximum width */
+  text-align: center; /* Center the text */
+}
+
+.new-window-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 /* Job post styles */
 .job-post {
   border: 1px solid #ddd;
-  padding: 16px;
+  padding: 20px;
   margin: 20px 0;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-  max-width: 90%; /* Making the job post a bit shorter */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  max-width: 90%;
 }
 
 .job-post:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
 }
 
 .job-post h2 {
-  margin: 0;
+  margin: 0 0 10px 0;
   color: #333;
-  font-size: 1.5em;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 
 .job-post h3 {
   margin: 0;
-  color: #777;
-  font-size: 1.2em;
+  color: #555;
+  font-size: 1.3em;
+  font-weight: normal;
 }
 
 /* User info styles */
@@ -91,9 +122,9 @@ body {
   top: 10px;
   right: 10px;
   background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 12px 15px;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -102,11 +133,12 @@ body {
 
 .user-info:hover {
   background-color: #f0f0f0;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .user-info p {
   margin: 0 0 0 10px;
   font-weight: bold;
   color: #333;
+  font-size: 1em;
 }

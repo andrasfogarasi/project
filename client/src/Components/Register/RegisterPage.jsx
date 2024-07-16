@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "./RegisterPage.css";
-import RegisterStudent from "./RegisterStudent";
+import RegisterUser from "./RegisterUser";
 import RegisterCompany from "./RegisterCompany";
 
 const RegisterPage = () => {
@@ -15,15 +15,15 @@ const RegisterPage = () => {
         <h1>Registration Page</h1>
         <div>
           <Link to="/register/student">
-            <button>Register as Student</button>
+            <button>Register as User</button>
           </Link>
           <Link to="/register/company">
-            <button>Register as Company</button>
+            <button>Register a Company</button>
           </Link>
         </div>
       </header>
       <Routes>
-        <Route path="student" element={<RegisterStudent />} />
+        <Route path="student" element={<RegisterUser />} />
         <Route path="student" element={<RegisterCompany />} />
       </Routes>
     </div>

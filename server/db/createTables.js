@@ -9,7 +9,11 @@ export const createTables = async () => {
     CREATE TABLE IF NOT EXISTS company (
         id INT AUTO_INCREMENT PRIMARY KEY,
         company_name VARCHAR(50),
-        location VARCHAR(60) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        password VARCHAR(200) NOT NULL,
+        tel_number VARCHAR(12),
+        location VARCHAR(60),
+        flag VARCHAR(2) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         rating INT DEFAULT 0    
     );
@@ -44,14 +48,14 @@ export const createTables = async () => {
         presentation TEXT,  
         FOREIGN KEY (user_id) REFERENCES user(id)
     );
-        `);
+    `);
 
         await databaseConnection.executeQuery(`
         CREATE TABLE IF NOT EXISTS language (
         language_id INT AUTO_INCREMENT PRIMARY KEY,
         language_name VARCHAR(30)
     );
-            `);
+    `);
 
         await databaseConnection.executeQuery(`
     CREATE TABLE IF NOT EXISTS spoken_language (
@@ -65,9 +69,9 @@ export const createTables = async () => {
     `);
 
         await databaseConnection.executeQuery(`
-        CREATE TABLE IF NOT EXISTS job_category (
+        CREATE TABLE IF NOT EXISTS department (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        category_name VARCHAR(50),
+        department_name VARCHAR(50),
         description TEXT
     );
     `);
@@ -80,11 +84,11 @@ export const createTables = async () => {
         requirements TEXT,   
         salary INT NULL,
         company_id INT NOT NULL,
-        category_id INT,  
+        department_id INT,  
         working_hours VARCHAR(20) NOT NULL,  
         application_limit INT,
         FOREIGN KEY (company_id) REFERENCES company(id),
-        FOREIGN KEY (category_id) REFERENCES job_category(id)
+        FOREIGN KEY (department_id) REFERENCES department(id)
         );
     `);
 

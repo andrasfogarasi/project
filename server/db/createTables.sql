@@ -14,7 +14,11 @@ DROP TABLE IF EXISTS company;
 CREATE TABLE IF NOT EXISTS company (
     id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(50),
-    location VARCHAR(60) NOT NULL,
+	email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(200) NOT NULL,
+	tel_number VARCHAR(12),
+    location VARCHAR(60),
+	flag VARCHAR(2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rating INT DEFAULT 0        -- lenne egy ful, ahol lehet ertekelni a ceget
 );
@@ -27,7 +31,7 @@ CREATE TABLE IF NOT EXISTS user (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    flag VARCHAR(10) NOT NULL,
+    flag VARCHAR(2) NOT NULL,
 	company_id INT,
 	banned BOOLEAN DEFAULT FALSE,
 	FOREIGN KEY (company_id) REFERENCES company(id)
@@ -59,10 +63,10 @@ CREATE TABLE IF NOT EXISTS spoken_language (
 	FOREIGN KEY (language_id) REFERENCES language(language_id)
 );
 
-CREATE TABLE IF NOT EXISTS job_category (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	category_name VARCHAR(50),
-	description TEXT
+CREATE TABLE IF NOT EXISTS department (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(50),
+    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS job (
@@ -72,11 +76,11 @@ CREATE TABLE IF NOT EXISTS job (
     requirements TEXT,   -- elvarasok
     salary INT NULL,
     company_id INT NOT NULL,
-    category_id INT,  
-	working_hours VARCHAR(20) NOT NULL,  -- hany orat kene dolgozni (hetente)
-	application_limit INT,
+    department_id INT,  
+    working_hours VARCHAR(20) NOT NULL,  
+    application_limit INT,
     FOREIGN KEY (company_id) REFERENCES company(id),
-    FOREIGN KEY (category_id) REFERENCES job_category(id)
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE IF NOT EXISTS application (

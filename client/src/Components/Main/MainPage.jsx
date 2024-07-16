@@ -2,14 +2,16 @@ import "./MainPage.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { faUser, faBuilding, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [companyName, setCompanyName] = useState(null);
+  const [cId, setCompanyId] = useState(null);
 
   useEffect(() => {
     const fetchJobPosts = async () => {
@@ -18,6 +20,7 @@ const MainPage = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+
         const data = await response.json();
         setJobPosts(data);
       } catch (error) {
@@ -27,15 +30,49 @@ const MainPage = () => {
       }
     };
 
-    fetchJobPosts();
+    const fetchJobPostsByCompanyId = async (companyId) => {
+      try {
+        const response = await fetch(`http://localhost:5000/jobs/${companyId}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setJobPosts(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const token = localStorage.getItem("token");
+
     if (token) {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken.name.username);
-      if (decodedToken && decodedToken.flag && decodedToken.flag.flag === "3") {
-        setUserName(decodedToken.name.username);
+
+      console.log(decodedToken);
+      if (decodedToken) {
+        if (decodedToken.flag === "3") {
+          setUserName(decodedToken.name);
+          fetchJobPosts();
+        } else {
+          if (decodedToken.flag === "2") {
+            setCompanyName(decodedToken.companyName);
+            fetchJobPostsByCompanyId(decodedToken.companyId);
+            setCompanyId(decodedToken.companyId.id);
+          } else {
+            if (decodedToken.flag === "4") {
+              setUserName(decodedToken.name);
+              setCompanyName(decodedToken.companyName);
+              fetchJobPostsByCompanyId(decodedToken.companyId);
+              setCompanyId(decodedToken.companyId.id);
+            }
+          }
+        }
       }
+    } else {
+      fetchJobPosts();
     }
   }, []);
 
@@ -44,24 +81,49 @@ const MainPage = () => {
 
   return (
     <div>
-      <div className="header">
-        {userName ? (
+      {userName && companyName ? (
+        <div>
           <Link to="/profile" className="user-info-link">
             <div className="user-info">
               <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
             </div>
           </Link>
-        ) : (
-          <div>
-            <Link to="/login">
-              <button className="auth-button">Login</button>
-            </Link>
-            <Link to="/register">
-              <button className="auth-button">Register</button>
-            </Link>
+          <Link to="/company-profile" className="user-info-link">
+            <div className="user-info">
+              <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
+            </div>
+          </Link>
+        </div>
+      ) : userName ? (
+        <Link to="/profile" className="user-info-link">
+          <div className="user-info">
+            <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
           </div>
-        )}
-      </div>
+        </Link>
+      ) : companyName ? (
+        <div>
+          <div className="user-info">
+            <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
+          </div>
+          <Link
+            to={{ pathname: `/company/${cId}/createJob` }}
+            className="user-info-link"
+          >
+            <button className="">
+              <FontAwesomeIcon icon={faPlus} /> Add New Job
+            </button>
+          </Link>
+        </div>
+      ) : (
+        <div>
+          <Link to="/login">
+            <button className="auth-button">Login</button>
+          </Link>
+          <Link to="/register">
+            <button className="auth-button">Register</button>
+          </Link>
+        </div>
+      )}
       {jobPosts.map((job) => (
         <div key={job.id} className="job-post">
           <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>

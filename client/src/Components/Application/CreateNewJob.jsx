@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { setTokenWithExpiry } from "../Functions/tokenUtils.js";
+import { useNavigate } from "react-router-dom";
 
-const RegisterStudent = () => {
+const CreateNewJob = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    companyName: "",
     email: "",
-    firstName: "",
-    lastName: "",
     password: "",
     confirmPassword: "",
-    flag: 3,
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.clear();
@@ -26,19 +27,23 @@ const RegisterStudent = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      const response = await fetch("http://localhost:5000/registerCompany", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Registration successful:", result);
+        const token = result.token;
+
+        setTokenWithExpiry("token", token, 3600 * 1000);
+        navigate("/");
       } else {
-        console.error("Registration failed:", response.statusText);
+        console.error("Login failed:", response.statusText);
         alert("Error");
       }
     } catch (error) {
@@ -48,24 +53,14 @@ const RegisterStudent = () => {
 
   return (
     <div className="wrapper">
-      <h1>Register form</h1>
+      <h1>Register Form</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
           <input
             type="text"
-            placeholder="Username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-box">
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
+            placeholder="Name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -73,19 +68,9 @@ const RegisterStudent = () => {
         <div className="input-box">
           <input
             type="text"
-            placeholder="First Name"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Last Name"
-            name="lastname"
-            value={formData.lastname}
+            placeholder="Description"
+            name="description"
+            value={formData.description}
             onChange={handleChange}
             required
           />
@@ -116,4 +101,4 @@ const RegisterStudent = () => {
   );
 };
 
-export default RegisterStudent;
+export default CreateNewJob;

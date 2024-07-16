@@ -3,12 +3,15 @@ import { setTokenWithExpiry } from "../Functions/tokenUtils.js";
 import { useNavigate } from "react-router-dom";
 import "./RegisterForm.css";
 
-const RegisterCompany = () => {
+const RegisterUser = () => {
   const [formData, setFormData] = useState({
-    companyName: "",
+    username: "",
     email: "",
+    firstname: "",
+    lastname: "",
     password: "",
     confirmPassword: "",
+    flag: 3,
   });
 
   const navigate = useNavigate();
@@ -28,7 +31,7 @@ const RegisterCompany = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/registerCompany", {
+      const response = await fetch("http://localhost:5000/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,14 +57,14 @@ const RegisterCompany = () => {
 
   return (
     <div className="wrapper">
-      <h1>Register Form</h1>
+      <h1>Register form</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
           <input
             type="text"
-            placeholder="Company name"
-            name="companyName"
-            value={formData.companyName}
+            placeholder="Username"
+            name="username"
+            value={formData.username}
             onChange={handleChange}
             required
           />
@@ -72,6 +75,26 @@ const RegisterCompany = () => {
             placeholder="Email"
             name="email"
             value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="First Name"
+            name="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="lastname"
+            value={formData.lastname}
             onChange={handleChange}
             required
           />
@@ -102,4 +125,4 @@ const RegisterCompany = () => {
   );
 };
 
-export default RegisterCompany;
+export default RegisterUser;
