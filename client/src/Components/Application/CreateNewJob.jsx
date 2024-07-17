@@ -77,20 +77,30 @@ const CreateNewJob = () => {
         </div>
         <div className="input-box">
           <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={formData.password}
+            type="text"
+            placeholder="Requirement"
+            name="requirements"
+            value={formData.requirements}
             onChange={handleChange}
             required
           />
         </div>
         <div className="input-box">
           <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
+            type="text"
+            placeholder="Salary"
+            name="salary"
+            value={formData.salary}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Working hours"
+            name="workingHours"
+            value={formData.workingHours}
             onChange={handleChange}
             required
           />

@@ -1,5 +1,10 @@
 import databaseConnection from './databaseConnection.js';
 import * as db from './queries.js';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const password = process.env.DB_PASSWORD;
 
 export const createTables = async () => {
     try {
@@ -138,8 +143,8 @@ export const createTables = async () => {
     );
     `);
 
-        const [departmentRows] = await db.countOfAllDepartment();
-        if (departmentRows[0].count === 0) {
+        const [departmentRows] = await db.countOfAllDepartments();
+        if (departmentRows.count === 0) {
             await databaseConnection.executeQuery(`
             INSERT INTO department (department_name) VALUES
             ('Barista'),
@@ -149,8 +154,30 @@ export const createTables = async () => {
         `);
         }
 
-    } catch (err) {
-        console.error(`Error while creating the table: ${err}`);
+        const [userRows] = await db.countOfAllUsers();
+        if (userRows.count === 0) {
+            const encryptedPassword = await bcrypt.hash(password, 10);
+            await databaseConnection.executeQuery(`
+            INSERT INTO user (email, password, flag) VALUES
+            ('admin@admin.com', '${encryptedPassword}','1');
+        `);
+        }
+
+        const [languageRows] = await db.countOfAllLanguages();
+        if (languageRows.count === 0) {
+            await databaseConnection.executeQuery(`
+            INSERT INTO language (language_name) VALUES
+            ('Romanian'),
+            ('English'),
+            ('Hungarian'),
+            ('German'),
+            ('French'),
+            ('Spanish');
+        `);
+        }
+
+    } catch (error) {
+        console.error(`Error while creating the table: ${error}`);
         process.exit(1);
     }
 };

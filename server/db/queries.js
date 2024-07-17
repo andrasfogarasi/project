@@ -12,8 +12,20 @@ export const insertCompany = async (companyName, email, password, flag) => {
     return result;
 };
 
-export const countOfAllDepartment = async () => {
-    const query = 'SELECT COUNT(*) FROM department';
+export const countOfAllDepartments = async () => {
+    const query = 'SELECT COUNT(*) as count FROM department';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+}
+
+export const countOfAllUsers = async () => {
+    const query = 'SELECT COUNT(*) as count FROM user';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+}
+
+export const countOfAllLanguages = async () => {
+    const query = 'SELECT COUNT(*) as count FROM language';
     const result = await databaseConnection.executeQuery(query);
     return result;
 }
