@@ -1,4 +1,5 @@
 import databaseConnection from './databaseConnection.js';
+import * as db from './queries.js';
 
 export const createTables = async () => {
     try {
@@ -136,6 +137,18 @@ export const createTables = async () => {
         FOREIGN KEY(company_id) REFERENCES company(id)
     );
     `);
+
+        const [departmentRows] = await db.countOfAllDepartment();
+        if (departmentRows[0].count === 0) {
+            await databaseConnection.executeQuery(`
+            INSERT INTO department (department_name) VALUES
+            ('Barista'),
+            ('Frontend Developer'),
+            ('Backend Developer'),
+            ('Javascript Developer');
+        `);
+        }
+
     } catch (err) {
         console.error(`Error while creating the table: ${err}`);
         process.exit(1);

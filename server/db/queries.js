@@ -12,6 +12,12 @@ export const insertCompany = async (companyName, email, password, flag) => {
     return result;
 };
 
+export const countOfAllDepartment = async () => {
+    const query = 'SELECT COUNT(*) FROM department';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+}
+
 export const selectUserIdByEmail = async (email) => {
     const query = 'SELECT id FROM user WHERE email LIKE ?';
     const [result] = await databaseConnection.executeQuery(query, [email]);

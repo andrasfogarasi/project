@@ -53,7 +53,7 @@ const CreateNewJob = () => {
 
   return (
     <div className="wrapper">
-      <h1>Register Form</h1>
+      <h1>Create new job</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
           <input
