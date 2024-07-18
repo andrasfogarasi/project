@@ -60,8 +60,6 @@ router.post('/', async (req, res) => {
                 return res.status(401).json({ message: failedLogin, error: errorMessage });
             }
 
-            console.log("Hello");
-
             const flag = await db.selectCompanyFlagById(companyId.id);
             console.log(flag);
             const companyName = await db.selectCompanyNameById(companyId.id);

@@ -109,7 +109,7 @@ const MainPage = () => {
             to={{ pathname: `/company/${cId}/createJob` }}
             className="user-info-link"
           >
-            <button className="">
+            <button className="auth-button">
               <FontAwesomeIcon icon={faPlus} /> Add New Job
             </button>
           </Link>
