@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
         }
 
         const result = await db.insertJob(name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit);
+        console.log("Hello");
         return res.status(200);
 
     } catch (error) {

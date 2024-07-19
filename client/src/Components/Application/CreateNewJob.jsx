@@ -46,7 +46,6 @@ const CreateNewJob = () => {
         }
 
         const data = await response.json();
-        console.log(data[0]);
         setDepartments(data);
       } catch (error) {
         setError(error);
@@ -89,6 +88,7 @@ const CreateNewJob = () => {
       });
 
       if (response.ok) {
+        console.log("hello");
         navigate("/");
       } else {
         console.error("Create new job failed:", response.statusText);
