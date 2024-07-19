@@ -9,6 +9,8 @@ const RegisterCompany = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    telNumber: "",
+    location: "",
   });
 
   const navigate = useNavigate();
@@ -74,6 +76,24 @@ const RegisterCompany = () => {
             value={formData.email}
             onChange={handleChange}
             required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Telephone number"
+            name="telNumber"
+            value={formData.telNumber}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
           />
         </div>
         <div className="input-box">

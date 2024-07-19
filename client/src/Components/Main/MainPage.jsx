@@ -59,15 +59,13 @@ const MainPage = () => {
         } else {
           if (decodedToken.flag === "2") {
             setCompanyName(decodedToken.companyName);
-            fetchJobPostsByCompanyId(decodedToken.companyId);
-            console.log(decodedToken.companyId);
+            fetchJobPostsByCompanyId(decodedToken.companyId.id);
             setCompanyId(decodedToken.companyId.id);
           } else {
             if (decodedToken.flag === "4") {
               setUserName(decodedToken.name);
               setCompanyName(decodedToken.companyName);
               fetchJobPostsByCompanyId(decodedToken.companyId);
-              console.log(decodedToken.companyId);
               setCompanyId(decodedToken.companyId.id);
             }
           }

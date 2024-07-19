@@ -6,9 +6,9 @@ export const insertUser = async (username, email, firstname, lastname, password,
     return result;
 };
 
-export const insertCompany = async (companyName, email, password, flag) => {
-    const query = 'INSERT INTO company (company_name, email, password, flag) VALUES (?, ?, ?, ?)';
-    const result = await databaseConnection.executeQuery(query, [companyName, email, password, flag]);
+export const insertCompany = async (companyName, email, password, flag, telNumber, location) => {
+    const query = 'INSERT INTO company (company_name, email, password, flag, tel_number, location) VALUES (?, ?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [companyName, email, password, flag, telNumber, location]);
     return result;
 };
 
