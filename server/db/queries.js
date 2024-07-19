@@ -114,8 +114,8 @@ export const selectJobs = async () => {
     return result;
 };
 
-export const selectJobById = async (id) => {
-    const query = 'SELECT * FROM job where id = ?';
+export const selectJobByCompanyId = async (id) => {
+    const query = 'SELECT * FROM job where company_id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };

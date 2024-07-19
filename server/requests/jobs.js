@@ -19,9 +19,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
+    console.log(req.params);
 
     try {
-        const result = await db.selectJobById(id);
+        const result = await db.selectJobByCompanyId(id.id);
+        console.log(result);
         if (result) {
             return res.status(200).json(result);
         } else {
