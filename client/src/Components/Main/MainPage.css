@@ -138,3 +138,28 @@ body {
   color: #333;
   font-size: 1em;
 }
+
+.delete-button {
+  display: flex;
+  align-items: center;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-button:hover {
+  background-color: #d9363e;
+}
+
+.delete-button:focus {
+  outline: none;
+}
+
+.delete-button svg {
+  margin-right: 5px;
+}

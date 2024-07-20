@@ -29,8 +29,11 @@ const CreateNewJob = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
 
-      console.log(decodedToken);
-      if (decodedToken) {
+      const now = Math.floor(Date.now() / 1000);
+
+      if (decodedToken.exp && decodedToken.exp < now) {
+        localStorage.removeItem("token");
+      } else if (decodedToken) {
         if (decodedToken.flag === "2" || decodedToken.flag === "4") {
           setHasAccess(true);
           setcompanyId(decodedToken.companyId);

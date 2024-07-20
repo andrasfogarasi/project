@@ -4,10 +4,11 @@ DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS problem;
 DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS job;
-DROP TABLE IF EXISTS job_category;
+DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS spoken_language;
-DROP TABLE IF EXISTS language;
 DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS language;
+DROP TABLE IF EXISTS university;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS company;
 
@@ -37,21 +38,28 @@ CREATE TABLE IF NOT EXISTS user (
 	FOREIGN KEY (company_id) REFERENCES company(id)
 );
 
-CREATE TABLE IF NOT EXISTS student (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	user_id INT UNIQUE,
-	university_name VARCHAR(30),
-	year INT NOT NULL,
-	cv_filename VARCHAR(30),   -- valahol a file-ok kozott a cv-ket
-	mother_tongue VARCHAR(30),
-	experience TEXT,   -- leirasok eddigi tapasztalatokrol
-	presentation TEXT,   -- bemutatkozo szoveg
-    FOREIGN KEY (user_id) REFERENCES user(id)
+CREATE TABLE IF NOT EXISTS university (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    university_name VARCHAR(50),
 );
 
 CREATE TABLE IF NOT EXISTS language (
 	language_id INT AUTO_INCREMENT PRIMARY KEY,
 	language_name VARCHAR(30)
+);
+
+CREATE TABLE IF NOT EXISTS student (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNIQUE,
+    university_id VARCHAR(30),
+    birthday_date DATE,
+    cv_filename VARCHAR(30),  
+    mother_tongue_id VARCHAR(30),
+    presentation TEXT,  
+    CNP VARCHAR(13),
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (university_id) REFERENCES university(id),
+    FOREIGN KEY (mother_tongue_id) REFERENCES language(language_id),
 );
 
 CREATE TABLE IF NOT EXISTS spoken_language (
@@ -90,6 +98,7 @@ CREATE TABLE IF NOT EXISTS application (
 	job_id INT NOT NULL,
 	accept BOOLEAN,
 	message TEXT,
+	response TEXT,
 	UNIQUE KEY (student_id, job_id),
     FOREIGN KEY (student_id) REFERENCES student(id),
     FOREIGN KEY (job_id) REFERENCES job(id)

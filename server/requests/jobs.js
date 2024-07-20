@@ -21,7 +21,41 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await db.selectJobByCompanyId(id);
+        const result = await db.selectJobById(id);
+
+        if (result) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await db.deleteJob(id);
+
+        if (result) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.get('/company/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await db.selectJobsByCompanyId(id);
 
         if (result) {
             return res.status(200).json(result);

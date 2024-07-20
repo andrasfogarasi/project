@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { faUser, faBuilding, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { checkToken } from "../Functions/checkToken";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);
@@ -33,7 +32,9 @@ const MainPage = () => {
 
     const fetchJobPostsByCompanyId = async (companyId) => {
       try {
-        const response = await fetch(`http://localhost:5000/jobs/${companyId}`);
+        const response = await fetch(
+          `http://localhost:5000/jobs/company/${companyId}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -52,25 +53,25 @@ const MainPage = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
 
-      console.log(decodedToken);
-      if (decodedToken) {
+      const now = Math.floor(Date.now() / 1000);
+      if (decodedToken.exp && decodedToken.exp < now) {
+        localStorage.removeItem("token");
+        fetchJobPosts();
+      } else if (decodedToken) {
         if (decodedToken.flag === "3") {
           setUserName(decodedToken.name);
           fetchJobPosts();
-        } else {
-          if (decodedToken.flag === "2") {
-            setCompanyName(decodedToken.companyName);
-            fetchJobPostsByCompanyId(decodedToken.companyId.id);
-            setCompanyId(decodedToken.companyId.id);
-          } else {
-            if (decodedToken.flag === "4") {
-              setUserName(decodedToken.name);
-              setCompanyName(decodedToken.companyName);
-              fetchJobPostsByCompanyId(decodedToken.companyId);
-              setCompanyId(decodedToken.companyId.id);
-            }
-          }
+        } else if (decodedToken.flag === "2") {
+          setCompanyName(decodedToken.companyName);
+          fetchJobPostsByCompanyId(decodedToken.companyId.id);
+          setCompanyId(decodedToken.companyId.id);
+        } else if (decodedToken.flag === "4") {
+          setUserName(decodedToken.name);
+          setCompanyName(decodedToken.companyName);
+          fetchJobPostsByCompanyId(decodedToken.companyId.id);
+          setCompanyId(decodedToken.companyId.id);
         }
+        setLoading(false);
       }
     } else {
       fetchJobPosts();

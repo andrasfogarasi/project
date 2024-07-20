@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./MainPage.css";
+import { jwtDecode } from "jwt-decode";
+import { faUser, faBuilding, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate, Link } from "react-router-dom";
 
 const JobDetail = () => {
   const location = useLocation();
@@ -9,6 +13,10 @@ const JobDetail = () => {
   const [job, setJob] = useState(jobFromState);
   const [loading, setLoading] = useState(!jobFromState);
   const [error, setError] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [companyName, setCompanyName] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!job) {
@@ -32,6 +40,27 @@ const JobDetail = () => {
       };
 
       fetchJob();
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const decodedToken = jwtDecode(token);
+
+      const now = Math.floor(Date.now() / 1000);
+      if (decodedToken.exp && decodedToken.exp < now) {
+        localStorage.removeItem("token");
+      } else if (decodedToken) {
+        if (decodedToken.flag === "3") {
+          setUserName(decodedToken.name);
+        } else if (decodedToken.flag === "2") {
+          setCompanyName(decodedToken.companyName);
+        } else if (decodedToken.flag === "4") {
+          setUserName(decodedToken.name);
+          setCompanyName(decodedToken.companyName);
+        }
+        setLoading(false);
+      }
     }
   }, [job, jobId]);
 
@@ -66,25 +95,94 @@ const JobDetail = () => {
     }
   };
 
+  const handleDeleteButton = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:5000/jobs/${jobId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.error("Login failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
   return (
     <div>
-      <h1>{job.name}</h1>
-      <h2>Working hours: {job.working_hours}</h2>
-      <p>Salary: {job.salary}</p>
+      <div className="job-post">
+        <h1>{job.name}</h1>
+        <h2>Working hours: {job.working_hours}</h2>
+        <p>Salary: {job.salary}</p>
+      </div>
 
-      <form onSubmit={handleFormSubmit}>
-        <br />
-        <label>
-          <textarea
-            name="field2"
-            rows="10"
-            cols="50"
-            placeholder="Write something:"
-          />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+      {userName && companyName ? (
+        <>
+          <div>
+            <Link to="/profile" className="user-info-link">
+              <div className="user-info">
+                <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
+              </div>
+            </Link>
+            <Link to="/company-profile" className="user-info-link">
+              <div className="user-info">
+                <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
+              </div>
+            </Link>
+          </div>
+          <button onClick={handleDeleteButton} className="delete-button">
+            <FontAwesomeIcon icon={faTrash} /> Delete
+          </button>
+        </>
+      ) : userName ? (
+        <>
+          <Link to="/profile" className="user-info-link">
+            <div className="user-info">
+              <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
+            </div>
+          </Link>
+          <form onSubmit={handleFormSubmit}>
+            <br />
+            <label>
+              <textarea
+                name="field2"
+                rows="10"
+                cols="50"
+                placeholder="Write something:"
+              />
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+        </>
+      ) : companyName ? (
+        <>
+          <div>
+            <div className="user-info">
+              <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
+            </div>
+          </div>
+          <button onClick={handleDeleteButton} className="delete-button">
+            <FontAwesomeIcon icon={faTrash} /> Delete
+          </button>
+        </>
+      ) : (
+        <div>
+          <Link to="/login">
+            <button className="auth-button">Apply to this job</button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

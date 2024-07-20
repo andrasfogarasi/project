@@ -35,7 +35,6 @@ export const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         flag VARCHAR(10) NOT NULL,
-        CNP VARCHAR(13),
         company_id INT,
         banned BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (company_id) REFERENCES company(id)
@@ -43,16 +42,9 @@ export const createTables = async () => {
     `);
 
         await databaseConnection.executeQuery(`
-        CREATE TABLE IF NOT EXISTS student (
+        CREATE TABLE IF NOT EXISTS university (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT UNIQUE,
-        university_name VARCHAR(30),
-        birthday_date DATE,
-        cv_filename VARCHAR(30),  
-        mother_tongue VARCHAR(30),
-        experience TEXT,  
-        presentation TEXT,  
-        FOREIGN KEY (user_id) REFERENCES user(id)
+        university_name VARCHAR(50)
     );
     `);
 
@@ -60,6 +52,22 @@ export const createTables = async () => {
         CREATE TABLE IF NOT EXISTS language (
         language_id INT AUTO_INCREMENT PRIMARY KEY,
         language_name VARCHAR(30)
+    );
+    `);
+
+        await databaseConnection.executeQuery(`
+        CREATE TABLE IF NOT EXISTS student (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT UNIQUE,
+        university_id INT,
+        birthday_date DATE,
+        cv_filename VARCHAR(30),  
+        mother_tongue_id INT,
+        presentation TEXT,  
+        CNP VARCHAR(13),
+        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (university_id) REFERENCES university(id),
+        FOREIGN KEY (mother_tongue_id) REFERENCES language(language_id)
     );
     `);
 
@@ -106,6 +114,7 @@ export const createTables = async () => {
         job_id INT NOT NULL,
         accept BOOLEAN,
         message TEXT,
+        response TEXT,
         UNIQUE KEY (student_id, job_id),
         FOREIGN KEY (student_id) REFERENCES student(id),
         FOREIGN KEY (job_id) REFERENCES job(id)
@@ -173,6 +182,17 @@ export const createTables = async () => {
             ('German'),
             ('French'),
             ('Spanish');
+        `);
+        }
+
+        const [universityRows] = await db.countOfAllUniversities();
+        if (universityRows.count === 0) {
+            await databaseConnection.executeQuery(`
+            INSERT INTO university (university_name) VALUES
+            ('UBB'),
+            ('UT'),
+            ('UMF'),
+            ('Sapientia');
         `);
         }
 

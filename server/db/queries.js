@@ -36,6 +36,12 @@ export const countOfAllLanguages = async () => {
     return result;
 }
 
+export const countOfAllUniversities = async () => {
+    const query = 'SELECT COUNT(*) as count FROM university';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+}
+
 export const selectUserIdByEmail = async (email) => {
     const query = 'SELECT id FROM user WHERE email LIKE ?';
     const [result] = await databaseConnection.executeQuery(query, [email]);
@@ -114,8 +120,20 @@ export const selectJobs = async () => {
     return result;
 };
 
-export const selectJobByCompanyId = async (id) => {
+export const selectJobsByCompanyId = async (id) => {
     const query = 'SELECT * FROM job where company_id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectJobById = async (id) => {
+    const query = 'SELECT * FROM job where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteJob = async (id) => {
+    const query = 'DELETE FROM job where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
