@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { faUser, faBuilding, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { checkToken } from "../Functions/checkToken";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);

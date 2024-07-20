@@ -10,6 +10,7 @@ import RegisterCompany from './Components/Register/RegisterCompany';
 import { AuthProvider } from './AuthContext';
 import UserProfile from './Components/Profile/UserProfile';
 import CreateNewJob from './Components/Application/CreateNewJob';
+import ViewUserProfile from './Components/Profile/ViewUserProfile';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
           <Route path='/profile' element={<UserProfile />} />
+          <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/:companyId/createJob' element={<CreateNewJob />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
