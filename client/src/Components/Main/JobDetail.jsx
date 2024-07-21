@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./MainPage.css";
 import { jwtDecode } from "jwt-decode";
-import { faUser, faBuilding, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 const JobDetail = () => {
   const location = useLocation();
@@ -120,6 +121,7 @@ const JobDetail = () => {
 
   return (
     <div>
+      <Header />
       <div className="job-post">
         <h1>{job.name}</h1>
         <h2>Working hours: {job.working_hours}</h2>
@@ -128,29 +130,12 @@ const JobDetail = () => {
 
       {userName && companyName ? (
         <>
-          <div>
-            <Link to="/profile" className="user-info-link">
-              <div className="user-info">
-                <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
-              </div>
-            </Link>
-            <Link to="/company-profile" className="user-info-link">
-              <div className="user-info">
-                <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
-              </div>
-            </Link>
-          </div>
           <button onClick={handleDeleteButton} className="delete-button">
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
         </>
       ) : userName ? (
         <>
-          <Link to="/profile" className="user-info-link">
-            <div className="user-info">
-              <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
-            </div>
-          </Link>
           <form onSubmit={handleFormSubmit}>
             <br />
             <label>
@@ -167,22 +152,11 @@ const JobDetail = () => {
         </>
       ) : companyName ? (
         <>
-          <div>
-            <div className="user-info">
-              <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
-            </div>
-          </div>
           <button onClick={handleDeleteButton} className="delete-button">
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
         </>
-      ) : (
-        <div>
-          <Link to="/login">
-            <button className="auth-button">Apply to this job</button>
-          </Link>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };

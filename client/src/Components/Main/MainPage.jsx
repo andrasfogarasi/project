@@ -2,15 +2,14 @@ import "./MainPage.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { faUser, faBuilding, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Header from "./Header";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [companyName, setCompanyName] = useState(null);
   const [cId, setCompanyId] = useState(null);
 
   useEffect(() => {
@@ -58,18 +57,12 @@ const MainPage = () => {
         localStorage.removeItem("token");
         fetchJobPosts();
       } else if (decodedToken) {
-        if (decodedToken.flag === "3") {
-          setUserName(decodedToken.name);
+        if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+          fetchJobPostsByCompanyId(decodedToken.companyId.id);
+          setCompanyId(decodedToken.companyId.id);
+          fetchJobPostsByCompanyId(decodedToken.companyId.id);
+        } else {
           fetchJobPosts();
-        } else if (decodedToken.flag === "2") {
-          setCompanyName(decodedToken.companyName);
-          fetchJobPostsByCompanyId(decodedToken.companyId.id);
-          setCompanyId(decodedToken.companyId.id);
-        } else if (decodedToken.flag === "4") {
-          setUserName(decodedToken.name);
-          setCompanyName(decodedToken.companyName);
-          fetchJobPostsByCompanyId(decodedToken.companyId.id);
-          setCompanyId(decodedToken.companyId.id);
         }
         setLoading(false);
       }
@@ -83,30 +76,9 @@ const MainPage = () => {
 
   return (
     <div>
-      {userName && companyName ? (
+      <Header />
+      {cId ? (
         <div>
-          <Link to="/profile" className="user-info-link">
-            <div className="user-info">
-              <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
-            </div>
-          </Link>
-          <Link to="/company-profile" className="user-info-link">
-            <div className="user-info">
-              <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
-            </div>
-          </Link>
-        </div>
-      ) : userName ? (
-        <Link to="/profile" className="user-info-link">
-          <div className="user-info">
-            <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
-          </div>
-        </Link>
-      ) : companyName ? (
-        <div>
-          <div className="user-info">
-            <FontAwesomeIcon icon={faBuilding} /> <p>{companyName}</p>
-          </div>
           <Link
             to={{ pathname: `/company/${cId}/createJob` }}
             className="user-info-link"
@@ -116,16 +88,8 @@ const MainPage = () => {
             </button>
           </Link>
         </div>
-      ) : (
-        <div>
-          <Link to="/login">
-            <button className="auth-button">Login</button>
-          </Link>
-          <Link to="/register">
-            <button className="auth-button">Register</button>
-          </Link>
-        </div>
-      )}
+      ) : null}
+
       {jobPosts.map((job) => (
         <div key={job.id} className="job-post">
           <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
