@@ -49,21 +49,22 @@ const Header = () => {
                 <li>
                   <Link to="/company-profile" class="active-link">
                     <FontAwesomeIcon icon={faBuilding} />
-                    <span className="company-name">{companyName}</span>
+                    <span className="profile-name">{companyName}</span>
                   </Link>
                 </li>
               </>
             ) : userName ? (
               <li>
                 <Link to="/profile" className="active-link">
-                  <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
+                  <FontAwesomeIcon icon={faUser} />{" "}
+                  <span className="profile-name">{userName}</span>
                 </Link>
               </li>
             ) : companyName ? (
               <li>
                 <Link to="/company-profile" class="active-link">
                   <FontAwesomeIcon icon={faBuilding} />
-                  <span className="company-name">{companyName}</span>
+                  <span className="profile-name">{companyName}</span>
                 </Link>
               </li>
             ) : (

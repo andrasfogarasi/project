@@ -172,21 +172,18 @@ ul {
   padding: 0;
 }
 
-/* Alkalmazza a float left-et minden li elemre */
 li {
   float: left;
-  list-style-type: none; /* eltávolítja az alapértelmezett pontozott listát */
-  padding: 0 10px; /* hozzáad némi párnázást a szöveg körül */
+  list-style-type: none; 
+  padding: 0 10px; 
 }
 
-/* Hozzáad egy jobb oldali határvonalat minden li elemre */
 li:not(:last-child) {
   border-right: 1px solid #ccc;
 }
 
-/* Hozzáad némi margót a jobb oldalon lévő határvonal távolságához */
 li + li {
-  margin-left: 10px; /* beállítja a margót az előző li elemhez képest */
+  margin-left: 10px; 
 }
 
 li {
@@ -212,7 +209,7 @@ li a:hover {
   color: rgb(245, 243, 243);
 }
 
-.company-name {
+.profile-name {
   margin-left: 5px; 
   display: inline-block;
 }

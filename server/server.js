@@ -10,6 +10,7 @@ import profile from './requests/profile.js';
 import RegisterCompany from './requests/registerCompany.js';
 import departments from './requests/departments.js';
 import createNewJob from './requests/createNewJob.js';
+import universities from './requests/universities.js';
 
 const app = express();
 const port = 5000;
@@ -39,6 +40,7 @@ app.use('/profile', profile);
 app.use('/registerCompany', RegisterCompany);
 app.use('/departments', departments);
 app.use('/createNewJob', createNewJob);
+app.use('/universities', universities);
 
 createTables().then(() => {
     app.listen(5000, () => {
