@@ -15,7 +15,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchJobPosts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/jobs");
+        const response = await fetch("http://localhost:5000/job");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

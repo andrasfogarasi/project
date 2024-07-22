@@ -2,23 +2,26 @@ import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../Functions/tokenUtils.js";
-import { Link } from "react-router-dom";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
+import UserProfileHeader from "../Headers/UserProfileHeader.jsx";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [studentData, setStudentData] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [universities, setUniversities] = useState([]);
   const [languages, setLanguages] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   const [formData, setFormData] = useState({
     universityId: "",
     birthdayDate: "",
     languageId: "",
     presentation: "",
+    userId: 0,
   });
 
   const handleChange = (e) => {
@@ -37,8 +40,24 @@ const UserProfile = () => {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log(data[0]);
         setUserData(data[0]);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchStudentData = async (userId) => {
+      try {
+        const response = await fetch(`http://localhost:5000/student/${userId}`);
+        if (!response.ok) {
+          setStudentData(null);
+        } else {
+          const data = await response.json();
+          setStudentData(data[0]);
+        }
       } catch (error) {
         setError(error);
       } finally {
@@ -48,7 +67,7 @@ const UserProfile = () => {
 
     const fetchUniversities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/universities");
+        const response = await fetch("http://localhost:5000/university");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -64,7 +83,7 @@ const UserProfile = () => {
 
     const fetchLanguages = async () => {
       try {
-        const response = await fetch("http://localhost:5000/universities");
+        const response = await fetch("http://localhost:5000/language");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -87,7 +106,10 @@ const UserProfile = () => {
           setHasAccess(true);
           setUserName(decodedToken.name);
           fetchUserData(decodedToken.id.id);
+          fetchStudentData(decodedToken.id.id);
           fetchUniversities();
+          fetchLanguages();
+          setUserId(decodedToken.id.id);
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -98,7 +120,39 @@ const UserProfile = () => {
       setLoading(false);
       setError(new Error("No token found"));
     }
-  }, []);
+
+    if (userId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        userId: userId,
+      }));
+    }
+  }, [userId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/student", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        // navigate("/");
+      } else {
+        console.error("Inserting failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -106,13 +160,9 @@ const UserProfile = () => {
 
   return (
     <div>
+      <UserProfileHeader />
       <div className="header">
-        <h1>Welcome, {userName}</h1>
-        <Link to="/login" className="user-info-link">
-          <div className="logout-button">
-            <p>Logout</p>
-          </div>
-        </Link>
+        <h1>{userName}</h1>
       </div>
       {userData && (
         <div>
@@ -131,6 +181,42 @@ const UserProfile = () => {
       <div>
         <h2>Update Your Information</h2>
         <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="birthdayDate">Birth Date:</label>
+            <input
+              type="date"
+              id="birthdayDate"
+              name="birthdayDate"
+              value={formData.birthdayDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-box">
+            <select
+              name="languageId"
+              value={formData.languageId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select mother tongue</option>
+              {languages.map((language) => (
+                <option key={language.language_id} value={language.language_id}>
+                  {language.language_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="presentation">Presentation:</label>
+            <input
+              type="text"
+              id="presentation"
+              name="presentation"
+              value={formData.presentation}
+              onChange={handleChange}
+            />
+          </div>
           <div className="input-box">
             <select
               name="universityId"
@@ -145,39 +231,6 @@ const UserProfile = () => {
                 </option>
               ))}
             </select>
-          </div>
-          <div>
-            <label htmlFor="birthDate">Birth Date:</label>
-            <input
-              type="date"
-              id="birthdayDate"
-              value={formData.birthdayDate}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input-box">
-            <select
-              name="universityId"
-              value={formData.languageId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select mother tongue</option>
-              {universities.map((language) => (
-                <option key={language.language_id} value={language.language_id}>
-                  {language.language_name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="presentation">Experience:</label>
-            <input
-              type="text"
-              id="presentation"
-              value={formData.presentation}
-              onChange={handleChange}
-            />
           </div>
           <button type="submit">Submit</button>
         </form>

@@ -10,7 +10,6 @@ router.post('/', async (req, res) => {
 
         console.log(req.body);
 
-        console.log("siker");
         return res.status(200);
 
     } catch (error) {

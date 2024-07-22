@@ -23,7 +23,7 @@ const JobDetail = () => {
     if (!job) {
       const fetchJob = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/jobs/${jobId}`);
+          const response = await fetch(`http://localhost:5000/job/${jobId}`);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
@@ -100,7 +100,7 @@ const JobDetail = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/jobs/${jobId}`, {
+      const response = await fetch(`http://localhost:5000/job/${jobId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -43,7 +43,7 @@ const CreateNewJob = () => {
 
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:5000/departments");
+        const response = await fetch("http://localhost:5000/department");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

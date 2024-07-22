@@ -3,15 +3,16 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { createTables } from './db/createTables.js';
 import register from './requests/register.js';
-import jobs from './requests/jobs.js';
+import job from './requests/job.js';
 import application from './requests/application.js';
 import login from './requests/login.js';
 import profile from './requests/profile.js';
 import RegisterCompany from './requests/registerCompany.js';
-import departments from './requests/departments.js';
+import department from './requests/department.js';
 import createNewJob from './requests/createNewJob.js';
-import universities from './requests/universities.js';
-import languages from './requests/languages.js';
+import university from './requests/university.js';
+import language from './requests/language.js';
+import student from './requests/student.js';
 
 const app = express();
 const port = 5000;
@@ -34,15 +35,16 @@ app.use((req, res, next) => {
 });
 
 app.use('/register', register);
-app.use('/jobs', jobs);
+app.use('/job', job);
 app.use('/application', application);
 app.use('/login', login);
 app.use('/profile', profile);
 app.use('/registerCompany', RegisterCompany);
-app.use('/departments', departments);
+app.use('/department', department);
 app.use('/createNewJob', createNewJob);
-app.use('/universities', universities);
-app.use('/languages', languages);
+app.use('/university', university);
+app.use('/language', language);
+app.use('/student', student);
 
 createTables().then(() => {
     app.listen(5000, () => {
