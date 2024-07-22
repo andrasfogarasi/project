@@ -10,21 +10,23 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [age, setAge] = useState("");
-  const [experience, setExperience] = useState("");
   const [hasAccess, setHasAccess] = useState(false);
   const [universities, setUniversities] = useState([]);
+  const [languages, setLanguages] = useState([]);
 
   const [formData, setFormData] = useState({
     universityId: "",
-    name: "",
-    description: "",
-    requirements: "",
-    salary: "",
-    workingHours: "",
-    applicationLimit: "",
-    companyId: 0,
+    birthdayDate: "",
+    languageId: "",
+    presentation: "",
   });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
@@ -53,6 +55,22 @@ const UserProfile = () => {
 
         const data = await response.json();
         setUniversities(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchLanguages = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/universities");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setLanguages(data);
       } catch (error) {
         setError(error);
       } finally {
@@ -129,21 +147,36 @@ const UserProfile = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="age">Age:</label>
+            <label htmlFor="birthDate">Birth Date:</label>
             <input
-              type="number"
-              id="age"
-              value={age}
-              onChange={handleAgeChange}
+              type="date"
+              id="birthdayDate"
+              value={formData.birthdayDate}
+              onChange={handleChange}
             />
           </div>
+          <div className="input-box">
+            <select
+              name="universityId"
+              value={formData.languageId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select mother tongue</option>
+              {universities.map((language) => (
+                <option key={language.language_id} value={language.language_id}>
+                  {language.language_name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
-            <label htmlFor="experience">Experience:</label>
+            <label htmlFor="presentation">Experience:</label>
             <input
               type="text"
-              id="experience"
-              value={experience}
-              onChange={handleExperienceChange}
+              id="presentation"
+              value={formData.presentation}
+              onChange={handleChange}
             />
           </div>
           <button type="submit">Submit</button>

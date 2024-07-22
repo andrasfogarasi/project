@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
+import Header from "../Headers/Header.jsx";
 
 const JobDetail = () => {
   const location = useLocation();

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Header from "./Header";
+import Header from "../Headers/Header.jsx";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);

@@ -120,6 +120,12 @@ export const selectUniversities = async () => {
     return result;
 };
 
+export const selectLanguages = async () => {
+    const query = 'SELECT language_id, language_name FROM language';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
 export const selectJobs = async () => {
     const query = 'SELECT * FROM job';
     const result = await databaseConnection.executeQuery(query);
