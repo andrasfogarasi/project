@@ -9,7 +9,6 @@ router.post('/', async (req, res) => {
     try {
 
         console.log(req.body);
-
         const { universityId, birthdayDate, languageId, presentation, userId } = req.body;
 
         const today = new Date();
@@ -33,8 +32,15 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: failedRegistration, error: errorMessage });
         }
 
+        languageId = parseInt(languageId, 10);
+        const language = await db.selectLanguageByLanguageId(languageId);
+
+        if (language === undefined) {
+            const errorMessage = 'Language not found!';
+            return res.status(404).json({ message: failedRegistration, error: errorMessage });
+        }
+
         const result = await db.insertCompany(companyName, email, encryptedPassword, flag, telNumber, location);
-        const companyId = await db.selectCompanyIdByEmail(email);
 
         return res.status(200);
     } catch (error) {

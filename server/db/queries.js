@@ -6,6 +6,12 @@ export const insertUser = async (username, email, firstname, lastname, password,
     return result;
 };
 
+export const insertStudent = async (name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit) => {
+    const query = 'INSERT INTO student (name, description, requirements, salary, company_id, department_id, working_hours, application_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit]);
+    return result;
+}
+
 export const insertCompany = async (companyName, email, password, flag, telNumber, location) => {
     const query = 'INSERT INTO company (company_name, email, password, flag, tel_number, location) VALUES (?, ?, ?, ?, ?, ?)';
     const result = await databaseConnection.executeQuery(query, [companyName, email, password, flag, telNumber, location]);
@@ -93,6 +99,12 @@ export const selectCompanyNameById = async (id) => {
 export const selectUserById = async (id) => {
     const query = 'SELECT * FROM user where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectLanguageByLanguageId = async (languageId) => {
+    const query = 'SELECT * FROM language where language_id = ?';
+    const result = await databaseConnection.executeQuery(query, [languageId]);
     return result;
 };
 
