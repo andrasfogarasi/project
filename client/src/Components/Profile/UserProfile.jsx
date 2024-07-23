@@ -15,6 +15,8 @@ const UserProfile = () => {
   const [universities, setUniversities] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [languageName, setLanguageName] = useState(null);
+  const [universityName, setuniversityName] = useState(null);
 
   const [formData, setFormData] = useState({
     universityId: "",
@@ -40,7 +42,6 @@ const UserProfile = () => {
         }
 
         const data = await response.json();
-        console.log(data[0]);
         setUserData(data[0]);
       } catch (error) {
         setError(error);
@@ -56,7 +57,11 @@ const UserProfile = () => {
           setStudentData(null);
         } else {
           const data = await response.json();
-          setStudentData(data[0]);
+          console.log(data);
+
+          setStudentData(data.student);
+          setLanguageName(data.language.language_name);
+          setuniversityName(data.university.university_name);
         }
       } catch (error) {
         setError(error);
@@ -113,12 +118,10 @@ const UserProfile = () => {
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
-        setError(new Error("Invalid token"));
         setLoading(false);
       }
     } else {
       setLoading(false);
-      setError(new Error("No token found"));
     }
 
     if (userId) {
@@ -143,8 +146,11 @@ const UserProfile = () => {
         credentials: "include",
       });
 
+      console.log(response);
+
       if (response.ok) {
-        // navigate("/");
+        console.log("Hello");
+        window.location.reload();
       } else {
         console.error("Inserting failed:", response.statusText);
         alert("Error");
@@ -178,63 +184,87 @@ const UserProfile = () => {
         </div>
       )}
 
-      <div>
-        <h2>Update Your Information</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="birthdayDate">Birth Date:</label>
-            <input
-              type="date"
-              id="birthdayDate"
-              name="birthdayDate"
-              value={formData.birthdayDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="input-box">
-            <select
-              name="languageId"
-              value={formData.languageId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select mother tongue</option>
-              {languages.map((language) => (
-                <option key={language.language_id} value={language.language_id}>
-                  {language.language_name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="presentation">Presentation:</label>
-            <input
-              type="text"
-              id="presentation"
-              name="presentation"
-              value={formData.presentation}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input-box">
-            <select
-              name="universityId"
-              value={formData.universityId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select University</option>
-              {universities.map((university) => (
-                <option key={university.id} value={university.id}>
-                  {university.university_name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      {studentData ? (
+        <div>
+          <p>
+            <strong>Birthday date:</strong> {studentData.birthday_data}
+          </p>
+          <p>
+            <strong>Presentation:</strong> {studentData.presentation}
+          </p>
+          {universityName ? (
+            <p>
+              <strong>University:</strong> {universityName}
+            </p>
+          ) : null}
+          {languageName ? (
+            <p>
+              <strong>Mother tongue:</strong> {languageName}
+            </p>
+          ) : null}
+        </div>
+      ) : (
+        <div>
+          <h2>Update Your Information</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="birthdayDate">Birth Date:</label>
+              <input
+                type="date"
+                id="birthdayDate"
+                name="birthdayDate"
+                value={formData.birthdayDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="input-box">
+              <select
+                name="languageId"
+                value={formData.languageId}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select mother tongue</option>
+                {languages.map((language) => (
+                  <option
+                    key={language.language_id}
+                    value={language.language_id}
+                  >
+                    {language.language_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="presentation">Presentation:</label>
+              <input
+                type="text"
+                id="presentation"
+                name="presentation"
+                value={formData.presentation}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="input-box">
+              <select
+                name="universityId"
+                value={formData.universityId}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select University</option>
+                {universities.map((university) => (
+                  <option key={university.id} value={university.id}>
+                    {university.university_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

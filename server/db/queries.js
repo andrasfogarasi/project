@@ -6,9 +6,9 @@ export const insertUser = async (username, email, firstname, lastname, password,
     return result;
 };
 
-export const insertStudent = async (name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit) => {
-    const query = 'INSERT INTO student (name, description, requirements, salary, company_id, department_id, working_hours, application_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit]);
+export const insertStudent = async (userId, universityId, birthdayDate, motherTongueId, presentation) => {
+    const query = 'INSERT INTO student (user_id, university_id, birthday_date, mother_tongue_id, presentation) VALUES (?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [userId, universityId, birthdayDate, motherTongueId, presentation]);
     return result;
 }
 
@@ -141,6 +141,18 @@ export const selectUniversities = async () => {
 export const selectLanguages = async () => {
     const query = 'SELECT language_id, language_name FROM language';
     const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
+export const selectLanguageNameByLanguageId = async (languageId) => {
+    const query = 'SELECT language_name FROM language where language_id = ?';
+    const result = await databaseConnection.executeQuery(query, [languageId]);
+    return result;
+};
+
+export const selectUniversityeNameById = async (id) => {
+    const query = 'SELECT university_name FROM university where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
 

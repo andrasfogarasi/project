@@ -4,16 +4,17 @@ import * as db from '../db/queries.js';
 const router = express.Router();
 router.use(express.json());
 const internalServerError = 'Internal Server Error';
+const failedInserting = 'Inserting failed!'
 
 router.post('/', async (req, res) => {
     try {
 
         console.log(req.body);
-        const { universityId, birthdayDate, languageId, presentation, userId } = req.body;
+        let { universityId, birthdayDate, languageId, presentation, userId } = req.body;
 
         const today = new Date();
         const birthDate = new Date(birthdayDate);
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
 
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
@@ -22,14 +23,14 @@ router.post('/', async (req, res) => {
 
         if (age < 18) {
             const errorMessage = 'User is too young!';
-            return res.status(409).json({ message: failedRegistration, error: errorMessage });
+            return res.status(409).json({ message: failedInserting, error: errorMessage });
         }
 
         const user = await db.selectUserById(userId);
 
         if (user === undefined) {
             const errorMessage = 'User not found!';
-            return res.status(404).json({ message: failedRegistration, error: errorMessage });
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
         }
 
         languageId = parseInt(languageId, 10);
@@ -37,15 +38,16 @@ router.post('/', async (req, res) => {
 
         if (language === undefined) {
             const errorMessage = 'Language not found!';
-            return res.status(404).json({ message: failedRegistration, error: errorMessage });
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
         }
 
-        const result = await db.insertCompany(companyName, email, encryptedPassword, flag, telNumber, location);
+        universityId = parseInt(universityId, 10);
+        const result = await db.insertStudent(userId, universityId, birthdayDate, languageId, presentation);
 
-        return res.status(200);
+        res.status(200).json({ success: true });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: failedRegistration, error: error.message });
+        return res.status(500).json({ message: failedInserting, error: error.message });
     }
 });
 
@@ -54,8 +56,18 @@ router.get('/:companyId', async (req, res) => {
 
     try {
         const result = await db.selectStudentById(companyId);
+        const student = result[0];
+
+        let languageName = await db.selectLanguageNameByLanguageId(student.mother_tongue_id);
+        languageName = languageName[0];
+
+        let universityName = await db.selectUniversityeNameById(student.university_id);
+        universityName = universityName[0];
+
+        const response = { student: student, language: languageName, university: universityName };
+
         if (result) {
-            return res.status(200).json(result);
+            return res.status(200).json(response);
         } else {
             return res.status(404).json({ message: 'Student not found' });
         }
