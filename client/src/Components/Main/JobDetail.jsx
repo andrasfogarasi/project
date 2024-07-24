@@ -16,6 +16,7 @@ const JobDetail = () => {
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
   const [companyName, setCompanyName] = useState(null);
+  const [departmentName, setDepartmentName] = useState(null);
 
   const navigate = useNavigate();
 
@@ -43,6 +44,43 @@ const JobDetail = () => {
       fetchJob();
     }
 
+    const fetchCompanyName = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/company/${job.company_id}/name`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setCompanyName(data.company_name);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchDepartment = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/department/${job.department_id}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setDepartmentName(data.department_name);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -63,6 +101,9 @@ const JobDetail = () => {
         setLoading(false);
       }
     }
+
+    // fetchCompanyName();
+    fetchDepartment();
   }, [job, jobId]);
 
   if (loading) return <div>Loading...</div>;
@@ -124,9 +165,12 @@ const JobDetail = () => {
       <Header />
       <div className="job-post">
         <h1>{job.name}</h1>
+        <h2>Company name: {companyName}</h2>
+        <h3>Department name: {departmentName}</h3>
         <h3>Description: {job.description}</h3>
+        <h3>Requirements: {job.requirements}</h3>
+        <h3>Salary: {job.salary}</h3>
         <h3>Working hours: {job.working_hours}</h3>
-        <p>Salary: {job.salary}</p>
       </div>
 
       {userName && companyName ? (

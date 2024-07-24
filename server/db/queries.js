@@ -132,6 +132,12 @@ export const selectDepartments = async () => {
     return result;
 };
 
+export const selectDepartmentIdAndNameById = async (departmentId) => {
+    const query = 'SELECT id, department_name FROM department where department_id = ?';
+    const result = await databaseConnection.executeQuery(query, [departmentId]);
+    return result;
+};
+
 export const selectUniversities = async () => {
     const query = 'SELECT id, university_name FROM university';
     const result = await databaseConnection.executeQuery(query);
