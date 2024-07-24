@@ -124,7 +124,8 @@ const JobDetail = () => {
       <Header />
       <div className="job-post">
         <h1>{job.name}</h1>
-        <h2>Working hours: {job.working_hours}</h2>
+        <h3>Description: {job.description}</h3>
+        <h3>Working hours: {job.working_hours}</h3>
         <p>Salary: {job.salary}</p>
       </div>
 
