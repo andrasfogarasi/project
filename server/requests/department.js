@@ -21,10 +21,11 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await db.selectJobById(id);
+        const result = await db.selectDepartmentIdAndNameById(id);
 
         if (result) {
             return res.status(200).json(result);
+
         } else {
             return res.status(404).json({ message: 'Job not found' });
         }

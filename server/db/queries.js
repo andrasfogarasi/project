@@ -133,7 +133,7 @@ export const selectDepartments = async () => {
 };
 
 export const selectDepartmentIdAndNameById = async (departmentId) => {
-    const query = 'SELECT id, department_name FROM department where department_id = ?';
+    const query = 'SELECT id, department_name FROM department where id = ?';
     const result = await databaseConnection.executeQuery(query, [departmentId]);
     return result;
 };
