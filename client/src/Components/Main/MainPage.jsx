@@ -32,7 +32,7 @@ const MainPage = () => {
     const fetchJobPostsByCompanyId = async (companyId) => {
       try {
         const response = await fetch(
-          `http://localhost:5000/jobs/company/${companyId}`
+          `http://localhost:5000/job/company/${companyId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -60,7 +60,6 @@ const MainPage = () => {
         if (decodedToken.flag === "2" || decodedToken.flag === "4") {
           fetchJobPostsByCompanyId(decodedToken.companyId.id);
           setCompanyId(decodedToken.companyId.id);
-          fetchJobPostsByCompanyId(decodedToken.companyId.id);
         } else {
           fetchJobPosts();
         }

@@ -114,6 +114,12 @@ export const selectStudentById = async (userId) => {
     return result;
 };
 
+export const selectStudentIdByUserId = async (userId) => {
+    const query = 'SELECT id FROM student where user_id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
 export const selectCompanyById = async (id) => {
     const query = 'SELECT * FROM company where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);

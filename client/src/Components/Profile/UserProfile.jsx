@@ -146,10 +146,7 @@ const UserProfile = () => {
         credentials: "include",
       });
 
-      console.log(response);
-
       if (response.ok) {
-        console.log("Hello");
         window.location.reload();
       } else {
         console.error("Inserting failed:", response.statusText);

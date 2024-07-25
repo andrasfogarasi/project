@@ -18,6 +18,7 @@ const JobDetail = () => {
   const [companyName, setCompanyName] = useState(null);
   const [companyNameForView, setCompanyNameForView] = useState(null);
   const [departmentName, setDepartmentName] = useState(null);
+  const [studentId, setStudentId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -45,6 +46,23 @@ const JobDetail = () => {
       fetchJob();
     }
 
+    const fetchStudentData = async (userId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/student/id/${userId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+
+          setStudentId(data[0].id);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -58,6 +76,7 @@ const JobDetail = () => {
           setUserName(decodedToken.name);
         } else if (decodedToken.flag === "2") {
           setCompanyName(decodedToken.companyName);
+          fetchStudentData(decodedToken.id.id);
         } else if (decodedToken.flag === "4") {
           setUserName(decodedToken.name);
           setCompanyName(decodedToken.companyName);
@@ -183,20 +202,23 @@ const JobDetail = () => {
         </>
       ) : userName ? (
         <>
+          {studentId ? (
           <form onSubmit={handleFormSubmit}>
-            <br />
-            <label>
-              <textarea
-                name="field2"
-                rows="10"
-                cols="50"
-                placeholder="Write something:"
-              />
-            </label>
-            <br />
-            <button type="submit">Submit</button>
-          </form>
-        </>
+          <br />
+          <label>
+            <textarea
+              name="field2"
+              rows="10"
+              cols="50"
+              placeholder="Write something:"
+            />
+          </label>
+          <br />
+          <button type="submit">Submit</button>
+        </form>
+      ) }
+      </>
+       
       ) : companyName ? (
         <>
           <button onClick={handleDeleteButton} className="delete-button">

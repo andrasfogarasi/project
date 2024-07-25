@@ -77,4 +77,21 @@ router.get('/:companyId', async (req, res) => {
     }
 });
 
+router.get('/id/:companyId', async (req, res) => {
+    const { companyId } = req.params;
+
+    try {
+        const result = await db.selectStudentIdByUserId(companyId);
+
+        if (result) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
 export default router;
