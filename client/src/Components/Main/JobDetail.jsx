@@ -133,6 +133,7 @@ const JobDetail = () => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const formFields = Object.fromEntries(formData.entries());
+    console.log(formFields);
 
     try {
       const response = await fetch(`http://localhost:5000/application`, {
@@ -200,17 +201,20 @@ const JobDetail = () => {
       ) : userName ? (
         studentId ? (
           <form onSubmit={handleFormSubmit}>
+            <input type="hidden" name="studentId" value={studentId} />
             <br />
             <label>
               <textarea
-                name="field2"
+                name="message"
                 rows="10"
                 cols="50"
                 placeholder="Write something:"
               />
             </label>
             <br />
-            <button type="submit">Submit</button>
+            <button type="submit" class="auth-button">
+              Send your application!
+            </button>
           </form>
         ) : (
           <Link to="/profile" class="auth-button">
