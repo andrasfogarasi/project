@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Link } from "react-router-dom";
 import "./MainPage.css";
 import { jwtDecode } from "jwt-decode";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -46,14 +46,13 @@ const JobDetail = () => {
       fetchJob();
     }
 
-    const fetchStudentData = async (userId) => {
+    const fetchStudentId = async (userId) => {
       try {
         const response = await fetch(
           `http://localhost:5000/student/id/${userId}`
         );
         if (response.ok) {
           const data = await response.json();
-
           setStudentId(data[0].id);
         }
       } catch (error) {
@@ -74,9 +73,9 @@ const JobDetail = () => {
       } else if (decodedToken) {
         if (decodedToken.flag === "3") {
           setUserName(decodedToken.name);
+          fetchStudentId(decodedToken.id.id);
         } else if (decodedToken.flag === "2") {
           setCompanyName(decodedToken.companyName);
-          fetchStudentData(decodedToken.id.id);
         } else if (decodedToken.flag === "4") {
           setUserName(decodedToken.name);
           setCompanyName(decodedToken.companyName);
@@ -195,36 +194,34 @@ const JobDetail = () => {
       </div>
 
       {userName && companyName ? (
-        <>
-          <button onClick={handleDeleteButton} className="delete-button">
-            <FontAwesomeIcon icon={faTrash} /> Delete
-          </button>
-        </>
+        <button onClick={handleDeleteButton} className="delete-button">
+          <FontAwesomeIcon icon={faTrash} /> Delete
+        </button>
       ) : userName ? (
-        <>
-          {studentId ? (
+        studentId ? (
           <form onSubmit={handleFormSubmit}>
-          <br />
-          <label>
-            <textarea
-              name="field2"
-              rows="10"
-              cols="50"
-              placeholder="Write something:"
-            />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      ) }
-      </>
-       
+            <br />
+            <label>
+              <textarea
+                name="field2"
+                rows="10"
+                cols="50"
+                placeholder="Write something:"
+              />
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+        ) : (
+          <Link to="/profile" class="auth-button">
+            {" "}
+            Give your data
+          </Link>
+        )
       ) : companyName ? (
-        <>
-          <button onClick={handleDeleteButton} className="delete-button">
-            <FontAwesomeIcon icon={faTrash} /> Delete
-          </button>
-        </>
+        <button onClick={handleDeleteButton} className="delete-button">
+          <FontAwesomeIcon icon={faTrash} /> Delete
+        </button>
       ) : null}
     </div>
   );
