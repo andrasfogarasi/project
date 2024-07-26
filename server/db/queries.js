@@ -24,6 +24,12 @@ export const insertJob = async (name, description, requirements, salary, company
     return result;
 }
 
+export const insertApplication = async (name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit) => {
+    const query = 'INSERT INTO job (name, description, requirements, salary, company_id, department_id, working_hours, application_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit]);
+    return result;
+}
+
 export const countOfAllDepartments = async () => {
     const query = 'SELECT COUNT(*) as count FROM department';
     const result = await databaseConnection.executeQuery(query);

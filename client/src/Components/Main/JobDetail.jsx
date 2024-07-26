@@ -141,10 +141,7 @@ const JobDetail = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          message: formFields.field2,
-          companyId: job.company_id,
-        }),
+        body: JSON.stringify(formFields),
       });
 
       if (!response.ok) {
@@ -202,6 +199,7 @@ const JobDetail = () => {
         studentId ? (
           <form onSubmit={handleFormSubmit}>
             <input type="hidden" name="studentId" value={studentId} />
+            <input type="hidden" name="jobId" value={job.id} />
             <br />
             <label>
               <textarea

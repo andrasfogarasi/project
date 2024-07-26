@@ -17,7 +17,6 @@ router.post('/', async (req, res) => {
         companyId = companyId.id;
 
         if (name === '' || salary === 0 || workingHours === 0 || applicationLimit === 0 || departmentId === 0 || companyId === 0) {
-            console.log("Hell");
             const errorMessage = 'Not enough data given!';
             return res.status(400).json({ message: failedRegistration, error: errorMessage });
         }
