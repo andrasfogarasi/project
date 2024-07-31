@@ -18,6 +18,13 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ message: failedInserting, error: errorMessage });
         }
 
+        const job = await db.selectJobById(jobId);
+
+        if (!job) {
+            const errorMessage = 'Job not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
         return res.status(200);
 
     } catch (error) {
