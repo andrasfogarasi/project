@@ -6,6 +6,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
+import NotFoundPage from "../Error/NotFoundPage.jsx";
 
 const JobDetail = () => {
   const location = useLocation();
@@ -19,6 +20,8 @@ const JobDetail = () => {
   const [companyNameForView, setCompanyNameForView] = useState(null);
   const [departmentName, setDepartmentName] = useState(null);
   const [studentId, setStudentId] = useState(null);
+  const [cId, setCompanyId] = useState(null);
+  const [hasAccess, setHasAccess] = useState(false);
 
   const navigate = useNavigate();
 
@@ -76,9 +79,11 @@ const JobDetail = () => {
           fetchStudentId(decodedToken.id.id);
         } else if (decodedToken.flag === "2") {
           setCompanyName(decodedToken.companyName);
+          setCompanyId(decodedToken.companyId.id);
         } else if (decodedToken.flag === "4") {
           setUserName(decodedToken.name);
           setCompanyName(decodedToken.companyName);
+          setCompanyId(decodedToken.companyId.id);
         }
         setLoading(false);
       }
@@ -119,15 +124,29 @@ const JobDetail = () => {
       }
     };
 
+    const token = localStorage.getItem("token");
+
     if (job) {
+      if (token) {
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken) {
+          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+            if (job.company_id === cId) {
+              setHasAccess(true);
+            }
+          }
+        }
+      }
       fetchCompanyName(job.company_id);
       fetchDepartment(job.department_id);
     }
-  }, [job]);
+  }, [job, cId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!job) return <div>Job not found</div>;
+  if (!hasAccess) return <NotFoundPage />;
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -192,9 +211,18 @@ const JobDetail = () => {
       </div>
 
       {userName && companyName ? (
-        <button onClick={handleDeleteButton} className="delete-button">
-          <FontAwesomeIcon icon={faTrash} /> Delete
-        </button>
+        <>
+          <button onClick={handleDeleteButton} className="delete-button">
+            <FontAwesomeIcon icon={faTrash} /> Delete
+          </button>
+          <Link
+            to={`/company/${cId}/job/${jobId}/applicants`}
+            className="auth-button"
+          >
+            {" "}
+            View applicants
+          </Link>
+        </>
       ) : userName ? (
         studentId ? (
           <form onSubmit={handleFormSubmit}>
@@ -221,9 +249,18 @@ const JobDetail = () => {
           </Link>
         )
       ) : companyName ? (
-        <button onClick={handleDeleteButton} className="delete-button">
-          <FontAwesomeIcon icon={faTrash} /> Delete
-        </button>
+        <>
+          <button onClick={handleDeleteButton} className="delete-button">
+            <FontAwesomeIcon icon={faTrash} /> Delete
+          </button>
+          <Link
+            to={`/company/${cId}/job/${jobId}/applicants`}
+            className="auth-button"
+          >
+            {" "}
+            View applicants
+          </Link>
+        </>
       ) : null}
     </div>
   );

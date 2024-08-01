@@ -25,8 +25,9 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: failedInserting, error: errorMessage });
         }
 
-        return res.status(200);
+        const result = await db.insertApplication(studentId, jobId, message);
 
+        res.status(200).json({ success: true });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: failedInserting, error: error.message });

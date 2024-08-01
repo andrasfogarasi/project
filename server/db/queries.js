@@ -10,7 +10,7 @@ export const insertStudent = async (userId, universityId, birthdayDate, motherTo
     const query = 'INSERT INTO student (user_id, university_id, birthday_date, mother_tongue_id, presentation) VALUES (?, ?, ?, ?, ?)';
     const result = await databaseConnection.executeQuery(query, [userId, universityId, birthdayDate, motherTongueId, presentation]);
     return result;
-}
+};
 
 export const insertCompany = async (companyName, email, password, flag, telNumber, location) => {
     const query = 'INSERT INTO company (company_name, email, password, flag, tel_number, location) VALUES (?, ?, ?, ?, ?, ?)';
@@ -22,37 +22,37 @@ export const insertJob = async (name, description, requirements, salary, company
     const query = 'INSERT INTO job (name, description, requirements, salary, company_id, department_id, working_hours, application_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit]);
     return result;
-}
+};
 
 export const insertApplication = async (studentId, jobId, message) => {
     const query = 'INSERT INTO application (student_id, job_id, message) VALUES (?, ?, ?)';
     const result = await databaseConnection.executeQuery(query, [studentId, jobId, message]);
     return result;
-}
+};
 
 export const countOfAllDepartments = async () => {
     const query = 'SELECT COUNT(*) as count FROM department';
     const result = await databaseConnection.executeQuery(query);
     return result;
-}
+};
 
 export const countOfAllUsers = async () => {
     const query = 'SELECT COUNT(*) as count FROM user';
     const result = await databaseConnection.executeQuery(query);
     return result;
-}
+};
 
 export const countOfAllLanguages = async () => {
     const query = 'SELECT COUNT(*) as count FROM language';
     const result = await databaseConnection.executeQuery(query);
     return result;
-}
+};
 
 export const countOfAllUniversities = async () => {
     const query = 'SELECT COUNT(*) as count FROM university';
     const result = await databaseConnection.executeQuery(query);
     return result;
-}
+};
 
 export const selectUserIdByEmail = async (email) => {
     const query = 'SELECT id FROM user WHERE email LIKE ?';
