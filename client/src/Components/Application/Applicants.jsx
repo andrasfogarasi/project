@@ -32,7 +32,7 @@ const Applicants = () => {
       }
     }
 
-    const fetchDepartments = async () => {
+    const fetchApplicants = async () => {
       try {
         const response = await fetch("http://localhost:5000/department");
         if (!response.ok) {
@@ -48,7 +48,7 @@ const Applicants = () => {
       }
     };
 
-    fetchDepartments();
+    fetchApplicants();
   }, [companyId]);
 
   const handleSubmit = async (e) => {
