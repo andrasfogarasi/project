@@ -60,6 +60,12 @@ export const selectUserIdByEmail = async (email) => {
     return result;
 };
 
+export const selectUserIdByStudentId = async (studentId) => {
+    const query = 'SELECT user_id FROM student WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [studentId]);
+    return result;
+};
+
 export const selectCompanyIdByEmail = async (email) => {
     const query = 'SELECT id FROM company WHERE email LIKE ?';
     const [result] = await databaseConnection.executeQuery(query, [email]);
@@ -189,6 +195,12 @@ export const selectJobsByCompanyId = async (id) => {
 export const selectJobById = async (id) => {
     const query = 'SELECT * FROM job where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectApplicantsByJobId = async (jobId) => {
+    const query = 'SELECT * FROM application where job_id = ?';
+    const result = await databaseConnection.executeQuery(query, [jobId]);
     return result;
 };
 
