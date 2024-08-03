@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import RegisterPage from "../Register/RegisterPage";
+import RegisterPage from "../Register/RegisterPage.jsx";
 import { setTokenWithExpiry } from "../Functions/tokenUtils.js";
 
 const LoginPage = () => {
