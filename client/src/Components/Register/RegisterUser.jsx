@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { setTokenWithExpiry } from "../Functions/tokenUtils.js";
+import { setTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import { useNavigate } from "react-router-dom";
 import "./RegisterForm.css";
 

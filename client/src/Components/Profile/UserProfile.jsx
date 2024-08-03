@@ -1,7 +1,7 @@
 import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { getTokenWithExpiry } from "../Functions/tokenUtils.js";
+import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import UserProfileHeader from "../Headers/UserProfileHeader.jsx";
 
