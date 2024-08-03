@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS department (
 CREATE TABLE IF NOT EXISTS job (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
-    description TEXT,    -- altalanos munkaleiras
-    requirements TEXT,   -- elvarasok
+    description TEXT,    
+    requirements TEXT,   
     salary INT NULL,
     company_id INT NOT NULL,
     department_id INT,  
