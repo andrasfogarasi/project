@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../Pictures/coverPicture.png') no-repeat center center fixed;
-  background-color: #f4f4f9;
+  background-color: #f4f9f5;
   color: #333;
 }
 
@@ -88,7 +88,7 @@ body {
   padding: 20px;
   margin: 20px 0;
   border-radius: 10px;
-  background-color: white;
+  background-color: rgb(116, 1, 1);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   max-width: 90%;
@@ -135,7 +135,7 @@ body {
 .user-info p {
   margin: 0 0 0 10px;
   font-weight: bold;
-  color: #333;
+  color: #333333;
   font-size: 1em;
 }
 
