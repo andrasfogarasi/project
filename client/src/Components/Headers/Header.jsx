@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../Main/MainPage";
+import "../Main/MainPage.css";
+import "./Header.css";
 import { jwtDecode } from "jwt-decode";
 import { faUser, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

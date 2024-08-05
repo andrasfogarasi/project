@@ -83,6 +83,13 @@ body {
   transform: scale(1.05);
 }
 
+/* JobList.css */
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px; 
+}
+
 .job-post {
   border: 1px solid #ddd;
   padding: 20px;
@@ -92,6 +99,8 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   max-width: 90%;
+  padding: 16px; /* Adjust padding as needed */
+  border: 1px solid #ddd;  
 }
 
 .job-post:hover {
@@ -101,7 +110,7 @@ body {
 
 .job-post h2 {
   margin: 0 0 10px 0;
-  color: #333;
+  color: #1fc52d;
   font-size: 1.6em;
   font-weight: bold;
 }

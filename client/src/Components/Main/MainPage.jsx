@@ -89,13 +89,15 @@ const MainPage = () => {
         </div>
       ) : null}
 
-      {jobPosts.map((job) => (
-        <div key={job.id} className="job-post">
-          <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
-            <h2>{job.name}</h2>
-          </Link>
-        </div>
-      ))}
+      <div className="job-list">
+        {jobPosts.map((job) => (
+          <div key={job.id} className="job-post">
+            <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
+              <h2>{job.name}</h2>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
