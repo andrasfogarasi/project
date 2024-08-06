@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
-import UserProfileHeader from "../Headers/UserProfileHeader.jsx";
+import BasicHeader from "../Headers/BasicHeader.jsx";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -163,8 +163,8 @@ const UserProfile = () => {
 
   return (
     <div>
-      <UserProfileHeader />
-      <div className="header">
+      <BasicHeader />
+      <div>
         <h1>{userName}</h1>
       </div>
       {userData && (

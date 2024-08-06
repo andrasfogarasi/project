@@ -5,6 +5,7 @@ body {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../Pictures/coverPicture.png') no-repeat center center fixed;
   background-color: #f4f9f5;
   color: #333;
+  padding-top: 80px;
 }
 
 .dashboard {
@@ -13,77 +14,6 @@ body {
   margin: 0 auto;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background-color: #9b4b00;
-  color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-
-.logout-button {
-  padding: 8px 16px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  max-width: 120px; 
-  text-align: center; 
-}
-
-.logout-button:hover {
-  background-color: #d32f2f;
-  transform: scale(1.05);
-}
-
-.header .auth-buttons {
-  display: flex;
-  gap: 15px;
-}
-
-.auth-button {
-  padding: 8px 16px;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  max-width: 120px; 
-  text-align: center;
-}
-
-.auth-button:hover {
-  background-color: #5a6268;
-  transform: scale(1.05);
-}
-
-.new-window-button {
-  padding: 8px 16px;
-  background-color: #0056b3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  max-width: 120px;
-  text-align: center; 
-}
-
-.new-window-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-/* JobList.css */
 .job-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -99,7 +29,8 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   max-width: 90%;
-  padding: 16px; /* Adjust padding as needed */
+  padding: 16px; 
+  margin-left: 16px; 
   border: 1px solid #ddd;  
 }
 
@@ -108,18 +39,68 @@ body {
   transform: translateY(-5px);
 }
 
+.job-post h1 {
+  margin: 0 0 10px 0;
+  color: #090e09;
+  font-size: 2em;
+  font-weight: bold;
+  text-decoration: none; 
+}
+
 .job-post h2 {
   margin: 0 0 10px 0;
   color: #1fc52d;
   font-size: 1.6em;
   font-weight: bold;
+  text-decoration: none; 
 }
 
 .job-post h3 {
-  margin: 0;
-  color: #555;
-  font-size: 1.3em;
-  font-weight: normal;
+  margin: 0 0 10px 0;
+  color: #1fc52d;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-decoration: none; 
+}
+
+.job-post a {
+  text-decoration: none; 
+  color: inherit; 
+}
+
+.job-post a:hover {
+  text-decoration: none; 
+}
+
+.new-job-button {
+  background-color: #03940b; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+  font-size: 20px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+  max-width: 200px; 
+  margin: 25px 0 5px 5px; 
+  text-align: left; 
+  text-decoration: none; 
+}
+
+.new-job-button:hover {
+  transform: translateY(-2px); 
+  background-color: #969c96; 
+  color: white; 
+  text-decoration: none; 
+}
+
+.new-job-button:focus {
+  outline: none; 
+  text-decoration: none; 
 }
 
 .user-info {
@@ -149,16 +130,22 @@ body {
 }
 
 .delete-button {
-  display: flex;
-  align-items: center;
-  background-color: #ff4d4f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  font-size: 14px;
+  background-color: #f31014;
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+  font-size: 20px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+  max-width: 200px; 
+  margin: 25px 0 5px 10px; 
+  text-align: left; 
+  text-decoration: none; 
 }
 
 .delete-button:hover {
@@ -171,51 +158,6 @@ body {
 
 .delete-button svg {
   margin-right: 5px;
-}
-
-ul {
-  background-color: #0e0606;
-  overflow: hidden;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  float: left;
-  list-style-type: none; 
-  padding: 0 10px; 
-}
-
-li:not(:last-child) {
-  border-right: 1px solid #ccc;
-}
-
-li + li {
-  margin-left: 10px; 
-}
-
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 10px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-li a:hover {
-  background-color: #4e504d;
-  color: rgb(7, 0, 0);
-}
-
-.active-link {
-  background-color: #030303;
-  color: rgb(245, 243, 243);
 }
 
 .profile-name {

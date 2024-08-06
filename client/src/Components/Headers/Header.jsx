@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../Main/MainPage.css";
 import "./Header.css";
 import { jwtDecode } from "jwt-decode";
 import { faUser, faBuilding } from "@fortawesome/free-solid-svg-icons";
@@ -36,51 +35,45 @@ const Header = () => {
     <header className="header">
       <div>
         <nav className="nav">
-          <ul>
-            <li class="active-link">
+          <ul className="nav-list">
+            <li className="app-name-link">
               <Link to="/">StudWork</Link>
             </li>
             {userName && companyName ? (
               <>
-                <li>
-                  <Link to="/profile" className="active-link">
+                <li className="active-link">
+                  <Link to="/profile">
                     <FontAwesomeIcon icon={faUser} /> <p>{userName}</p>
                   </Link>
                 </li>
-                <li>
-                  <Link to="/company-profile" class="active-link">
+                <li className="active-link">
+                  <Link to="/company-profile">
                     <FontAwesomeIcon icon={faBuilding} />
                     <span className="profile-name">{companyName}</span>
                   </Link>
                 </li>
               </>
             ) : userName ? (
-              <li>
-                <Link to="/profile" className="active-link">
+              <li className="active-link">
+                <Link to="/profile">
                   <FontAwesomeIcon icon={faUser} />{" "}
                   <span className="profile-name">{userName}</span>
                 </Link>
               </li>
             ) : companyName ? (
-              <li>
-                <Link to="/company-profile" class="active-link">
+              <li className="active-link">
+                <Link to="/company-profile">
                   <FontAwesomeIcon icon={faBuilding} />
                   <span className="profile-name">{companyName}</span>
                 </Link>
               </li>
             ) : (
               <>
-                <li>
-                  <Link to="/login" class="active-link">
-                    {" "}
-                    Login
-                  </Link>
+                <li className="active-link">
+                  <Link to="/login"> Login</Link>
                 </li>
-                <li>
-                  <Link to="/register" class="active-link">
-                    {" "}
-                    Register
-                  </Link>
+                <li className="active-link">
+                  <Link to="/register"> Register</Link>
                 </li>
               </>
             )}

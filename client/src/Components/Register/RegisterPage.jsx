@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import "./RegisterPage.css";
 import RegisterUser from "./RegisterUser";
 import RegisterCompany from "./RegisterCompany";
+import BasicHeader from "../Headers/BasicHeader.jsx";
 
 const RegisterPage = () => {
   useEffect(() => {
@@ -10,15 +11,16 @@ const RegisterPage = () => {
   }, []);
 
   return (
-    <div className="App">
+    <div className="wrapper">
+      <BasicHeader />
       <header className="App-header">
         <h1>Registration Page</h1>
         <div>
           <Link to="/register/student">
-            <button>Register as User</button>
+            <button className="register-link">Register as User</button>
           </Link>
           <Link to="/register/company">
-            <button>Register a Company</button>
+            <button className="register-link">Register a Company</button>
           </Link>
         </div>
       </header>

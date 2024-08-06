@@ -126,14 +126,16 @@ const JobDetail = () => {
 
     const token = localStorage.getItem("token");
 
+    setHasAccess(true);
+
     if (job) {
       if (token) {
         const decodedToken = jwtDecode(token);
 
         if (decodedToken) {
           if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-            if (job.company_id === cId) {
-              setHasAccess(true);
+            if (job.company_id !== cId) {
+              setHasAccess(false);
             }
           }
         }

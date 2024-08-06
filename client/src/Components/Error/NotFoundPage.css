@@ -1,3 +1,13 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../Pictures/coverPicture.png') no-repeat center center fixed;
+    background-color: #f4f9f5;
+    color: #333;
+    padding-top: 80px;
+  }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -38,34 +48,4 @@
 .button:active {
     background-color: #004080;
     border-color: #004080;
-}
-
-@media (max-width: 768px) {
-    .header {
-        font-size: 6rem;
-    }
-
-    .text {
-        font-size: 1.25rem;
-    }
-
-    .button {
-        font-size: 1rem;
-        padding: 8px 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        font-size: 4rem;
-    }
-
-    .text {
-        font-size: 1rem;
-    }
-
-    .button {
-        font-size: 0.875rem;
-        padding: 6px 12px;
-    }
 }

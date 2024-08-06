@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
+import Header from "../Headers/Header.jsx";
+import "./CreateNewJob.css";
 
 const CreateNewJob = () => {
   const [loading, setLoading] = useState(true);
@@ -108,6 +110,7 @@ const CreateNewJob = () => {
 
   return (
     <div className="wrapper">
+      <Header />
       <h1>Create new job</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
@@ -185,7 +188,7 @@ const CreateNewJob = () => {
             ))}
           </select>
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">Add new job</button>
       </form>
     </div>
   );

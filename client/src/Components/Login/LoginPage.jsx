@@ -3,6 +3,7 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import RegisterPage from "../Register/RegisterPage.jsx";
 import { setTokenWithExpiry } from "../../Functions/tokenUtils.js";
+import BasicHeader from "../Headers/BasicHeader.jsx";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -53,6 +54,7 @@ const LoginPage = () => {
 
   return (
     <div className="wrapper">
+      <BasicHeader />
       <form onSubmit={handleLoginButton}>
         <h1>Login</h1>
         <div className="input-box">
@@ -79,13 +81,13 @@ const LoginPage = () => {
         <button id="loginButton" type="submit" onClick={handleLoginButton}>
           Login
         </button>
-
-        <div className="register-link">
-          <p>
-            Don't have an account? <Link to="/register">Register</Link>
-          </p>
-        </div>
       </form>
+
+      <div>
+        <button className="register-link">
+          <Link to="/register">Create new account</Link>
+        </button>
+      </div>
 
       <Routes>
         <Route path="register" element={<RegisterPage />} />

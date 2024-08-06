@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { setTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import { useNavigate } from "react-router-dom";
 import "./RegisterForm.css";
+import BasicHeader from "../Headers/BasicHeader.jsx";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +58,8 @@ const RegisterUser = () => {
 
   return (
     <div className="wrapper">
-      <h1>Register form</h1>
+      <BasicHeader />
+      <h1>Register User</h1>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
           <input

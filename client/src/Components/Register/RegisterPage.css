@@ -1,44 +1,46 @@
-.App {
-    text-align: center;
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  button {
-    margin: 10px;
-    padding: 15px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-  }
-  
-  button:active {
-    background-color: #004080;
-    transform: translateY(0);
-  }
-  
-  p {
-    margin-top: 20px;
-    font-size: 18px;
-  }
-  
+form {
+  width: 300px;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.register-link {
+  background-color: #1fc52d; 
+  color: #fff; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+  font-size: 1em; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+  text-align: center; 
+  display: inline-block; 
+}
+
+.register-link a {
+  color: inherit; 
+  text-decoration: none; 
+  display: block; 
+}
+
+.register-link:hover {
+  background-color: #17a026; 
+  transform: translateY(-2px);
+}
