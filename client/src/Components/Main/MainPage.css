@@ -72,7 +72,7 @@ body {
   text-decoration: none; 
 }
 
-.new-job-button {
+.company-button {
   background-color: #03940b; 
   color: white; 
   border: none; 
@@ -91,14 +91,14 @@ body {
   text-decoration: none; 
 }
 
-.new-job-button:hover {
+.company-button:hover {
   transform: translateY(-2px); 
   background-color: #969c96; 
   color: white; 
   text-decoration: none; 
 }
 
-.new-job-button:focus {
+.company-button:focus {
   outline: none; 
   text-decoration: none; 
 }

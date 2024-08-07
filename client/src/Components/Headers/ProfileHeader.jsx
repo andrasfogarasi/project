@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../Main/MainPage";
 import { jwtDecode } from "jwt-decode";
+import "./Header.css";
 
-const UserProfileHeader = () => {
+const ProfileHeader = () => {
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const UserProfileHeader = () => {
       <div>
         <nav className="nav">
           <ul>
-            <li class="active-link">
+            <li class="app-name-link">
               <Link to="/">StudWork</Link>
             </li>
             {userName && (
@@ -46,4 +46,4 @@ const UserProfileHeader = () => {
   );
 };
 
-export default UserProfileHeader;
+export default ProfileHeader;

@@ -217,12 +217,10 @@ const JobDetail = () => {
           <button onClick={handleDeleteButton} className="delete-button">
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
-          <Link
-            to={`/company/${cId}/job/${jobId}/applicants`}
-            className="auth-button"
-          >
-            {" "}
-            View applicants
+          <Link to={`/company/${cId}/job/${jobId}/applicants`}>
+            <button type="submit" class="company-button">
+              View applicants
+            </button>
           </Link>
         </>
       ) : userName ? (
@@ -255,12 +253,10 @@ const JobDetail = () => {
           <button onClick={handleDeleteButton} className="delete-button">
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
-          <Link
-            to={`/company/${cId}/job/${jobId}/applicants`}
-            className="auth-button"
-          >
-            {" "}
-            View applicants
+          <Link to={`/company/${cId}/job/${jobId}/applicants`}>
+            <button type="submit" class="company-button">
+              View applicants
+            </button>
           </Link>
         </>
       ) : null}
