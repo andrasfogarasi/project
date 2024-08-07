@@ -21,6 +21,7 @@ const JobDetail = () => {
   const [departmentName, setDepartmentName] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [cId, setCompanyId] = useState(null);
+  const [applicationId, setApplicationId] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
 
   const navigate = useNavigate();
@@ -119,6 +120,44 @@ const JobDetail = () => {
 
         const data = await response.json();
         setDepartmentName(data[0].department_name);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    const token = localStorage.getItem("token");
+
+    setHasAccess(true);
+
+    if (job) {
+      if (token) {
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken) {
+          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+            if (job.company_id !== cId) {
+              setHasAccess(false);
+            }
+          }
+        }
+      }
+      fetchCompanyName(job.company_id);
+      fetchDepartment(job.department_id);
+    }
+  }, [job, cId]);
+
+  useEffect(() => {
+    const fetchCompanyName = async (companyId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/company/${companyId}/name`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setCompanyNameForView(data.company_name);
       } catch (error) {
         setError(error);
       }

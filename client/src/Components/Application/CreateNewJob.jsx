@@ -93,7 +93,6 @@ const CreateNewJob = () => {
       });
 
       if (response.ok) {
-        console.log("hello");
         navigate("/");
       } else {
         console.error("Create new job failed:", response.statusText);

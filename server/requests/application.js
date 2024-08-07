@@ -34,4 +34,23 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/:jobId/:studentId', async (req, res) => {
+    try {
+
+        const { jobId, studentId } = req.params;
+
+        const result = await db.selectJobById(jobId);
+
+        if (!result) {
+            const errorMessage = 'Job not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: failedInserting, error: error.message });
+    }
+});
+
 export default router;
