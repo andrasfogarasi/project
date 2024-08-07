@@ -164,11 +164,10 @@ const UserProfile = () => {
   return (
     <div>
       <ProfileHeader />
-      <div className="profile-data">
-        <h1>{userName}</h1>
-      </div>
+
       {userData && (
         <div className="profile-data">
+          <h1>{userName}</h1>
           <p>
             <strong>First Name:</strong> {userData.first_name}
           </p>

@@ -12,6 +12,7 @@ import UserProfile from './Components/Profile/UserProfile';
 import CreateNewJob from './Components/Application/CreateNewJob';
 import ViewUserProfile from './Components/Profile/ViewUserProfile';
 import Applicants from './Components/Application/Applicants';
+import CompanyProfile from './Components/Profile/CompanyProfile';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
           <Route path='/profile' element={<UserProfile />} />
+          <Route path='/company' element={<CompanyProfile />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/:companyId/createJob' element={<CreateNewJob />} />
           <Route path='/company/:companyId/job/:jobId/applicants' element={<Applicants />} />

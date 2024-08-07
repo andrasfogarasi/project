@@ -62,7 +62,7 @@ const Header = () => {
               </li>
             ) : companyName ? (
               <li className="active-link">
-                <Link to="/company-profile">
+                <Link to="/company">
                   <FontAwesomeIcon icon={faBuilding} />
                   <span className="profile-name">{companyName}</span>
                 </Link>

@@ -27,16 +27,13 @@ const ProfileHeader = () => {
     <header className="header">
       <div>
         <nav className="nav">
-          <ul>
+          <ul className="nav-list">
             <li class="app-name-link">
               <Link to="/">StudWork</Link>
             </li>
             {userName && (
-              <li>
-                <Link to="/login" class="active-link">
-                  {" "}
-                  Logout
-                </Link>
+              <li class="active-link">
+                <Link to="/login"> Logout</Link>
               </li>
             )}
           </ul>
