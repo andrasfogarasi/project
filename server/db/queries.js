@@ -241,7 +241,7 @@ export const deleteJob = async (id) => {
 };
 
 export const updateApplicationAccept = async (applicationId, accept, response) => {
-    const query = 'UPDATE application set accept = ?, response = ? where  where id = ?';
+    const query = 'UPDATE application set accept = ?, response = ? WHERE id = ?';
     const result = await databaseConnection.executeQuery(query, [accept, response, applicationId]);
     return result;
 };

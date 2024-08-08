@@ -18,10 +18,12 @@ router.get('/job/:jobId', async (req, res) => {
                 userId = userId.user_id;
 
                 const user = await db.selectUserIdAndUsernameById(userId);
-                Object.assign(result, user);
-            }
 
-            console.log(result);
+                if (applicant.accept === null) {
+                    Object.assign(result, user);
+                }
+
+            }
 
             return res.status(200).json(result);
         } else {

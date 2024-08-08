@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import { useParams } from "react-router-dom";
@@ -13,8 +13,6 @@ const Applicants = () => {
   const [companyId, setCompanyId] = useState(null);
   const { jobId } = useParams();
   const [formData, setFormData] = useState({});
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompanyId = async () => {
@@ -64,6 +62,7 @@ const Applicants = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setApplicants(data);
       } catch (error) {
         setError(error);
@@ -76,7 +75,6 @@ const Applicants = () => {
 
     if (token) {
       const decodedToken = jwtDecode(token);
-
       const now = Math.floor(Date.now() / 1000);
 
       if (decodedToken.exp && decodedToken.exp < now) {
@@ -125,14 +123,13 @@ const Applicants = () => {
             "Content-Type": "application/json",
           },
 
-          body: JSON.stringify(formData[id]), // Send only the data for this applicant
+          body: JSON.stringify(formData[id]),
           credentials: "include",
         }
       );
 
       if (response.ok) {
-        alert("Submitted successfully");
-        navigate("/");
+        window.location.reload();
       } else {
         console.error("Submission failed:", response.statusText);
         alert("Error");
@@ -149,53 +146,59 @@ const Applicants = () => {
   return (
     <div className="wrapper">
       <Header />
-      {applicants.map((applicant) => (
-        <div key={applicant.id} className="job-post">
-          <Link
-            to={{
-              pathname: `/job/${applicant.id}`,
-              state: { job: applicant },
-            }}
-          >
-            <h2>{applicant.username}</h2>
-          </Link>
-          <div className="action-buttons">
-            <label>
-              <input
-                type="radio"
-                name={`status-${applicant.id}`}
-                value="accepted"
-                onChange={() => handleStatusChange(applicant.id, "accepted")}
-                checked={formData[applicant.id]?.status === "accepted"}
-              />
-              ✔ Accept
-            </label>
-            <label>
-              <input
-                type="radio"
-                name={`status-${applicant.id}`}
-                value="rejected"
-                onChange={() => handleStatusChange(applicant.id, "rejected")}
-                checked={formData[applicant.id]?.status === "rejected"}
-              />
-              ✘ Reject
-            </label>
+      {applicants && applicants.length > 0 ? (
+        applicants.map((applicant) => (
+          <div key={applicant.id} className="job-post">
+            <Link
+              to={{
+                pathname: `/job/${applicant.id}`,
+                state: { job: applicant },
+              }}
+            >
+              <h2>{applicant.username}</h2>
+            </Link>
+            <div className="action-buttons">
+              <label>
+                <input
+                  type="radio"
+                  name={`status-${applicant.id}`}
+                  value="accepted"
+                  onChange={() => handleStatusChange(applicant.id, "accepted")}
+                  checked={formData[applicant.id]?.status === "accepted"}
+                />
+                ✔ Accept
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name={`status-${applicant.id}`}
+                  value="rejected"
+                  onChange={() => handleStatusChange(applicant.id, "rejected")}
+                  checked={formData[applicant.id]?.status === "rejected"}
+                />
+                ✘ Reject
+              </label>
+            </div>
+            <textarea
+              placeholder="Leave a message..."
+              onChange={(e) =>
+                handleMessageChange(applicant.id, e.target.value)
+              }
+              className="message-box"
+              value={formData[applicant.id]?.message || ""}
+            />
+            <button
+              type="button"
+              onClick={() => handleSubmit(applicant.id)}
+              className="submit-button"
+            >
+              Submit
+            </button>
           </div>
-          <textarea
-            placeholder="Leave a message..."
-            onChange={(e) => handleMessageChange(applicant.id, e.target.value)}
-            className="message-box"
-            value={formData[applicant.id]?.message || ""}
-          />
-          <button
-            type="button"
-            onClick={() => handleSubmit(applicant.id)}
-            className="submit-button"
-          >
-            Submit
-          </button>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>No new applicants</p>
+      )}
     </div>
   );
 };

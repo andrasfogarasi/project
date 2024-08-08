@@ -38,8 +38,7 @@ router.get('/:jobId/:studentId', async (req, res) => {
     try {
 
         const { jobId, studentId } = req.params;
-
-        const result = await db.selectJobById(jobId);
+        const result = await db.selectApplicationByJobAndStudentId(jobId, studentId);
 
         if (!result) {
             const errorMessage = 'Job not found!';
@@ -58,17 +57,13 @@ router.post('/response/:userId/job/:jobId', async (req, res) => {
 
         console.log(req.body);
         let { userId, jobId } = req.params;
-
         let { status, message } = req.body;
 
         const student = await db.selectStudentIdByUserId(userId);
-        console.log(student);
 
         const studentId = student[0].id;
 
         const application = await db.selectApplicationIdByStudentIdAndJobId(studentId, jobId);
-        console.log(application);
-
         let applicationId = application[0].id;
 
         if (status == 'rejected') {
