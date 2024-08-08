@@ -83,7 +83,7 @@ router.get('/id/:companyId', async (req, res) => {
     try {
         const result = await db.selectStudentIdByUserId(companyId);
 
-        if (result) {
+        if (result.length > 0) {
             return res.status(200).json(result);
         } else {
             return res.status(404).json({ message: 'Student not found' });

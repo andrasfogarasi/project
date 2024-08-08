@@ -53,4 +53,45 @@ router.get('/:jobId/:studentId', async (req, res) => {
     }
 });
 
+router.post('/response/:userId/job/:jobId', async (req, res) => {
+    try {
+
+        console.log(req.body);
+        let { userId, jobId } = req.params;
+
+        let { status, message } = req.body;
+
+        const student = await db.selectStudentIdByUserId(userId);
+        console.log(student);
+
+        const studentId = student[0].id;
+
+        const application = await db.selectApplicationIdByStudentIdAndJobId(studentId, jobId);
+        console.log(application);
+
+        let applicationId = application[0].id;
+
+        if (status == 'rejected') {
+            await db.updateApplicationAccept(applicationId, false, message);
+        } else {
+            const job = await db.selectJobById(jobId);
+            const applicationLimit = job[0].application_limit;
+
+            const countStudents = await db.countOfAllAcceptedStudent(jobId);
+            const nrOfStudents = countStudents.count;
+
+            if (nrOfStudents < applicationLimit) {
+                await db.updateApplicationAccept(applicationId, true, message);
+            } else {
+                await db.updateApplicationAccept(applicationId, false, message);
+            }
+        }
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: failedInserting, error: error.message });
+    }
+});
+
 export default router;

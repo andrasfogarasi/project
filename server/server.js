@@ -14,6 +14,7 @@ import university from './requests/university.js';
 import language from './requests/language.js';
 import student from './requests/student.js';
 import company from './requests/company.js';
+import applicant from './requests/applicant.js';
 
 const app = express();
 const port = 5000;
@@ -47,6 +48,7 @@ app.use('/university', university);
 app.use('/language', language);
 app.use('/student', student);
 app.use('/company', company);
+app.use('/applicant', applicant);
 
 createTables().then(() => {
     app.listen(5000, () => {

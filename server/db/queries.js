@@ -54,6 +54,12 @@ export const countOfAllUniversities = async () => {
     return result;
 };
 
+export const countOfAllAcceptedStudent = async (jobId) => {
+    const query = 'SELECT COUNT(*) as count FROM application where job_id = ? and accept = true';
+    const result = await databaseConnection.executeQuery(query, [jobId]);
+    return result;
+};
+
 export const selectUserIdByEmail = async (email) => {
     const query = 'SELECT id FROM user WHERE email LIKE ?';
     const [result] = await databaseConnection.executeQuery(query, [email]);
@@ -110,6 +116,12 @@ export const selectCompanyNameById = async (id) => {
 
 export const selectUserById = async (id) => {
     const query = 'SELECT * FROM user where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectUserIdAndUsernameById = async (id) => {
+    const query = 'SELECT id, username FROM user where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
@@ -198,6 +210,12 @@ export const selectJobById = async (id) => {
     return result;
 };
 
+export const selectCompanyIdById = async (id) => {
+    const query = 'SELECT company_id FROM job where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 export const selectApplicantsByJobId = async (jobId) => {
     const query = 'SELECT * FROM application where job_id = ?';
     const result = await databaseConnection.executeQuery(query, [jobId]);
@@ -210,8 +228,20 @@ export const selectApplicationByJobAndStudentId = async (jobId, studentId) => {
     return result;
 };
 
+export const selectApplicationIdByStudentIdAndJobId = async (studentId, jobId) => {
+    const query = 'SELECT id FROM application where student_id = ? and job_id = ? ';
+    const result = await databaseConnection.executeQuery(query, [studentId, jobId]);
+    return result;
+};
+
 export const deleteJob = async (id) => {
     const query = 'DELETE FROM job where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const updateApplicationAccept = async (applicationId, accept, response) => {
+    const query = 'UPDATE application set accept = ?, response = ? where  where id = ?';
+    const result = await databaseConnection.executeQuery(query, [accept, response, applicationId]);
     return result;
 };

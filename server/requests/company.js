@@ -39,30 +39,4 @@ router.get('/:id/name', async (req, res) => {
     }
 });
 
-router.get('/:id/job/:jobId/applicants', async (req, res) => {
-    const { id, jobId } = req.params;
-
-    try {
-        const applicants = await db.selectApplicantsByJobId(jobId);
-
-        if (applicants) {
-            let result = [];
-
-            for (let applicant of applicants) {
-                const userId = await db.selectUserIdByStudentId(applicant.student_id);
-
-                const user = await db.selectUserById(userId);
-                result.append(user);
-            }
-
-            return res.status(200).json(result);
-        } else {
-            return res.status(404).json({ message: 'No applicants' });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: internalServerError, error: error.message });
-    }
-});
-
 export default router;

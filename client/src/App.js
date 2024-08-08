@@ -28,8 +28,8 @@ const App = () => {
           <Route path='/profile' element={<UserProfile />} />
           <Route path='/company' element={<CompanyProfile />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
-          <Route path='/company/:companyId/createJob' element={<CreateNewJob />} />
-          <Route path='/company/:companyId/job/:jobId/applicants' element={<Applicants />} />
+          <Route path='/company/createJob' element={<CreateNewJob />} />
+          <Route path='/company/job/applicant/:jobId' element={<Applicants />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

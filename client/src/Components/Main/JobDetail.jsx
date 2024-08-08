@@ -21,7 +21,8 @@ const JobDetail = () => {
   const [departmentName, setDepartmentName] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [cId, setCompanyId] = useState(null);
-  const [applicationId, setApplicationId] = useState(null);
+  const [isApplicated, setIsApplicated] = useState(false);
+  const [applicationText, setApplicationText] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
 
   const navigate = useNavigate();
@@ -147,42 +148,30 @@ const JobDetail = () => {
   }, [job, cId]);
 
   useEffect(() => {
-    const fetchCompanyName = async (companyId) => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/company/${companyId}/name`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+    if (studentId) {
+      const fetchApplication = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/application/${jobId}/${studentId}`
+          );
 
-        const data = await response.json();
-        setCompanyNameForView(data.company_name);
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    const token = localStorage.getItem("token");
-
-    setHasAccess(true);
-
-    if (job) {
-      if (token) {
-        const decodedToken = jwtDecode(token);
-
-        if (decodedToken) {
-          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-            if (job.company_id !== cId) {
-              setHasAccess(false);
-            }
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
           }
+
+          setIsApplicated(true);
+          const data = await response.json();
+
+          console.log(data);
+          setApplicationText(data[0].message);
+        } catch (error) {
+          setError(error);
         }
-      }
-      fetchCompanyName(job.company_id);
-      fetchDepartment(job.department_id);
+      };
+
+      fetchApplication();
     }
-  }, [job, cId]);
+  }, [jobId, studentId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -208,7 +197,7 @@ const JobDetail = () => {
         throw new Error("Network response was not ok");
       }
 
-      console.log("Form submitted successfully!");
+      window.location.reload();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -264,23 +253,27 @@ const JobDetail = () => {
         </>
       ) : userName ? (
         studentId ? (
-          <form onSubmit={handleFormSubmit}>
-            <input type="hidden" name="studentId" value={studentId} />
-            <input type="hidden" name="jobId" value={job.id} />
-            <br />
-            <label>
-              <textarea
-                name="message"
-                rows="10"
-                cols="50"
-                placeholder="Write something:"
-              />
-            </label>
-            <br />
-            <button type="submit" class="auth-button">
-              Send your application!
-            </button>
-          </form>
+          isApplicated ? (
+            <p>Message: {applicationText}</p>
+          ) : (
+            <form onSubmit={handleFormSubmit}>
+              <input type="hidden" name="studentId" value={studentId} />
+              <input type="hidden" name="jobId" value={job.id} />
+              <br />
+              <label>
+                <textarea
+                  name="message"
+                  rows="10"
+                  cols="50"
+                  placeholder="Write something:"
+                />
+              </label>
+              <br />
+              <button type="submit" class="auth-button">
+                Send your application!
+              </button>
+            </form>
+          )
         ) : (
           <Link to="/profile" class="auth-button">
             {" "}
@@ -292,7 +285,7 @@ const JobDetail = () => {
           <button onClick={handleDeleteButton} className="delete-button">
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
-          <Link to={`/company/${cId}/job/${jobId}/applicants`}>
+          <Link to={`/company/job/applicant/${jobId}`}>
             <button type="submit" class="company-button">
               View applicants
             </button>
