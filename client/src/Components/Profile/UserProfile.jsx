@@ -169,14 +169,18 @@ const UserProfile = () => {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch("/http://localhost:5000/student/file", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `http://localhost:5000/student/uploadFile/${userId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         alert("File uploaded successfully");
       } else {
+        console.error("Uploading failed:", response.status);
         alert("Failed to upload file");
       }
     } catch (error) {

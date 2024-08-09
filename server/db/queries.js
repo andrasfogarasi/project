@@ -132,6 +132,12 @@ export const selectLanguageByLanguageId = async (languageId) => {
     return result;
 };
 
+export const selectLanguageIdByLanguageName = async (languageName) => {
+    const query = 'SELECT language_id FROM language where language_name LIKE ?';
+    const result = await databaseConnection.executeQuery(query, [languageName]);
+    return result;
+};
+
 export const selectStudentById = async (userId) => {
     const query = 'SELECT * FROM student where user_id = ?';
     const result = await databaseConnection.executeQuery(query, [userId]);
@@ -189,6 +195,12 @@ export const selectLanguageNameByLanguageId = async (languageId) => {
 export const selectUniversityeNameById = async (id) => {
     const query = 'SELECT university_name FROM university where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectUniversityIdByName = async (universityName) => {
+    const query = 'SELECT id FROM university WHERE university_name LIKE ?';
+    const result = await databaseConnection.executeQuery(query, [universityName]);
     return result;
 };
 
