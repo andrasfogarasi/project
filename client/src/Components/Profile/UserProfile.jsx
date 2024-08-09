@@ -17,6 +17,7 @@ const UserProfile = () => {
   const [userId, setUserId] = useState(null);
   const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const [formData, setFormData] = useState({
     universityId: "",
@@ -31,6 +32,10 @@ const UserProfile = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -57,7 +62,6 @@ const UserProfile = () => {
           setStudentData(null);
         } else {
           const data = await response.json();
-          console.log(data);
 
           setStudentData(data.student);
           setLanguageName(data.language.language_name);
@@ -157,6 +161,30 @@ const UserProfile = () => {
     }
   };
 
+  const handleFileSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = await fetch("/http://localhost:5000/student/file", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("File uploaded successfully");
+      } else {
+        alert("Failed to upload file");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("An error occurred while uploading the file");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!hasAccess) return <NotFoundPage />;
@@ -182,9 +210,6 @@ const UserProfile = () => {
 
       {studentData ? (
         <div>
-          <p>
-            <strong>Birthday date:</strong> {studentData.birthday_data}
-          </p>
           <p>
             <strong>Presentation:</strong> {studentData.presentation}
           </p>
@@ -258,6 +283,24 @@ const UserProfile = () => {
               </select>
             </div>
             <button type="submit">Submit</button>
+          </form>
+
+          <h2>OR</h2>
+
+          <h2>Upload Your Document</h2>
+          <form onSubmit={handleFileSubmit}>
+            <div>
+              <label htmlFor="documentUpload">Upload PDF:</label>
+              <input
+                type="file"
+                id="documentUpload"
+                name="documentUpload"
+                accept=".pdf"
+                onChange={handleFileChange}
+                required
+              />
+            </div>
+            <button type="submit">Upload</button>
           </form>
         </div>
       )}

@@ -23,6 +23,7 @@ const JobDetail = () => {
   const [cId, setCompanyId] = useState(null);
   const [isApplicated, setIsApplicated] = useState(false);
   const [applicationText, setApplicationText] = useState(null);
+  const [hasResponse, setHasResponse] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
 
   const navigate = useNavigate();
@@ -161,9 +162,17 @@ const JobDetail = () => {
 
           setIsApplicated(true);
           const data = await response.json();
-
           console.log(data);
+
           setApplicationText(data[0].message);
+
+          if (data[0].accept != null) {
+            if (data[0].accept === 0) {
+              setHasResponse("Not accepted");
+            } else {
+              setHasResponse("Accepted");
+            }
+          }
         } catch (error) {
           setError(error);
         }
@@ -254,7 +263,16 @@ const JobDetail = () => {
       ) : userName ? (
         studentId ? (
           isApplicated ? (
-            <p>Message: {applicationText}</p>
+            hasResponse ? (
+              <>
+                <p>Response: {hasResponse}</p>
+                <p>Message: {applicationText}</p>
+              </>
+            ) : (
+              <>
+                <p>Message: {applicationText}</p>
+              </>
+            )
           ) : (
             <form onSubmit={handleFormSubmit}>
               <input type="hidden" name="studentId" value={studentId} />

@@ -1,5 +1,9 @@
 import express from 'express';
+import multer from 'multer';
+import pdfParse from 'pdf-parse';
+import fs from 'fs';
 import * as db from '../db/queries.js';
+
 
 const router = express.Router();
 router.use(express.json());
@@ -7,6 +11,51 @@ const internalServerError = 'Internal Server Error';
 const failedInserting = 'Inserting failed!'
 
 router.post('/', async (req, res) => {
+    try {
+
+        console.log(req.body);
+        let { universityId, birthdayDate, languageId, presentation, userId } = req.body;
+
+        const today = new Date();
+        const birthDate = new Date(birthdayDate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age = age - 1;
+        }
+
+        if (age < 18) {
+            const errorMessage = 'User is too young!';
+            return res.status(409).json({ message: failedInserting, error: errorMessage });
+        }
+
+        const user = await db.selectUserById(userId);
+
+        if (user === undefined) {
+            const errorMessage = 'User not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        languageId = parseInt(languageId, 10);
+        const language = await db.selectLanguageByLanguageId(languageId);
+
+        if (language === undefined) {
+            const errorMessage = 'Language not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        universityId = parseInt(universityId, 10);
+        const result = await db.insertStudent(userId, universityId, birthdayDate, languageId, presentation);
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: failedInserting, error: error.message });
+    }
+});
+
+router.post('/file', async (req, res) => {
     try {
 
         console.log(req.body);

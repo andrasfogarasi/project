@@ -41,8 +41,8 @@ router.get('/:jobId/:studentId', async (req, res) => {
         const result = await db.selectApplicationByJobAndStudentId(jobId, studentId);
 
         if (!result) {
-            const errorMessage = 'Job not found!';
-            return res.status(404).json({ message: failedInserting, error: errorMessage });
+            const errorMessage = 'Application not found!';
+            return res.status(404).json({ error: errorMessage });
         }
 
         res.status(200).json(result);

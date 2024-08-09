@@ -22,7 +22,6 @@ router.get('/job/:jobId', async (req, res) => {
                 if (applicant.accept === null) {
                     Object.assign(result, user);
                 }
-
             }
 
             return res.status(200).json(result);
