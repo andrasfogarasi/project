@@ -20,6 +20,7 @@ export const createTables = async () => {
         tel_number VARCHAR(12),
         location VARCHAR(60),
         flag VARCHAR(2) NOT NULL,
+        banned BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         rating INT DEFAULT 0    
     );

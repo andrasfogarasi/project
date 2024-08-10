@@ -19,6 +19,10 @@ const ProfileHeader = () => {
         if (decodedToken.flag === "3") {
           setUserName(decodedToken.name);
         }
+
+        if (decodedToken.flag === "1") {
+          setUserName("Admin");
+        }
       }
     }
   }, []);

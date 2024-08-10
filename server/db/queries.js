@@ -30,6 +30,12 @@ export const insertApplication = async (studentId, jobId, message) => {
     return result;
 };
 
+export const insertProblem = async (userId, description) => {
+    const query = 'INSERT INTO problem (user_id, description) VALUES (?, ?)';
+    const result = await databaseConnection.executeQuery(query, [userId, description]);
+    return result;
+};
+
 export const countOfAllDepartments = async () => {
     const query = 'SELECT COUNT(*) as count FROM department';
     const result = await databaseConnection.executeQuery(query);
@@ -57,6 +63,18 @@ export const countOfAllUniversities = async () => {
 export const countOfAllAcceptedStudent = async (jobId) => {
     const query = 'SELECT COUNT(*) as count FROM application where job_id = ? and accept = true';
     const result = await databaseConnection.executeQuery(query, [jobId]);
+    return result;
+};
+
+export const selectAllUsersExceptAdmin = async () => {
+    const query = 'SELECT * FROM user WHERE flag > 1';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
+export const selectCompanies = async () => {
+    const query = 'SELECT * FROM company WHERE';
+    const result = await databaseConnection.executeQuery(query);
     return result;
 };
 
@@ -252,8 +270,38 @@ export const deleteJob = async (id) => {
     return result;
 };
 
+export const deleteUser = async (id) => {
+    const query = 'DELETE FROM user where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteStudent = async (id) => {
+    const query = 'DELETE FROM student where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteApplicationByStudentId = async (id) => {
+    const query = 'DELETE FROM application where student_id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 export const updateApplicationAccept = async (applicationId, accept, response) => {
     const query = 'UPDATE application set accept = ?, response = ? WHERE id = ?';
     const result = await databaseConnection.executeQuery(query, [accept, response, applicationId]);
+    return result;
+};
+
+export const updateBanToTrue = async (userId) => {
+    const query = 'UPDATE user set banned = TRUE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
+export const updateBanToFalse = async (userId) => {
+    const query = 'UPDATE user set banned = FALSE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
     return result;
 };

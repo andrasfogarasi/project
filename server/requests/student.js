@@ -109,7 +109,6 @@ const extractDataFromPDF = (pdfBuffer) => {
 
 
 router.post('/uploadFile/:userId', upload.single('file'), async (req, res) => {
-
     try {
 
         if (!req.file) {

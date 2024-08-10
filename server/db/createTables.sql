@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS company (
 	tel_number VARCHAR(12),
     location VARCHAR(60),
 	flag VARCHAR(2) NOT NULL,
+    banned BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rating INT DEFAULT 0        -- lenne egy ful, ahol lehet ertekelni a ceget
 );

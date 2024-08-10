@@ -26,6 +26,8 @@ const Header = () => {
         } else if (decodedToken.flag === "4") {
           setUserName(decodedToken.name);
           setCompanyName(decodedToken.companyName);
+        } else if (decodedToken.flag === "1") {
+          setUserName("Admin");
         }
       }
     }

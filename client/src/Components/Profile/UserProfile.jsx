@@ -1,5 +1,6 @@
 import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
@@ -15,6 +16,7 @@ const UserProfile = () => {
   const [universities, setUniversities] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -111,14 +113,24 @@ const UserProfile = () => {
       try {
         const decodedToken = jwtDecode(token);
 
-        if (decodedToken && decodedToken.flag && decodedToken.flag === "3") {
-          setHasAccess(true);
-          setUserName(decodedToken.name);
-          fetchUserData(decodedToken.id.id);
-          fetchStudentData(decodedToken.id.id);
-          fetchUniversities();
-          fetchLanguages();
-          setUserId(decodedToken.id.id);
+        if (decodedToken && decodedToken.flag) {
+          if (decodedToken.flag === "3") {
+            setHasAccess(true);
+            setUserName(decodedToken.name);
+            fetchUserData(decodedToken.id.id);
+            fetchStudentData(decodedToken.id.id);
+            fetchUniversities();
+            fetchLanguages();
+            setUserId(decodedToken.id.id);
+          }
+
+          if (decodedToken.flag === "1") {
+            setHasAccess(true);
+            setIsAdmin(true);
+            setUserName("Admin");
+            setUserId(decodedToken.id.id);
+            setLoading(false);
+          }
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -197,116 +209,143 @@ const UserProfile = () => {
     <div>
       <ProfileHeader />
 
-      {userData && (
-        <div className="profile-data">
-          <h1>{userName}</h1>
-          <p>
-            <strong>First Name:</strong> {userData.first_name}
-          </p>
-          <p>
-            <strong>Last Name:</strong> {userData.last_name}
-          </p>
-          <p>
-            <strong>Email:</strong> {userData.email}
-          </p>
-        </div>
-      )}
+      {isAdmin ? (
+        <>
+          <p>Admin</p>
 
-      {studentData ? (
-        <div>
-          <p>
-            <strong>Presentation:</strong> {studentData.presentation}
-          </p>
-          {universityName ? (
-            <p>
-              <strong>University:</strong> {universityName}
-            </p>
-          ) : null}
-          {languageName ? (
-            <p>
-              <strong>Mother tongue:</strong> {languageName}
-            </p>
-          ) : null}
-        </div>
+          <Link to="/admin/user">
+            <button className="register-link">View users</button>
+          </Link>
+
+          <Link to="/report">
+            <button className="register-link">View companies</button>
+          </Link>
+
+          <Link to="/report">
+            <button className="register-link">View reports</button>
+          </Link>
+        </>
       ) : (
-        <div>
-          <h2>Update Your Information</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="birthdayDate">Birth Date:</label>
-              <input
-                type="date"
-                id="birthdayDate"
-                name="birthdayDate"
-                value={formData.birthdayDate}
-                onChange={handleChange}
-                required
-              />
+        <>
+          {userData && (
+            <div className="profile-data">
+              <h1>{userName}</h1>
+              <p>
+                <strong>First Name:</strong> {userData.first_name}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {userData.last_name}
+              </p>
+              <p>
+                <strong>Email:</strong> {userData.email}
+              </p>
             </div>
-            <div className="input-box">
-              <select
-                name="languageId"
-                value={formData.languageId}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select mother tongue</option>
-                {languages.map((language) => (
-                  <option
-                    key={language.language_id}
-                    value={language.language_id}
+          )}
+
+          {studentData ? (
+            <div>
+              <p>
+                <strong>Presentation:</strong> {studentData.presentation}
+              </p>
+              {universityName ? (
+                <p>
+                  <strong>University:</strong> {universityName}
+                </p>
+              ) : null}
+              {languageName ? (
+                <p>
+                  <strong>Mother tongue:</strong> {languageName}
+                </p>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <h2>Update Your Information</h2>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="birthdayDate">Birth Date:</label>
+                  <input
+                    type="date"
+                    id="birthdayDate"
+                    name="birthdayDate"
+                    value={formData.birthdayDate}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-box">
+                  <select
+                    name="languageId"
+                    value={formData.languageId}
+                    onChange={handleChange}
+                    required
                   >
-                    {language.language_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="presentation">Presentation:</label>
-              <input
-                type="text"
-                id="presentation"
-                name="presentation"
-                value={formData.presentation}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="input-box">
-              <select
-                name="universityId"
-                value={formData.universityId}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select University</option>
-                {universities.map((university) => (
-                  <option key={university.id} value={university.id}>
-                    {university.university_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <button type="submit">Submit</button>
-          </form>
+                    <option value="">Select mother tongue</option>
+                    {languages.map((language) => (
+                      <option
+                        key={language.language_id}
+                        value={language.language_id}
+                      >
+                        {language.language_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="presentation">Presentation:</label>
+                  <input
+                    type="text"
+                    id="presentation"
+                    name="presentation"
+                    value={formData.presentation}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="input-box">
+                  <select
+                    name="universityId"
+                    value={formData.universityId}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select University</option>
+                    {universities.map((university) => (
+                      <option key={university.id} value={university.id}>
+                        {university.university_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button type="submit">Submit</button>
+              </form>
 
-          <h2>OR</h2>
+              <h2>OR</h2>
 
-          <h2>Upload Your Document</h2>
-          <form onSubmit={handleFileSubmit}>
-            <div>
-              <label htmlFor="documentUpload">Upload PDF:</label>
-              <input
-                type="file"
-                id="documentUpload"
-                name="documentUpload"
-                accept=".pdf"
-                onChange={handleFileChange}
-                required
-              />
+              <h2>Upload Your Document</h2>
+              <form onSubmit={handleFileSubmit}>
+                <div>
+                  <label htmlFor="documentUpload">Upload PDF:</label>
+                  <input
+                    type="file"
+                    id="documentUpload"
+                    name="documentUpload"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    required
+                  />
+                </div>
+                <button type="submit">Upload</button>
+              </form>
             </div>
-            <button type="submit">Upload</button>
-          </form>
-        </div>
+          )}
+          <Link to="/report">
+            <button className="register-link">Send Report</button>
+          </Link>
+
+          <Link to="/report">
+            <button className="register-link">Delete User</button>
+          </Link>
+        </>
       )}
     </div>
   );
