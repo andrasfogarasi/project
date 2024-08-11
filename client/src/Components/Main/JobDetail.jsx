@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
+import BannedPage from "../Error/BannedPage.jsx";
 
 const JobDetail = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const JobDetail = () => {
   const [applicationText, setApplicationText] = useState(null);
   const [hasResponse, setHasResponse] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
+  const [banned, setBanned] = useState(false);
 
   const navigate = useNavigate();
 
@@ -77,18 +79,22 @@ const JobDetail = () => {
       if (decodedToken.exp && decodedToken.exp < now) {
         localStorage.removeItem("token");
       } else if (decodedToken) {
-        if (decodedToken.flag === "3") {
-          setUserName(decodedToken.name);
-          fetchStudentId(decodedToken.id.id);
-        } else if (decodedToken.flag === "2") {
-          setCompanyName(decodedToken.companyName);
-          setCompanyId(decodedToken.companyId.id);
-        } else if (decodedToken.flag === "4") {
-          setUserName(decodedToken.name);
-          setCompanyName(decodedToken.companyName);
-          setCompanyId(decodedToken.companyId.id);
+        if (decodedToken.banned) {
+          setBanned(true);
+        } else {
+          if (decodedToken.flag === "3") {
+            setUserName(decodedToken.name);
+            fetchStudentId(decodedToken.id.id);
+          } else if (decodedToken.flag === "2") {
+            setCompanyName(decodedToken.companyName);
+            setCompanyId(decodedToken.companyId.id);
+          } else if (decodedToken.flag === "4") {
+            setUserName(decodedToken.name);
+            setCompanyName(decodedToken.companyName);
+            setCompanyId(decodedToken.companyId.id);
+          }
+          setLoading(false);
         }
-        setLoading(false);
       }
     }
   }, [job, jobId]);
@@ -182,6 +188,7 @@ const JobDetail = () => {
     }
   }, [jobId, studentId]);
 
+  if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!job) return <div>Job not found</div>;

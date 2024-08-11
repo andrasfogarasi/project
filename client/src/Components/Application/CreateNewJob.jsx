@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import Header from "../Headers/Header.jsx";
 import "./CreateNewJob.css";
+import BannedPage from "../Error/BannedPage.jsx";
 
 const CreateNewJob = () => {
   const [loading, setLoading] = useState(true);
@@ -11,6 +12,7 @@ const CreateNewJob = () => {
   const [departments, setDepartments] = useState([]);
   const [hasAccess, setHasAccess] = useState(false);
   const [companyId, setcompanyId] = useState(null);
+  const [banned, setBanned] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -37,8 +39,12 @@ const CreateNewJob = () => {
         localStorage.removeItem("token");
       } else if (decodedToken) {
         if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-          setHasAccess(true);
-          setcompanyId(decodedToken.companyId);
+          if (decodedToken.banned) {
+            setBanned(true);
+          } else {
+            setHasAccess(true);
+            setcompanyId(decodedToken.companyId);
+          }
         }
       }
     }
@@ -103,6 +109,7 @@ const CreateNewJob = () => {
     }
   };
 
+  if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!hasAccess) return <NotFoundPage />;

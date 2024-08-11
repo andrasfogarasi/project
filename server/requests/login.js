@@ -45,7 +45,9 @@ router.post('/', async (req, res) => {
 
             const flag = await db.selectUserFlagById(userId.id);
             const username = await db.selectUsernameById(userId.id);
-            const token = jwt.sign({ id: userId, flag: flag.flag, name: username.username }, JWT_SECRET, { expiresIn: '1h' });
+            const banned = await db.selectBannedById(userId.id);
+
+            const token = jwt.sign({ id: userId, flag: flag.flag, banned: banned.banned, name: username.username }, JWT_SECRET, { expiresIn: '1h' });
 
             res.cookie('authToken', token, cookieOptions);
             return res.status(200).json({ token });
@@ -61,9 +63,10 @@ router.post('/', async (req, res) => {
             }
 
             const flag = await db.selectCompanyFlagById(companyId.id);
-            console.log(flag);
             const companyName = await db.selectCompanyNameById(companyId.id);
-            const token = jwt.sign({ companyId: companyId, flag: flag.flag, companyName: companyName.company_name }, JWT_SECRET, { expiresIn: '1h' });
+            const banned = await db.selectCompanyBannedById(companyId.id);
+
+            const token = jwt.sign({ companyId: companyId, flag: flag.flag, banned: banned.banned, companyName: companyName.company_name }, JWT_SECRET, { expiresIn: '1h' });
 
             res.cookie('authToken', token, cookieOptions);
             return res.status(200).json({ token });

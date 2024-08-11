@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import ProfileHeader from "../Headers/ProfileHeader.jsx";
+import BannedPage from "../Error/BannedPage.jsx";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -13,6 +14,7 @@ const UserProfile = () => {
   const [userName, setUserName] = useState(null);
   const [studentData, setStudentData] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
+  const [banned, setBanned] = useState(false);
   const [universities, setUniversities] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [userId, setUserId] = useState(null);
@@ -114,22 +116,26 @@ const UserProfile = () => {
         const decodedToken = jwtDecode(token);
 
         if (decodedToken && decodedToken.flag) {
-          if (decodedToken.flag === "3") {
-            setHasAccess(true);
-            setUserName(decodedToken.name);
-            fetchUserData(decodedToken.id.id);
-            fetchStudentData(decodedToken.id.id);
-            fetchUniversities();
-            fetchLanguages();
-            setUserId(decodedToken.id.id);
-          }
+          if (decodedToken.banned) {
+            setBanned(true);
+          } else {
+            if (decodedToken.flag === "3") {
+              setHasAccess(true);
+              setUserName(decodedToken.name);
+              fetchUserData(decodedToken.id.id);
+              fetchStudentData(decodedToken.id.id);
+              fetchUniversities();
+              fetchLanguages();
+              setUserId(decodedToken.id.id);
+            }
 
-          if (decodedToken.flag === "1") {
-            setHasAccess(true);
-            setIsAdmin(true);
-            setUserName("Admin");
-            setUserId(decodedToken.id.id);
-            setLoading(false);
+            if (decodedToken.flag === "1") {
+              setHasAccess(true);
+              setIsAdmin(true);
+              setUserName("Admin");
+              setUserId(decodedToken.id.id);
+              setLoading(false);
+            }
           }
         }
       } catch (error) {
@@ -201,6 +207,7 @@ const UserProfile = () => {
     }
   };
 
+  if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!hasAccess) return <NotFoundPage />;
@@ -217,11 +224,11 @@ const UserProfile = () => {
             <button className="register-link">View users</button>
           </Link>
 
-          <Link to="/report">
+          <Link to="/admin/company">
             <button className="register-link">View companies</button>
           </Link>
 
-          <Link to="/report">
+          <Link to="/admin/problem">
             <button className="register-link">View reports</button>
           </Link>
         </>

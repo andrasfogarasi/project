@@ -43,7 +43,17 @@ router.delete('/:companyId', async (req, res) => {
             return res.status(404).json({ message: failedInserting, error: errorMessage });
         }
 
+        const jobs = await db.selectJobsByCompanyId(companyId);
+        if (jobs) {
+            for (let job of jobs) {
+                await db.deleteApplicationByJobId(job.id);
+            }
+        }
 
+        await db.deleteJobByCompanyId(companyId);
+        await db.deleteCompany(companyId);
+
+        res.status(200).json({ success: true });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: internalServerError, error: error.message });
@@ -61,6 +71,46 @@ router.get('/:id/name', async (req, res) => {
         } else {
             return res.status(404).json({ message: 'Company not found' });
         }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.post('/ban/:companyId', async (req, res) => {
+    try {
+
+        const { companyId } = req.params;
+        const company = await db.selectCompanyById(companyId);
+
+        if (company === undefined) {
+            const errorMessage = 'Company not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        await db.updateCompanyBanToTrue(companyId);
+        res.status(200).json({ success: true });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.post('/unblock/:companyId', async (req, res) => {
+    try {
+
+        const { companyId } = req.params;
+        const company = await db.selectCompanyById(companyId);
+
+        if (company === undefined) {
+            const errorMessage = 'Company not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        await db.updateCompanyBanToFalse(companyId);
+        res.status(200).json({ success: true });
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: internalServerError, error: error.message });

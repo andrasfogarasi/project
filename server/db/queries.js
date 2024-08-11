@@ -73,7 +73,7 @@ export const selectAllUsersExceptAdmin = async () => {
 };
 
 export const selectCompanies = async () => {
-    const query = 'SELECT * FROM company WHERE';
+    const query = 'SELECT * FROM company';
     const result = await databaseConnection.executeQuery(query);
     return result;
 };
@@ -126,8 +126,20 @@ export const selectUsernameById = async (id) => {
     return result;
 };
 
+export const selectBannedById = async (id) => {
+    const query = 'SELECT banned FROM user WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 export const selectCompanyNameById = async (id) => {
     const query = 'SELECT company_name FROM company WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectCompanyBannedById = async (id) => {
+    const query = 'SELECT banned FROM company WHERE id = ?';
     const [result] = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
@@ -174,6 +186,12 @@ export const selectCompanyById = async (id) => {
     return result;
 };
 
+export const selectProblemById = async (id) => {
+    const query = 'SELECT * FROM problem where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 export const selectDepartmentById = async (id) => {
     const query = 'SELECT * FROM department where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
@@ -200,6 +218,12 @@ export const selectUniversities = async () => {
 
 export const selectLanguages = async () => {
     const query = 'SELECT language_id, language_name FROM language';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
+export const selectProblems = async () => {
+    const query = 'SELECT * FROM problem';
     const result = await databaseConnection.executeQuery(query);
     return result;
 };
@@ -270,8 +294,32 @@ export const deleteJob = async (id) => {
     return result;
 };
 
+export const deleteJobByCompanyId = async (id) => {
+    const query = 'DELETE FROM job where company_id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteApplicationByJobId = async (id) => {
+    const query = 'DELETE FROM application where job_id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
 export const deleteUser = async (id) => {
     const query = 'DELETE FROM user where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteCompany = async (id) => {
+    const query = 'DELETE FROM company where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteProblem = async (id) => {
+    const query = 'DELETE FROM problem where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
@@ -300,8 +348,20 @@ export const updateBanToTrue = async (userId) => {
     return result;
 };
 
+export const updateCompanyBanToTrue = async (userId) => {
+    const query = 'UPDATE company set banned = TRUE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
 export const updateBanToFalse = async (userId) => {
     const query = 'UPDATE user set banned = FALSE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
+export const updateCompanyBanToFalse = async (userId) => {
+    const query = 'UPDATE company set banned = FALSE WHERE id = ?';
     const result = await databaseConnection.executeQuery(query, [userId]);
     return result;
 };

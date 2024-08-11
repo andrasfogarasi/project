@@ -115,7 +115,7 @@ const Companies = () => {
             <Link
               to={{ pathname: `/job/${company.id}`, state: { job: company } }}
             >
-              <h2>{company.username}</h2>
+              <h2>{company.company_name}</h2>
             </Link>
             <button onClick={() => handleDelete(company.id)}>Delete</button>
             {company.banned ? (
