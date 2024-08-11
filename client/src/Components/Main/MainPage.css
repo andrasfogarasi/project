@@ -164,3 +164,51 @@ body {
   margin-left: 5px; 
   display: inline-block;
 }
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.filter-section select {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.filter-section select:focus {
+  border-color: #007bff;
+}
+
+.filter-section button {
+  height: 40px; 
+  width: 200px; 
+  border: none;
+  border-radius: 3px; 
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-section button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section button:active {
+  background-color: #003d80;
+}

@@ -178,7 +178,6 @@ const MainPage = () => {
               <h2>{job.name}</h2>
             </Link>
             <h3>{job.company_name}</h3>
-            <h3>{job.department_id}</h3>
           </div>
         ))}
       </div>

@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import { useParams } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
+import BannedPage from "../Error/BannedPage.jsx";
 
 const Applicants = () => {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,7 @@ const Applicants = () => {
   const [companyId, setCompanyId] = useState(null);
   const { jobId } = useParams();
   const [formData, setFormData] = useState({});
+  const [banned, setBanned] = useState(false);
 
   useEffect(() => {
     const fetchCompanyId = async () => {
@@ -81,10 +83,12 @@ const Applicants = () => {
         localStorage.removeItem("token");
       } else if (decodedToken) {
         if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-          console.log(companyId);
-
-          if (companyId === decodedToken.companyId.id) {
-            setHasAccess(true);
+          if (decodedToken.banned) {
+            setBanned(true);
+          } else {
+            if (companyId === decodedToken.companyId.id) {
+              setHasAccess(true);
+            }
           }
         }
       }
@@ -139,6 +143,7 @@ const Applicants = () => {
     }
   };
 
+  if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!hasAccess) return <NotFoundPage />;

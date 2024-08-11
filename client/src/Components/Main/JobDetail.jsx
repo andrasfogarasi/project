@@ -166,17 +166,19 @@ const JobDetail = () => {
             throw new Error("Network response was not ok");
           }
 
-          setIsApplicated(true);
           const data = await response.json();
-          console.log(data);
 
-          setApplicationText(data[0].message);
+          if (data.length > 0) {
+            console.log(data);
+            setIsApplicated(true);
 
-          if (data[0].accept != null) {
-            if (data[0].accept === 0) {
-              setHasResponse("Not accepted");
-            } else {
-              setHasResponse("Accepted");
+            setApplicationText(data[0].message);
+            if (data[0].accept != null) {
+              if (data[0].accept === 0) {
+                setHasResponse("Not accepted");
+              } else {
+                setHasResponse("Accepted");
+              }
             }
           }
         } catch (error) {
@@ -289,7 +291,7 @@ const JobDetail = () => {
                 <textarea
                   name="message"
                   rows="10"
-                  cols="50"
+                  cols="40"
                   placeholder="Write something:"
                 />
               </label>

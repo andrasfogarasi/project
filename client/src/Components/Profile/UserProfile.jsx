@@ -218,16 +218,14 @@ const UserProfile = () => {
 
       {isAdmin ? (
         <>
-          <p>Admin</p>
+          <p>Admin Page</p>
 
           <Link to="/admin/user">
             <button className="register-link">View users</button>
           </Link>
-
           <Link to="/admin/company">
             <button className="register-link">View companies</button>
           </Link>
-
           <Link to="/admin/problem">
             <button className="register-link">View reports</button>
           </Link>
@@ -235,116 +233,105 @@ const UserProfile = () => {
       ) : (
         <>
           {userData && (
-            <div className="profile-data">
+            <div className="job-post">
               <h1>{userName}</h1>
-              <p>
-                <strong>First Name:</strong> {userData.first_name}
-              </p>
-              <p>
-                <strong>Last Name:</strong> {userData.last_name}
-              </p>
-              <p>
-                <strong>Email:</strong> {userData.email}
-              </p>
-            </div>
-          )}
+              <h2>First name: {userData.first_name}</h2>
+              <h2>Last name: {userData.last_name}</h2>
+              <h3>Last name: {userData.email}</h3>
 
-          {studentData ? (
-            <div>
-              <p>
-                <strong>Presentation:</strong> {studentData.presentation}
-              </p>
-              {universityName ? (
-                <p>
-                  <strong>University:</strong> {universityName}
-                </p>
-              ) : null}
-              {languageName ? (
-                <p>
-                  <strong>Mother tongue:</strong> {languageName}
-                </p>
-              ) : null}
-            </div>
-          ) : (
-            <div>
-              <h2>Update Your Information</h2>
-              <form onSubmit={handleSubmit}>
+              {studentData ? (
                 <div>
-                  <label htmlFor="birthdayDate">Birth Date:</label>
-                  <input
-                    type="date"
-                    id="birthdayDate"
-                    name="birthdayDate"
-                    value={formData.birthdayDate}
-                    onChange={handleChange}
-                    required
-                  />
+                  <h3>Presentation: {userData.presentation}</h3>
+
+                  {universityName ? (
+                    <h3>University: {universityName}</h3>
+                  ) : null}
+
+                  {languageName ? <h3>Mother tongue: {languageName}</h3> : null}
                 </div>
-                <div className="input-box">
-                  <select
-                    name="languageId"
-                    value={formData.languageId}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select mother tongue</option>
-                    {languages.map((language) => (
-                      <option
-                        key={language.language_id}
-                        value={language.language_id}
+              ) : (
+                <div>
+                  <h2>Update Your Information</h2>
+                  <form onSubmit={handleSubmit}>
+                    <div>
+                      <label htmlFor="birthdayDate">Birth Date:</label>
+                      <input
+                        type="date"
+                        id="birthdayDate"
+                        name="birthdayDate"
+                        value={formData.birthdayDate}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="input-box">
+                      <select
+                        name="languageId"
+                        value={formData.languageId}
+                        onChange={handleChange}
+                        required
                       >
-                        {language.language_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="presentation">Presentation:</label>
-                  <input
-                    type="text"
-                    id="presentation"
-                    name="presentation"
-                    value={formData.presentation}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="input-box">
-                  <select
-                    name="universityId"
-                    value={formData.universityId}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select University</option>
-                    {universities.map((university) => (
-                      <option key={university.id} value={university.id}>
-                        {university.university_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button type="submit">Submit</button>
-              </form>
+                        <option value="">Select mother tongue</option>
+                        {languages.map((language) => (
+                          <option
+                            key={language.language_id}
+                            value={language.language_id}
+                          >
+                            {language.language_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="presentation">Presentation:</label>
+                      <input
+                        type="text"
+                        id="presentation"
+                        name="presentation"
+                        value={formData.presentation}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="input-box">
+                      <select
+                        name="universityId"
+                        value={formData.universityId}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select University</option>
+                        {universities.map((university) => (
+                          <option key={university.id} value={university.id}>
+                            {university.university_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <button type="submit">Submit</button>
+                  </form>
 
-              <h2>OR</h2>
+                  <h2>OR</h2>
 
-              <h2>Upload Your Document</h2>
-              <form onSubmit={handleFileSubmit}>
-                <div>
-                  <label htmlFor="documentUpload">Upload PDF:</label>
-                  <input
-                    type="file"
-                    id="documentUpload"
-                    name="documentUpload"
-                    accept=".pdf"
-                    onChange={handleFileChange}
-                    required
-                  />
+                  <h2>Upload Your Document</h2>
+                  <form onSubmit={handleFileSubmit}>
+                    <div>
+                      <label htmlFor="documentUpload">Upload PDF:</label>
+                      <input
+                        type="file"
+                        id="documentUpload"
+                        name="documentUpload"
+                        accept=".pdf"
+                        onChange={handleFileChange}
+                        required
+                      />
+                    </div>
+                    <button type="submit">Upload</button>
+                  </form>
                 </div>
-                <button type="submit">Upload</button>
-              </form>
+              )}
             </div>
           )}
+
           <Link to="/report">
             <button className="register-link">Send Report</button>
           </Link>
