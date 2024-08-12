@@ -241,8 +241,6 @@ const UserProfile = () => {
 
               {studentData ? (
                 <div>
-                  <h3>Presentation: {userData.presentation}</h3>
-
                   {universityName ? (
                     <h3>University: {universityName}</h3>
                   ) : null}

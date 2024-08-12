@@ -13,6 +13,8 @@ const MainPage = () => {
   const [error, setError] = useState(null);
   const [cId, setCompanyId] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 10;
 
   const fetchJobPosts = async () => {
     try {
@@ -105,7 +107,6 @@ const MainPage = () => {
     };
 
     await fetchAllJobs();
-
     const token = localStorage.getItem("token");
 
     if (selectedDepartment === "0") {
@@ -137,7 +138,17 @@ const MainPage = () => {
     } else {
       setJobPosts(allJobs);
     }
+
+    setCurrentPage(1);
   };
+
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = jobPosts.slice(indexOfFirstJob, indexOfLastJob);
+
+  const totalPages = Math.ceil(jobPosts.length / jobsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -159,7 +170,16 @@ const MainPage = () => {
       <div className="filter-section">
         <select
           value={selectedDepartment}
-          onChange={(e) => setSelectedDepartment(e.target.value)}
+          onChange={(e) => {
+            const selectedValue = e.target.value;
+            setSelectedDepartment(selectedValue);
+
+            if (selectedValue === "0") {
+              fetchJobPosts();
+            } else {
+              handleFilterJobs();
+            }
+          }}
         >
           <option value="0">All Departments</option>
           {departments.map((dept) => (
@@ -168,17 +188,31 @@ const MainPage = () => {
             </option>
           ))}
         </select>
-        <button onClick={handleFilterJobs}>Show</button>
       </div>
 
       <div className="job-list">
-        {jobPosts.map((job) => (
+        {currentJobs.map((job) => (
           <div key={job.id} className="job-post">
             <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
               <h2>{job.name}</h2>
             </Link>
             <h3>{job.company_name}</h3>
+            <h3>{job.department_id}</h3>
           </div>
+        ))}
+      </div>
+
+      <div className="pagination">
+        {[...Array(totalPages).keys()].map((number) => (
+          <button
+            key={number + 1}
+            onClick={() => paginate(number + 1)}
+            className={`page-button ${
+              currentPage === number + 1 ? "active" : ""
+            }`}
+          >
+            {number + 1}
+          </button>
         ))}
       </div>
     </div>

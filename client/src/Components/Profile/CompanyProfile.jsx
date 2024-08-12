@@ -12,7 +12,6 @@ const CompanyProfile = () => {
   const [error, setError] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
-  const [companyId, setCompanyId] = useState(null);
 
   useEffect(() => {
     const fetchCompanyData = async (companyId) => {
@@ -47,8 +46,7 @@ const CompanyProfile = () => {
             setBanned(true);
           } else {
             setHasAccess(true);
-            setCompanyId(decodedToken.companyId);
-            fetchCompanyData(decodedToken.companyId);
+            fetchCompanyData(decodedToken.companyId.id);
             setLoading(false);
           }
         }
@@ -64,8 +62,7 @@ const CompanyProfile = () => {
   return (
     <div>
       <ProfileHeader />
-
-      {companyId ? (
+      {companyData ? (
         <>
           <div className="job-post">
             <h1>{companyData.company_name}</h1>

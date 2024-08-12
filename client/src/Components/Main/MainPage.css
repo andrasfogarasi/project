@@ -1,8 +1,9 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../Pictures/coverPicture.png') no-repeat center center fixed;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../Pictures/coverPicture.png") no-repeat center center fixed;
   background-color: #f4f9f5;
   color: #333;
   padding-top: 80px;
@@ -17,7 +18,7 @@ body {
 .job-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px; 
+  gap: 16px;
 }
 
 .job-post {
@@ -29,9 +30,9 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   max-width: 90%;
-  padding: 16px; 
-  margin-left: 16px; 
-  border: 1px solid #ddd;  
+  padding: 16px;
+  margin-left: 16px;
+  border: 1px solid #ddd;
 }
 
 .job-post:hover {
@@ -44,7 +45,7 @@ body {
   color: #090e09;
   font-size: 2em;
   font-weight: bold;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .job-post h2 {
@@ -52,7 +53,7 @@ body {
   color: #1fc52d;
   font-size: 1.6em;
   font-weight: bold;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .job-post h3 {
@@ -60,47 +61,47 @@ body {
   color: #1fc52d;
   font-size: 1.2em;
   font-weight: bold;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .job-post a {
-  text-decoration: none; 
-  color: inherit; 
+  text-decoration: none;
+  color: inherit;
 }
 
 .job-post a:hover {
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .company-button {
-  background-color: #03940b; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
-  padding: 10px 20px; 
-  font-size: 20px; 
-  cursor: pointer; 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
+  background-color: #03940b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-  max-width: 200px; 
-  margin: 25px 0 5px 5px; 
-  text-align: left; 
-  text-decoration: none; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 200px;
+  margin: 25px 0 5px 5px;
+  text-align: left;
+  text-decoration: none;
 }
 
 .company-button:hover {
-  transform: translateY(-2px); 
-  background-color: #969c96; 
-  color: white; 
-  text-decoration: none; 
+  transform: translateY(-2px);
+  background-color: #969c96;
+  color: white;
+  text-decoration: none;
 }
 
 .company-button:focus {
-  outline: none; 
-  text-decoration: none; 
+  outline: none;
+  text-decoration: none;
 }
 
 .user-info {
@@ -131,21 +132,21 @@ body {
 
 .delete-button {
   background-color: #f31014;
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
-  padding: 10px 20px; 
-  font-size: 20px; 
-  cursor: pointer; 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-  max-width: 200px; 
-  margin: 25px 0 5px 10px; 
-  text-align: left; 
-  text-decoration: none; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 200px;
+  margin: 25px 0 5px 10px;
+  text-align: left;
+  text-decoration: none;
 }
 
 .delete-button:hover {
@@ -161,7 +162,7 @@ body {
 }
 
 .profile-name {
-  margin-left: 5px; 
+  margin-left: 5px;
   display: inline-block;
 }
 
@@ -189,13 +190,13 @@ body {
 }
 
 .filter-section button {
-  height: 40px; 
-  width: 200px; 
+  height: 40px;
+  width: 200px;
   border: none;
-  border-radius: 3px; 
+  border-radius: 3px;
   background-color: #007bff;
   color: #fff;
-  font-size: 14px; 
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -211,4 +212,53 @@ body {
 
 .filter-section button:active {
   background-color: #003d80;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.page-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px; 
+  margin: 0 3px; 
+  padding: 6px; 
+  width: 30px; 
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-button:hover {
+  background-color: #ddd;
+}
+
+.page-button.active {
+  background-color: #9fa4a8;
+  color: white;
+  border-color: #424344;
+}
+
+.page-button:disabled {
+  background-color: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .page-button {
+    width: 25px; 
+    height: 25px;
+    font-size: 12px;
+    padding: 4px;
+    margin: 0 2px;
+  }
 }
