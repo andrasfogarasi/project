@@ -9,4 +9,3 @@
 - 1: admin
 - 2: company
 - 3: student
-- 4: user from a company
