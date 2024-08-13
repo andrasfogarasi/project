@@ -17,6 +17,7 @@ import SendProblem from './Components/Admin/SendProblem';
 import Users from './Components/Admin/Users';
 import Companies from './Components/Admin/Companies';
 import Problems from './Components/Admin/Problems';
+import Departments from './Components/Admin/Departments';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path='admin/user' element={<Users />} />
           <Route path='admin/company' element={<Companies />} />
           <Route path='admin/problem' element={<Problems />} />
+          <Route path='admin/department' element={<Departments />} />
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/createJob' element={<CreateNewJob />} />

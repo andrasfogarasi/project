@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import ProfileHeader from "../Headers/ProfileHeader.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
@@ -22,6 +25,8 @@ const UserProfile = () => {
   const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     universityId: "",
@@ -207,6 +212,30 @@ const UserProfile = () => {
     }
   };
 
+  const handleDeleteButton = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:5000/user/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        localStorage.clear();
+        navigate("/");
+      } else {
+        console.error("Login failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -229,6 +258,9 @@ const UserProfile = () => {
           <Link to="/admin/problem">
             <button className="register-link">View reports</button>
           </Link>
+          <Link to="/admin/department">
+            <button className="register-link">Add new department</button>
+          </Link>
         </>
       ) : (
         <>
@@ -240,13 +272,21 @@ const UserProfile = () => {
               <h3>Last name: {userData.email}</h3>
 
               {studentData ? (
-                <div>
-                  {universityName ? (
-                    <h3>University: {universityName}</h3>
-                  ) : null}
+                <>
+                  <div>
+                    {universityName ? (
+                      <h3>University: {universityName}</h3>
+                    ) : null}
 
-                  {languageName ? <h3>Mother tongue: {languageName}</h3> : null}
-                </div>
+                    {languageName ? (
+                      <h3>Mother tongue: {languageName}</h3>
+                    ) : null}
+                  </div>
+
+                  <Link to="/myApplications">
+                    <button className="register-link">My Applications</button>
+                  </Link>
+                </>
               ) : (
                 <div>
                   <h2>Update Your Information</h2>
@@ -334,9 +374,16 @@ const UserProfile = () => {
             <button className="register-link">Send Report</button>
           </Link>
 
-          <Link to="/report">
-            <button className="register-link">Delete User</button>
-          </Link>
+          <button
+            onClick={() => {
+              if (window.confirm("Are you sure you want to delete?")) {
+                handleDeleteButton();
+              }
+            }}
+            className="delete-button"
+          >
+            <FontAwesomeIcon icon={faTrash} /> Delete User
+          </button>
         </>
       )}
     </div>

@@ -309,7 +309,16 @@ const JobDetail = () => {
         )
       ) : companyName ? (
         <>
-          <button onClick={handleDeleteButton} className="delete-button">
+          <button
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete this item?")
+              ) {
+                handleDeleteButton();
+              }
+            }}
+            className="delete-button"
+          >
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
           <Link to={`/company/job/applicant/${jobId}`}>

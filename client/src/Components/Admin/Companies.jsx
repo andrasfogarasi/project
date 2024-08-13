@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 
@@ -117,7 +119,21 @@ const Companies = () => {
             >
               <h2>{company.company_name}</h2>
             </Link>
-            <button onClick={() => handleDelete(company.id)}>Delete</button>
+            <button
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete ${company.company_name}?`
+                  )
+                ) {
+                  handleDelete(company.id);
+                }
+              }}
+              className="delete-button"
+            >
+              <FontAwesomeIcon icon={faTrash} /> Delete
+            </button>
+
             {company.banned ? (
               <button onClick={() => handleUnblock(company.id)}>Unblock</button>
             ) : (

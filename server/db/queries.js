@@ -36,6 +36,12 @@ export const insertProblem = async (userId, description) => {
     return result;
 };
 
+export const insertDepartment = async (name) => {
+    const query = 'INSERT INTO department (user_id, description) VALUES (?, ?)';
+    const result = await databaseConnection.executeQuery(query, [name]);
+    return result;
+};
+
 export const countOfAllDepartments = async () => {
     const query = 'SELECT COUNT(*) as count FROM department';
     const result = await databaseConnection.executeQuery(query);
@@ -210,6 +216,12 @@ export const selectDepartmentIdAndNameById = async (departmentId) => {
     return result;
 };
 
+export const selectDepartmentIdByName = async (departmentName) => {
+    const query = 'SELECT id FROM department where department_name LIKE ?';
+    const result = await databaseConnection.executeQuery(query, [departmentName]);
+    return result;
+};
+
 export const selectUniversities = async () => {
     const query = 'SELECT id, university_name FROM university';
     const result = await databaseConnection.executeQuery(query);
@@ -320,6 +332,12 @@ export const deleteCompany = async (id) => {
 
 export const deleteProblem = async (id) => {
     const query = 'DELETE FROM problem where id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const deleteDepartment = async (id) => {
+    const query = 'DELETE FROM department where id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };

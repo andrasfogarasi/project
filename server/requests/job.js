@@ -48,6 +48,7 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
+        await db.deleteApplicationByJobId(id);
         const result = await db.deleteJob(id);
 
         if (result) {

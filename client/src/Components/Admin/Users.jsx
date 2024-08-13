@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 
@@ -110,7 +112,20 @@ const Users = () => {
             <Link to={{ pathname: `/job/${user.id}`, state: { job: user } }}>
               <h2>{user.username}</h2>
             </Link>
-            <button onClick={() => handleDelete(user.id)}>Delete</button>
+            <button
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete ${user.username}?`
+                  )
+                ) {
+                  handleDelete(user.id);
+                }
+              }}
+              className="delete-button"
+            >
+              <FontAwesomeIcon icon={faTrash} /> Delete
+            </button>
             {user.banned ? (
               <button onClick={() => handleUnblock(user.id)}>Unblock</button>
             ) : (

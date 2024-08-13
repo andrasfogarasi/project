@@ -25,6 +25,10 @@ const CreateNewJob = () => {
     companyId: 0,
   });
 
+  const [formDepartmentData, setFormDepartmentData] = useState({
+    name: "",
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,6 +88,13 @@ const CreateNewJob = () => {
     });
   };
 
+  const handleDepartmentChange = (e) => {
+    setFormDepartmentData({
+      ...formDepartmentData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -102,6 +113,34 @@ const CreateNewJob = () => {
         navigate("/");
       } else {
         console.error("Create new job failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  const handleDepartmentSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/createNewDepartment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(formDepartmentData),
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Create new department failed:", response.statusText);
         alert("Error");
       }
     } catch (error) {
@@ -195,6 +234,21 @@ const CreateNewJob = () => {
           </select>
         </div>
         <button type="submit">Add new job</button>
+      </form>
+
+      <form onSubmit={handleDepartmentSubmit}>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Department name:"
+            name="name"
+            value={formDepartmentData.name}
+            onChange={handleDepartmentChange}
+            required
+          />
+        </div>
+
+        <button type="submit">Add new department</button>
       </form>
     </div>
   );

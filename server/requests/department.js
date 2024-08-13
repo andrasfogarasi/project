@@ -35,4 +35,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.delete('/:departmentId', async (req, res) => {
+    try {
+        const { departmentId } = req.params;
+        const department = await db.selectDepartmentById(departmentId);
+
+        if (department === undefined) {
+            const errorMessage = 'Department not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        await db.deleteDepartment(departmentId);
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
 export default router;
