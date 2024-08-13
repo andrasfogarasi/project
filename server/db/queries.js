@@ -37,7 +37,7 @@ export const insertProblem = async (userId, description) => {
 };
 
 export const insertDepartment = async (name) => {
-    const query = 'INSERT INTO department (user_id, description) VALUES (?, ?)';
+    const query = 'INSERT INTO department (department_name) VALUES ( ?)';
     const result = await databaseConnection.executeQuery(query, [name]);
     return result;
 };

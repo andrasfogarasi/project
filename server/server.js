@@ -17,6 +17,7 @@ import company from './requests/company.js';
 import applicant from './requests/applicant.js';
 import problem from './requests/problem.js';
 import user from './requests/user.js';
+import createNewDepartment from './requests/createNewDepartment.js';
 
 const app = express();
 const port = 5000;
@@ -53,6 +54,7 @@ app.use('/company', company);
 app.use('/applicant', applicant);
 app.use('/problem', problem);
 app.use('/user', user);
+app.use('/createNewDepartment', createNewDepartment);
 
 createTables().then(() => {
     app.listen(5000, () => {

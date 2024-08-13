@@ -18,6 +18,7 @@ import Users from './Components/Admin/Users';
 import Companies from './Components/Admin/Companies';
 import Problems from './Components/Admin/Problems';
 import Departments from './Components/Admin/Departments';
+import MyApplications from './Components/Application/MyApplications';
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/createJob' element={<CreateNewJob />} />
+          <Route path='/myApplications' element={<MyApplications />} />
           <Route path='/company/job/applicant/:jobId' element={<Applicants />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
