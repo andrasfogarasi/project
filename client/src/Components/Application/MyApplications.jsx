@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
-import "./MainPage.css";
 import { jwtDecode } from "jwt-decode";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -350,26 +349,6 @@ const MyApplications = () => {
             Give your data
           </Link>
         )
-      ) : companyName ? (
-        <>
-          <button
-            onClick={() => {
-              if (
-                window.confirm("Are you sure you want to delete this item?")
-              ) {
-                handleDeleteButton();
-              }
-            }}
-            className="delete-button"
-          >
-            <FontAwesomeIcon icon={faTrash} /> Delete
-          </button>
-          <Link to={`/company/job/applicant/${jobId}`}>
-            <button type="submit" class="company-button">
-              View applicants
-            </button>
-          </Link>
-        </>
       ) : null}
     </div>
   );
