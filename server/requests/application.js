@@ -52,6 +52,33 @@ router.get('/:jobId/:studentId', async (req, res) => {
     }
 });
 
+router.get('/job/:studentId', async (req, res) => {
+    try {
+
+        const { studentId } = req.params;
+        const applications = await db.selectApplicationByStudentId(studentId);
+
+        if (applications) {
+            let result = [];
+
+            for (let application of applications) {
+                let job = await db.selectJobById(application.job_id);
+
+                Object.assign(result, job);
+            }
+
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'No jobs' });
+        }
+
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: failedInserting, error: error.message });
+    }
+});
+
 router.post('/response/:userId/job/:jobId', async (req, res) => {
     try {
 

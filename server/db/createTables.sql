@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS university (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    university_name VARCHAR(50),
+    university_name VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS language (
@@ -52,15 +52,15 @@ CREATE TABLE IF NOT EXISTS language (
 CREATE TABLE IF NOT EXISTS student (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE,
-    university_id VARCHAR(30),
+    university_id INT,
     birthday_date DATE,
     cv_filename VARCHAR(30),  
-    mother_tongue_id VARCHAR(30),
+    mother_tongue_id INT,
     presentation TEXT,  
     CNP VARCHAR(13),
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (university_id) REFERENCES university(id),
-    FOREIGN KEY (mother_tongue_id) REFERENCES language(language_id),
+    FOREIGN KEY (mother_tongue_id) REFERENCES language(language_id)
 );
 
 CREATE TABLE IF NOT EXISTS spoken_language (

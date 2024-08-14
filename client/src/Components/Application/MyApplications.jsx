@@ -16,41 +16,14 @@ const MyApplications = () => {
   const [loading, setLoading] = useState(!jobFromState);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [companyNameForView, setCompanyNameForView] = useState(null);
-  const [departmentName, setDepartmentName] = useState(null);
   const [studentId, setStudentId] = useState(null);
-  const [isApplicated, setIsApplicated] = useState(false);
-  const [applicationText, setApplicationText] = useState(null);
-  const [hasResponse, setHasResponse] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!job) {
-      const fetchJob = async () => {
-        try {
-          const response = await fetch(`http://localhost:5000/job/${jobId}`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setJob(data[0]);
-          } else {
-            setError(new Error("Job not found"));
-          }
-        } catch (error) {
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchJob();
-    }
-
     const fetchStudentId = async (userId) => {
       try {
         const response = await fetch(
@@ -68,169 +41,57 @@ const MyApplications = () => {
     };
 
     const token = localStorage.getItem("token");
-
     if (token) {
-      const decodedToken = jwtDecode(token);
+      try {
+        const decodedToken = jwtDecode(token);
 
-      const now = Math.floor(Date.now() / 1000);
-      if (decodedToken.exp && decodedToken.exp < now) {
-        localStorage.removeItem("token");
-      } else if (decodedToken) {
-        if (decodedToken.banned) {
-          setBanned(true);
+        if (decodedToken && decodedToken.flag) {
+          if (decodedToken.banned) {
+            setBanned(true);
+          } else {
+            if (decodedToken.flag === "3") {
+              setHasAccess(true);
+              setUserName(decodedToken.name);
+              fetchStudentId(decodedToken.id.id);
+              setUserId(decodedToken.id.id);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchJob = async (studentId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/application/job/${studentId}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        if (data.length > 0) {
+          setJob(data);
         } else {
-          if (decodedToken.flag === "3") {
-            setUserName(decodedToken.name);
-            fetchStudentId(decodedToken.id.id);
-          }
-          setLoading(false);
+          setError(new Error("Job not found"));
         }
-      }
-    }
-  }, [job, jobId]);
-
-  useEffect(() => {
-    const fetchCompanyName = async (companyId) => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/company/${companyId}/name`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        setCompanyNameForView(data.company_name);
       } catch (error) {
         setError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const fetchDepartment = async (departmentId) => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/department/${departmentId}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        setDepartmentName(data[0].department_name);
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-
-        if (decodedToken && decodedToken.flag) {
-          if (decodedToken.banned) {
-            setBanned(true);
-          } else {
-            if (decodedToken.flag === "3") {
-              setHasAccess(true);
-              setUserName(decodedToken.name);
-              fetchUserData(decodedToken.id.id);
-              fetchStudentData(decodedToken.id.id);
-              fetchUniversities();
-              fetchLanguages();
-              setUserId(decodedToken.id.id);
-            }
-
-            if (decodedToken.flag === "1") {
-              setHasAccess(true);
-              setIsAdmin(true);
-              setUserName("Admin");
-              setUserId(decodedToken.id.id);
-              setLoading(false);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
-    }
-
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-
-        if (decodedToken && decodedToken.flag) {
-          if (decodedToken.banned) {
-            setBanned(true);
-          } else {
-            if (decodedToken.flag === "3") {
-              setHasAccess(true);
-              setUserName(decodedToken.name);
-              fetchUserData(decodedToken.id.id);
-              fetchStudentData(decodedToken.id.id);
-              fetchUniversities();
-              fetchLanguages();
-              setUserId(decodedToken.id.id);
-            }
-
-            if (decodedToken.flag === "1") {
-              setHasAccess(true);
-              setIsAdmin(true);
-              setUserName("Admin");
-              setUserId(decodedToken.id.id);
-              setLoading(false);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
-    }
-  }, [job, cId]);
-
-  useEffect(() => {
     if (studentId) {
-      const fetchApplication = async () => {
-        try {
-          const response = await fetch(
-            `http://localhost:5000/application/${jobId}/${studentId}`
-          );
-
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-
-          const data = await response.json();
-
-          if (data.length > 0) {
-            console.log(data);
-            setIsApplicated(true);
-
-            setApplicationText(data[0].message);
-            if (data[0].accept != null) {
-              if (data[0].accept === 0) {
-                setHasResponse("Not accepted");
-              } else {
-                setHasResponse("Accepted");
-              }
-            }
-          }
-        } catch (error) {
-          setError(error);
-        }
-      };
-
-      fetchApplication();
+      fetchJob(studentId);
     }
-  }, [jobId, studentId]);
+  }, [studentId]);
 
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
