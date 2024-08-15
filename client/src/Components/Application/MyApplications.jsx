@@ -3,7 +3,6 @@ import { useLocation, useParams, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
@@ -20,8 +19,6 @@ const MyApplications = () => {
   const [userId, setUserId] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentId = async (userId) => {
