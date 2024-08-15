@@ -14,7 +14,7 @@ const MainPage = () => {
   const [cId, setCompanyId] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const jobsPerPage = 10;
+  const jobsPerPage = 20;
 
   const fetchJobPosts = async () => {
     try {
