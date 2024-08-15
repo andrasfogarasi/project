@@ -12,7 +12,7 @@ const MyApplications = () => {
   const location = useLocation();
   const { job: jobFromState } = location.state || {};
   const { jobId } = useParams();
-  const [job, setJob] = useState(jobFromState);
+  const [jobs, setJobs] = useState(jobFromState);
   const [loading, setLoading] = useState(!jobFromState);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -67,7 +67,7 @@ const MyApplications = () => {
   }, []);
 
   useEffect(() => {
-    const fetchJob = async (studentId) => {
+    const fetchJobs = async (studentId) => {
       try {
         const response = await fetch(
           `http://localhost:5000/application/job/${studentId}`
@@ -77,7 +77,7 @@ const MyApplications = () => {
         }
         const data = await response.json();
         if (data.length > 0) {
-          setJob(data);
+          setJobs(data);
         } else {
           setError(new Error("Job not found"));
         }
@@ -89,76 +89,83 @@ const MyApplications = () => {
     };
 
     if (studentId) {
-      fetchJob(studentId);
+      fetchJobs(studentId);
     }
   }, [studentId]);
+
+  useEffect(() => {
+    const fetchCompanyName = async (companyId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/company/${companyId}/name`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setCompanyNameForView(data.company_name);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    const fetchDepartment = async (departmentId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/department/${departmentId}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setDepartmentName(data[0].department_name);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    const token = localStorage.getItem("token");
+
+    setHasAccess(true);
+
+    if (job) {
+      if (token) {
+        const decodedToken = jwtDecode(token);
+
+        if (decodedToken) {
+          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+            if (job.company_id !== cId) {
+              setHasAccess(false);
+            }
+          }
+        }
+      }
+      fetchCompanyName(jobs.company_id);
+      fetchDepartment(jobs.department_id);
+    }
+  }, [job, cId]);
 
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!job) return <div>Job not found</div>;
+  if (!jobs) return <div>Job not found</div>;
   if (!hasAccess) return <NotFoundPage />;
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const formFields = Object.fromEntries(formData.entries());
-    console.log(formFields);
-
-    try {
-      const response = await fetch(`http://localhost:5000/application`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formFields),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      window.location.reload();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
-
-  const handleDeleteButton = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`http://localhost:5000/job/${jobId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        navigate("/");
-      } else {
-        console.error("Login failed:", response.statusText);
-        alert("Error");
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-    }
-  };
 
   return (
     <div>
       <Header />
       <div className="job-post">
-        <h1>{job.name}</h1>
+        <h1>{jobs.name}</h1>
         <h2>Company name: {companyNameForView}</h2>
         <h3>Department name: {departmentName}</h3>
 
-        <h3>Description: {job.description}</h3>
-        <h3>Requirements: {job.requirements}</h3>
-        <h3>Salary: {job.salary}</h3>
-        <h3>Working hours: {job.working_hours}</h3>
+        <h3>Description: {jobs.description}</h3>
+        <h3>Requirements: {jobs.requirements}</h3>
+        <h3>Salary: {jobs.salary}</h3>
+        <h3>Working hours: {jobs.working_hours}</h3>
       </div>
 
       {userName && companyName ? (
@@ -188,7 +195,7 @@ const MyApplications = () => {
           ) : (
             <form onSubmit={handleFormSubmit}>
               <input type="hidden" name="studentId" value={studentId} />
-              <input type="hidden" name="jobId" value={job.id} />
+              <input type="hidden" name="jobId" value={jobs.id} />
               <br />
               <label>
                 <textarea
