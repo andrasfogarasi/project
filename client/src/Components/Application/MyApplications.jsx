@@ -101,7 +101,6 @@ const MyApplications = () => {
         }
 
         const data = await response.json();
-        setCompanyNameForView(data.company_name);
       } catch (error) {
         setError(error);
       }

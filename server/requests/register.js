@@ -41,7 +41,6 @@ router.post('/', async (req, res) => {
         }
 
         const userId = await db.selectUserIdByEmail(email);
-        console.log(userId);
 
         if (userId != undefined) {
             const errorMessage = 'User already existed in this email!';
