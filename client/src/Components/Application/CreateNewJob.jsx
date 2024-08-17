@@ -195,7 +195,6 @@ const CreateNewJob = () => {
             name="salary"
             value={formData.salary}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="input-box">
