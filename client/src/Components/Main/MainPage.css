@@ -172,6 +172,7 @@ body {
   gap: 10px;
   padding: 10px;
   border-radius: 8px;
+  margin-top: 20px;
 }
 
 .filter-section select {

@@ -25,6 +25,7 @@ const JobDetail = () => {
   const [isApplicated, setIsApplicated] = useState(false);
   const [applicationText, setApplicationText] = useState(null);
   const [hasResponse, setHasResponse] = useState(null);
+  const [response, setResponse] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
 
@@ -174,6 +175,7 @@ const JobDetail = () => {
 
             setApplicationText(data[0].message);
             if (data[0].accept != null) {
+              setResponse(data[0].response);
               if (data[0].accept === 0) {
                 setHasResponse("Not accepted");
               } else {
@@ -254,8 +256,8 @@ const JobDetail = () => {
 
         <h3>Description: {job.description}</h3>
         <h3>Requirements: {job.requirements}</h3>
-        <h3>Salary: {job.salary}</h3>
-        <h3>Working hours: {job.working_hours}</h3>
+        <h3>Working hours/week: {job.working_hours}</h3>
+        <h3>Work type: Office</h3>
       </div>
 
       {userName && companyName ? (
@@ -273,14 +275,15 @@ const JobDetail = () => {
         studentId ? (
           isApplicated ? (
             hasResponse ? (
-              <>
-                <p>Response: {hasResponse}</p>
-                <p>Message: {applicationText}</p>
-              </>
+              <div className="job-post">
+                <h3>Message: {applicationText}</h3>
+                <h3>Response: {response}</h3>
+                <h3>{hasResponse}</h3>
+              </div>
             ) : (
-              <>
-                <p>Message: {applicationText}</p>
-              </>
+              <div className="job-post">
+                <h3>Message: {applicationText}</h3>
+              </div>
             )
           ) : (
             <form onSubmit={handleFormSubmit}>

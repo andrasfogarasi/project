@@ -1,4 +1,4 @@
-import "../Main/MainPage.css";
+import "./Profile.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -201,7 +201,7 @@ const UserProfile = () => {
       );
 
       if (response.ok) {
-        alert("File uploaded successfully");
+        window.location.reload();
       } else {
         console.error("Uploading failed:", response.status);
         alert("Failed to upload file");
@@ -288,83 +288,85 @@ const UserProfile = () => {
                   </Link>
                 </>
               ) : (
-                <div>
-                  <h2>Update Your Information</h2>
-                  <form onSubmit={handleSubmit}>
-                    <div>
-                      <label htmlFor="birthdayDate">Birth Date:</label>
-                      <input
-                        type="date"
-                        id="birthdayDate"
-                        name="birthdayDate"
-                        value={formData.birthdayDate}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="input-box">
-                      <select
-                        name="languageId"
-                        value={formData.languageId}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">Select mother tongue</option>
-                        {languages.map((language) => (
-                          <option
-                            key={language.language_id}
-                            value={language.language_id}
-                          >
-                            {language.language_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="presentation">Presentation:</label>
-                      <input
-                        type="text"
-                        id="presentation"
-                        name="presentation"
-                        value={formData.presentation}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="input-box">
-                      <select
-                        name="universityId"
-                        value={formData.universityId}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">Select University</option>
-                        {universities.map((university) => (
-                          <option key={university.id} value={university.id}>
-                            {university.university_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <button type="submit">Submit</button>
-                  </form>
+                <div class="form-container">
+                  <div class="form-section">
+                    <h2>Update Your Information</h2>
+                    <form onSubmit={handleSubmit}>
+                      <div>
+                        <label htmlFor="birthdayDate">Birth Date:</label>
+                        <input
+                          type="date"
+                          id="birthdayDate"
+                          name="birthdayDate"
+                          value={formData.birthdayDate}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="input-box">
+                        <select
+                          name="languageId"
+                          value={formData.languageId}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">Select mother tongue</option>
+                          {languages.map((language) => (
+                            <option
+                              key={language.language_id}
+                              value={language.language_id}
+                            >
+                              {language.language_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="presentation">Presentation:</label>
+                        <input
+                          type="text"
+                          id="presentation"
+                          name="presentation"
+                          value={formData.presentation}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="input-box">
+                        <select
+                          name="universityId"
+                          value={formData.universityId}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="">Select University</option>
+                          {universities.map((university) => (
+                            <option key={university.id} value={university.id}>
+                              {university.university_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <button type="submit">Submit</button>
+                    </form>
+                  </div>
 
-                  <h2>OR</h2>
-
-                  <h2>Upload Your Document</h2>
-                  <form onSubmit={handleFileSubmit}>
-                    <div>
-                      <label htmlFor="documentUpload">Upload PDF:</label>
-                      <input
-                        type="file"
-                        id="documentUpload"
-                        name="documentUpload"
-                        accept=".pdf"
-                        onChange={handleFileChange}
-                        required
-                      />
-                    </div>
-                    <button type="submit">Upload</button>
-                  </form>
+                  <div class="form-section">
+                    <h2>Upload Your CV</h2>
+                    <form onSubmit={handleFileSubmit}>
+                      <div>
+                        <label htmlFor="documentUpload">Upload PDF:</label>
+                        <input
+                          type="file"
+                          id="documentUpload"
+                          name="documentUpload"
+                          accept=".pdf"
+                          onChange={handleFileChange}
+                          required
+                        />
+                      </div>
+                      <button type="submit">Upload</button>
+                    </form>
+                  </div>
                 </div>
               )}
             </div>

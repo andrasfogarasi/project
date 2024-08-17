@@ -49,3 +49,90 @@
   .profile-data a:hover {
     text-decoration: none; 
   }
+
+ /* Flexbox konténer a két űrlap elhelyezésére */
+.job-post .form-container {
+  display: flex;
+  justify-content: space-between; /* Az űrlapok közötti hely elosztása */
+  gap: 20px; /* Térköz a két űrlap között */
+}
+
+/* Az űrlapok szélessége és minimum szélessége */
+.job-post .form-section {
+  flex: 1; /* Az űrlapok egyenlő szélességűek lesznek */
+  min-width: 300px; /* Minimum szélesség, hogy ne zsugorodjanak össze túlzottan */
+}
+
+/* Űrlapok elemeinek elrendezése és távolságok */
+.job-post .form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Térköz az űrlap elemei között */
+}
+
+/* Dátum és szöveg mezők stílusa */
+.job-post .form-section input[type="date"],
+.job-post .form-section input[type="text"],
+.job-post .form-section input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-post .form-section input[type="date"]:focus,
+.job-post .form-section input[type="text"]:focus,
+.job-post .form-section input[type="file"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Fájl kiválasztó input stílusa */
+.job-post .form-section input[type="file"] {
+  padding: 6px 10px; /* Speciális padding a fájl inputhoz */
+  cursor: pointer; /* Kéz kurzor a fájl inputon */
+}
+
+/* Select mező stílusa */
+.job-post .form-section select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-post .form-section select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.job-post .form-section button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-post .form-section button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.job-post .form-section button:active {
+  background-color: #003d80;
+}
+
+  
