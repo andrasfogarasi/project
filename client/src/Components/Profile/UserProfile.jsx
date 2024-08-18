@@ -283,7 +283,7 @@ const UserProfile = () => {
                     ) : null}
                   </div>
 
-                  <Link to="/myApplications">
+                  <Link to="/application">
                     <button className="register-link">My Applications</button>
                   </Link>
                 </>

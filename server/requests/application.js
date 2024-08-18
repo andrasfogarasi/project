@@ -55,8 +55,11 @@ router.get('/:jobId/:studentId', async (req, res) => {
 router.get('/job/:studentId', async (req, res) => {
     try {
 
+        console.log("holla");
         const { studentId } = req.params;
+        console.log(studentId);
         const applications = await db.selectApplicationByStudentId(studentId);
+        console.log(applications);
 
         if (applications) {
             let result = [];
@@ -67,12 +70,13 @@ router.get('/job/:studentId', async (req, res) => {
                 Object.assign(result, job);
             }
 
+            console.log(result);
+
             return res.status(200).json(result);
         } else {
             return res.status(404).json({ message: 'No jobs' });
         }
 
-        res.status(200).json(result);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: failedInserting, error: error.message });
