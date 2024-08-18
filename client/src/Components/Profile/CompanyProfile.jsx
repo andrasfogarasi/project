@@ -100,7 +100,7 @@ const CompanyProfile = () => {
           <div className="job-post">
             <h1>{companyData.company_name}</h1>
             <h3>Email: {companyData.email}</h3>
-            <h3>Location: {companyData.email}</h3>
+            <h3>Location: {companyData.location}</h3>
             <h3>Telephone number: {companyData.tel_number}</h3>
           </div>
           <button

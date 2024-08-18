@@ -376,6 +376,10 @@ const UserProfile = () => {
             <button className="register-link">Send Report</button>
           </Link>
 
+          <Link to="/application">
+            <button className="register-link">View applications</button>
+          </Link>
+
           <button
             onClick={() => {
               if (window.confirm("Are you sure you want to delete?")) {

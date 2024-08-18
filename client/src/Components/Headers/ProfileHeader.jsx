@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import "./Header.css";
 
 const ProfileHeader = () => {
-  const [userName, setUserName] = useState(null);
+  const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -16,13 +16,7 @@ const ProfileHeader = () => {
       if (decodedToken.exp && decodedToken.exp < now) {
         localStorage.removeItem("token");
       } else if (decodedToken) {
-        if (decodedToken.flag === "3") {
-          setUserName(decodedToken.name);
-        }
-
-        if (decodedToken.flag === "1") {
-          setUserName("Admin");
-        }
+        setIsUser(true);
       }
     }
   }, []);
@@ -35,7 +29,7 @@ const ProfileHeader = () => {
             <li class="app-name-link">
               <Link to="/">StudWork</Link>
             </li>
-            {userName && (
+            {isUser && (
               <li class="active-link">
                 <Link to="/login"> Logout</Link>
               </li>

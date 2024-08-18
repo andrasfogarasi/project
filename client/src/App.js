@@ -18,6 +18,7 @@ import Users from './Components/Admin/Users';
 import Companies from './Components/Admin/Companies';
 import Problems from './Components/Admin/Problems';
 import Departments from './Components/Admin/Departments';
+import MyApplications from './Components/Application/MyApplications';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route path='/job/:jobId' element={<JobDetail />} />
           <Route path='/profile' element={<UserProfile />} />
           <Route path='/company' element={<CompanyProfile />} />
+          <Route path='/application' element={<MyApplications />} />
           <Route path='admin/user' element={<Users />} />
           <Route path='admin/company' element={<Companies />} />
           <Route path='admin/problem' element={<Problems />} />
