@@ -1,0 +1,43 @@
+.action-buttons label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px; 
+  font-weight: bold;
+  color: #f8f40a; 
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.action-buttons input[type="radio"] {
+  margin-right: 8px; 
+}
+
+.action-buttons label:hover {
+  background-color: #f0f0f0; 
+}
+
+.action-buttons input[type="radio"]:checked + label {
+  background-color: #007bff; 
+  color: white; 
+  border-radius: 5px;
+}
+
+.message-box {
+  width: 93%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  resize: none; 
+  margin-top: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.message-box:focus {
+  border-color: #007bff;
+  outline: none; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}

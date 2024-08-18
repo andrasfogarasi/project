@@ -3,6 +3,7 @@ import * as db from '../db/queries.js';
 
 const router = express.Router();
 router.use(express.json());
+const internalServerError = 'Internal Server Error';
 
 router.get('/job/:jobId', async (req, res) => {
     const { jobId } = req.params;
@@ -11,7 +12,7 @@ router.get('/job/:jobId', async (req, res) => {
         const applicants = await db.selectApplicantsByJobId(jobId);
 
         if (applicants) {
-            let result = [];
+            let data = [];
 
             for (let applicant of applicants) {
                 let userId = await db.selectUserIdByStudentId(applicant.student_id);
@@ -20,11 +21,17 @@ router.get('/job/:jobId', async (req, res) => {
                 const user = await db.selectUserIdAndUsernameById(userId);
 
                 if (applicant.accept === null) {
-                    Object.assign(result, user);
+                    data.push({
+                        id: userId,
+                        username: user[0].username,
+                        message: applicant.message // Feltételezve, hogy applicant objektumnak van 'message' mezője
+                    });
                 }
             }
 
-            return res.status(200).json(result);
+            console.log(data);
+
+            return res.status(200).json(data);
         } else {
             return res.status(404).json({ message: 'No applicants' });
         }

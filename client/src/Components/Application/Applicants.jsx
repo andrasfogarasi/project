@@ -5,6 +5,7 @@ import NotFoundPage from "../Error/NotFoundPage.jsx";
 import { useParams } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
+import "./Applicants.css";
 
 const Applicants = () => {
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,6 @@ const Applicants = () => {
         }
 
         const data = await response.json();
-        console.log(data);
         setApplicants(data);
       } catch (error) {
         setError(error);
@@ -161,6 +161,7 @@ const Applicants = () => {
               }}
             >
               <h2>{applicant.username}</h2>
+              <h3>{applicant.message}</h3>
             </Link>
             <div className="action-buttons">
               <label>
