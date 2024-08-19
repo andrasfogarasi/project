@@ -65,7 +65,7 @@ const MyApplications = () => {
     const fetchJobPosts = async (studentId) => {
       try {
         const response = await fetch(
-          `http://localhost:5000/application/job/${studentId}`
+          `http://localhost:5000/application/job/application/${studentId}`
         );
 
         if (!response.ok) {

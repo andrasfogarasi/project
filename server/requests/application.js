@@ -52,14 +52,12 @@ router.get('/:jobId/:studentId', async (req, res) => {
     }
 });
 
-router.get('/job/:studentId', async (req, res) => {
+router.get('/job/application/:studentId', async (req, res) => {
+    const { studentId } = req.params;
+
     try {
 
-        console.log("holla");
-        const { studentId } = req.params;
-        console.log(studentId);
         const applications = await db.selectApplicationByStudentId(studentId);
-        console.log(applications);
 
         if (applications) {
             let result = [];
@@ -67,7 +65,9 @@ router.get('/job/:studentId', async (req, res) => {
             for (let application of applications) {
                 let job = await db.selectJobById(application.job_id);
 
-                Object.assign(result, job);
+                if (job) {
+                    result.push(job);
+                }
             }
 
             console.log(result);
