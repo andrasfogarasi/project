@@ -32,6 +32,7 @@ const App = () => {
           <Route path='/register/student' element={<RegisterUser />} />
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
+          <Route path='/job/:jobId/student' element={<Accepts />} />
           <Route path='/profile' element={<UserProfile />} />
           <Route path='/company' element={<CompanyProfile />} />
           <Route path='/application' element={<MyApplications />} />
@@ -42,7 +43,6 @@ const App = () => {
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/createJob' element={<CreateNewJob />} />
-          <Route path='/job/:jobId/student' element={<Accepts />} />
           <Route path='/company/job/applicant/:jobId' element={<Applicants />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

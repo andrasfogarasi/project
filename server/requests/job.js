@@ -27,10 +27,11 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:jobId/student', async (req, res) => {
+router.get('student/applicant/:jobId', async (req, res) => {
     try {
 
         const { jobId } = req.params;
+        console.log(jobId);
         const applications = await db.selectAcceptedApplicantsByJobId(jobId);
 
         if (applications) {

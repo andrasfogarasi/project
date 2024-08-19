@@ -14,8 +14,9 @@ const Accepts = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        console.log(jobId);
         const response = await fetch(
-          `http://localhost:5000/job/${jobId}/student`
+          `http://localhost:5000/job/student/applicant/${jobId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -40,7 +41,7 @@ const Accepts = () => {
       if (decodedToken.exp && decodedToken.exp < now) {
         localStorage.removeItem("token");
       } else if (decodedToken) {
-        if (decodedToken.flag === "3") {
+        if (decodedToken.flag === "2" || decodedToken.flag === "4") {
           setHasAccess(true);
           fetchUsers();
         }
