@@ -312,6 +312,16 @@ const JobDetail = () => {
         )
       ) : companyName ? (
         <>
+          <Link to={`/company/job/applicant/${jobId}`}>
+            <button type="submit" class="company-button">
+              View applicants
+            </button>
+          </Link>
+          <Link to={`/job/${jobId}/student`}>
+            <button type="submit" class="company-button">
+              View accepted students
+            </button>
+          </Link>
           <button
             onClick={() => {
               if (
@@ -324,11 +334,6 @@ const JobDetail = () => {
           >
             <FontAwesomeIcon icon={faTrash} /> Delete
           </button>
-          <Link to={`/company/job/applicant/${jobId}`}>
-            <button type="submit" class="company-button">
-              View applicants
-            </button>
-          </Link>
         </>
       ) : null}
     </div>

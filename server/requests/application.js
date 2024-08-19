@@ -109,6 +109,9 @@ router.post('/response/:userId/job/:jobId', async (req, res) => {
             const countStudents = await db.countOfAllAcceptedStudent(jobId);
             const nrOfStudents = countStudents.count;
 
+            console.log(applicationLimit);
+            console.log(nrOfStudents);
+
             if (nrOfStudents < applicationLimit) {
                 await db.updateApplicationAccept(applicationId, true, message);
             } else {

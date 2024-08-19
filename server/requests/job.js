@@ -27,6 +27,34 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:jobId/student', async (req, res) => {
+    try {
+
+        const { jobId } = req.params;
+        const applications = await db.selectAcceptedApplicantsByJobId(jobId);
+
+        if (applications) {
+            let result = [];
+
+            for (let application of applications) {
+
+                let userId = await db.selectUserIdByStudentId(application.student_id);
+                const user = await db.selectUserById(userId);
+
+                result.push(user);
+            }
+
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'No users' });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 

@@ -288,6 +288,12 @@ export const selectApplicantsByJobId = async (jobId) => {
     return result;
 };
 
+export const selectAcceptedApplicantsByJobId = async (jobId) => {
+    const query = 'SELECT * FROM application where job_id = ? and accept = TRUE';
+    const result = await databaseConnection.executeQuery(query, [jobId]);
+    return result;
+};
+
 export const selectApplicationByJobAndStudentId = async (jobId, studentId) => {
     const query = 'SELECT * FROM application where job_id = ? and student_id = ?';
     const result = await databaseConnection.executeQuery(query, [jobId, studentId]);

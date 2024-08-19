@@ -19,6 +19,7 @@ import Companies from './Components/Admin/Companies';
 import Problems from './Components/Admin/Problems';
 import Departments from './Components/Admin/Departments';
 import MyApplications from './Components/Application/MyApplications';
+import Accepts from './Components/Application/Accepts';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
           <Route path='/company/createJob' element={<CreateNewJob />} />
+          <Route path='/job/:jobId/student' element={<Accepts />} />
           <Route path='/company/job/applicant/:jobId' element={<Applicants />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
