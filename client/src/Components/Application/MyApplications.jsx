@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
@@ -10,11 +8,9 @@ import BannedPage from "../Error/BannedPage.jsx";
 const MyApplications = () => {
   const location = useLocation();
   const { job: jobFromState } = location.state || {};
-  const { jobId } = useParams();
   const [jobPosts, setJobPosts] = useState(jobFromState);
   const [loading, setLoading] = useState(!jobFromState);
   const [error, setError] = useState(null);
-  const [userName, setUserName] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
@@ -47,7 +43,6 @@ const MyApplications = () => {
           } else {
             if (decodedToken.flag === "3") {
               setHasAccess(true);
-              setUserName(decodedToken.name);
               fetchStudentId(decodedToken.id.id);
             }
           }
@@ -72,8 +67,6 @@ const MyApplications = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
-
         if (data.length > 0) {
           setJobPosts(data);
         } else {
@@ -87,7 +80,6 @@ const MyApplications = () => {
     };
 
     if (studentId) {
-      console.log(studentId);
       fetchJobPosts(studentId);
     }
   }, [studentId]);
@@ -101,13 +93,15 @@ const MyApplications = () => {
   return (
     <div>
       <Header />
-      <div className="job-post">
-        <h1>{jobPosts.name}</h1>
-
-        <h3>Description: {jobPosts.description}</h3>
-        <h3>Requirements: {jobPosts.requirements}</h3>
-        <h3>Salary: {jobPosts.salary}</h3>
-        <h3>Working hours: {jobPosts.working_hours}</h3>
+      <div className="job-list">
+        {jobPosts.map((job) => (
+          <div key={job.id} className="job-post">
+            <Link to={{ pathname: `/job/${job.id}`, state: { job } }}>
+              <h2>{job.name}</h2>
+            </Link>
+            <h3>{job.company_name}</h3>
+          </div>
+        ))}
       </div>
     </div>
   );

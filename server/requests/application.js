@@ -64,13 +64,16 @@ router.get('/job/application/:studentId', async (req, res) => {
 
             for (let application of applications) {
                 let job = await db.selectJobById(application.job_id);
+                job = job[0];
 
                 if (job) {
-                    result.push(job);
+                    const companyName = await db.selectCompanyNameById(job.company_id);
+                    job.company_name = companyName;
+                    Object.assign(job, companyName);
                 }
-            }
 
-            console.log(result);
+                result.push(job);
+            }
 
             return res.status(200).json(result);
         } else {
