@@ -50,27 +50,23 @@
     text-decoration: none; 
   }
 
- /* Flexbox konténer a két űrlap elhelyezésére */
 .job-post .form-container {
   display: flex;
-  justify-content: space-between; /* Az űrlapok közötti hely elosztása */
-  gap: 20px; /* Térköz a két űrlap között */
+  justify-content: space-between;
+  gap: 20px; 
 }
 
-/* Az űrlapok szélessége és minimum szélessége */
 .job-post .form-section {
-  flex: 1; /* Az űrlapok egyenlő szélességűek lesznek */
-  min-width: 300px; /* Minimum szélesség, hogy ne zsugorodjanak össze túlzottan */
+  flex: 1; 
+  min-width: 300px; 
 }
 
-/* Űrlapok elemeinek elrendezése és távolságok */
 .job-post .form-section form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Térköz az űrlap elemei között */
+  gap: 15px; 
 }
 
-/* Dátum és szöveg mezők stílusa */
 .job-post .form-section input[type="date"],
 .job-post .form-section input[type="text"],
 .job-post .form-section input[type="file"] {
@@ -92,13 +88,11 @@
   outline: none;
 }
 
-/* Fájl kiválasztó input stílusa */
 .job-post .form-section input[type="file"] {
-  padding: 6px 10px; /* Speciális padding a fájl inputhoz */
-  cursor: pointer; /* Kéz kurzor a fájl inputon */
+  padding: 6px 10px; 
+  cursor: pointer;
 }
 
-/* Select mező stílusa */
 .job-post .form-section select {
   padding: 10px;
   border: 1px solid #ddd;
