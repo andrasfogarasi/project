@@ -277,6 +277,34 @@ const UserProfile = () => {
                     ) : null}
                   </div>
 
+                  <div className="form-section">
+                    <h2>Upload Your CV</h2>
+
+                    <div className="download-template">
+                      <a
+                        href="/path/to/cv-template.pdf"
+                        download="CV_Template.pdf"
+                      >
+                        Download CV Template
+                      </a>
+                    </div>
+
+                    <form onSubmit={handleFileSubmit}>
+                      <div>
+                        <label htmlFor="documentUpload">Upload PDF:</label>
+                        <input
+                          type="file"
+                          id="documentUpload"
+                          name="documentUpload"
+                          accept=".pdf"
+                          onChange={handleFileChange}
+                          required
+                        />
+                      </div>
+                      <button type="submit">Upload</button>
+                    </form>
+                  </div>
+
                   <Link to="/application">
                     <button className="register-link">My Applications</button>
                   </Link>
@@ -341,24 +369,6 @@ const UserProfile = () => {
                         </select>
                       </div>
                       <button type="submit">Submit</button>
-                    </form>
-                  </div>
-
-                  <div className="form-section">
-                    <h2>Upload Your CV</h2>
-                    <form onSubmit={handleFileSubmit}>
-                      <div>
-                        <label htmlFor="documentUpload">Upload PDF:</label>
-                        <input
-                          type="file"
-                          id="documentUpload"
-                          name="documentUpload"
-                          accept=".pdf"
-                          onChange={handleFileChange}
-                          required
-                        />
-                      </div>
-                      <button type="submit">Upload</button>
                     </form>
                   </div>
                 </div>

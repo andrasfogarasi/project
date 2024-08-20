@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../Headers/Header.jsx";
+import ProfileHeader from "../Headers/ProfileHeader";
 import "./NotFoundPage.css";
 
 const BannedPage = () => {
   return (
     <div>
-      <Header />
+      <ProfileHeader />
       <div className="container">
         <h1 className="text">You are banned</h1>
         <Link to="/" className="button">

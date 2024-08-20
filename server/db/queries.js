@@ -419,3 +419,9 @@ export const updateJobActiveToTrue = async (id) => {
     const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
+
+export const updateStudentCV = async (filename, studentId) => {
+    const query = 'UPDATE student set cv_filename = ? WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [filename, studentId]);
+    return result;
+};
