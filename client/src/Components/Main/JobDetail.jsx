@@ -246,6 +246,51 @@ const JobDetail = () => {
     }
   };
 
+  const handleHideButton = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/job/hide/${jobId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Login failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  const handleActiveButton = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/job/active/${jobId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Login failed:", response.statusText);
+        alert("Error");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -257,7 +302,9 @@ const JobDetail = () => {
         <h3>Description: {job.description}</h3>
         <h3>Requirements: {job.requirements}</h3>
         <h3>Working hours/week: {job.working_hours}</h3>
-        <h3>Work type: Office</h3>
+        {job.salary ? <h3>Salary (euro): {job.salary}</h3> : null}
+
+        <h3>Work type: {job.working_type}</h3>
       </div>
 
       {userName && companyName ? (
@@ -322,6 +369,24 @@ const JobDetail = () => {
               View accepted students
             </button>
           </Link>
+
+          {job.active ? (
+            <button
+              type="button"
+              className="company-button"
+              onClick={handleHideButton}
+            >
+              Hide
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="company-button"
+              onClick={handleActiveButton}
+            >
+              Set active
+            </button>
+          )}
           <button
             onClick={() => {
               if (

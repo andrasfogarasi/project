@@ -18,7 +18,7 @@ const MainPage = () => {
 
   const fetchJobPosts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/job");
+      const response = await fetch("http://localhost:5000/job/active");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -91,54 +91,50 @@ const MainPage = () => {
     }
   }, []);
 
-  const handleFilterJobs = async () => {
-    let allJobs = [];
-
-    const fetchAllJobs = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/job");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        allJobs = await response.json();
-      } catch (error) {
-        setError(error);
+  const fetchAllJobs = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/job/active");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
+      return await response.json();
+    } catch (error) {
+      setError(error);
+    }
+  };
 
-    await fetchAllJobs();
+  const handleFilterJobs = async (selectedDepartment) => {
+    let allJobs = await fetchAllJobs();
     const token = localStorage.getItem("token");
+    let filteredJobs = [];
 
-    if (selectedDepartment === "0") {
-      if (token) {
-        const decodedToken = jwtDecode(token);
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const now = Math.floor(Date.now() / 1000);
 
-        const now = Math.floor(Date.now() / 1000);
-        if (decodedToken.exp && decodedToken.exp < now) {
-          localStorage.removeItem("token");
-          setJobPosts(allJobs);
-        } else if (decodedToken) {
-          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-            await fetchJobPostsByCompanyId(decodedToken.companyId.id);
-          } else {
-            setJobPosts(allJobs);
-          }
-        }
-      } else {
-        setJobPosts(allJobs);
+      if (decodedToken.exp && decodedToken.exp < now) {
+        localStorage.removeItem("token");
+        filteredJobs = allJobs;
+      } else if (
+        decodedToken &&
+        (decodedToken.flag === "2" || decodedToken.flag === "4")
+      ) {
+        filteredJobs = await fetchJobPostsByCompanyId(
+          decodedToken.companyId.id
+        );
       }
-    } else if (selectedDepartment) {
-      const selectedDepartmentNumber = Number(selectedDepartment);
-
-      const filteredJobs = allJobs.filter((job) => {
-        return job.department_id === selectedDepartmentNumber;
-      });
-
-      setJobPosts(filteredJobs);
-    } else {
-      setJobPosts(allJobs);
     }
 
+    filteredJobs = allJobs;
+
+    if (selectedDepartment !== "0") {
+      const selectedDepartmentNumber = Number(selectedDepartment);
+      filteredJobs = filteredJobs.filter(
+        (job) => job.department_id === selectedDepartmentNumber
+      );
+    }
+
+    setJobPosts(filteredJobs);
     setCurrentPage(1);
   };
 
@@ -147,7 +143,6 @@ const MainPage = () => {
   const currentJobs = jobPosts.slice(indexOfFirstJob, indexOfLastJob);
 
   const totalPages = Math.ceil(jobPosts.length / jobsPerPage);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) return <div>Loading...</div>;
@@ -170,14 +165,15 @@ const MainPage = () => {
       <div className="filter-section">
         <select
           value={selectedDepartment}
-          onChange={(e) => {
+          onChange={async (e) => {
             const selectedValue = e.target.value;
-            setSelectedDepartment(selectedValue);
+            await setSelectedDepartment(selectedValue);
 
             if (selectedValue === "0") {
               fetchJobPosts();
             } else {
-              handleFilterJobs();
+              console.log(selectedValue);
+              handleFilterJobs(selectedValue);
             }
           }}
         >

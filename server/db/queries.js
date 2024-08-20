@@ -18,9 +18,9 @@ export const insertCompany = async (companyName, email, password, flag, telNumbe
     return result;
 };
 
-export const insertJob = async (name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit) => {
-    const query = 'INSERT INTO job (name, description, requirements, salary, company_id, department_id, working_hours, application_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit]);
+export const insertJob = async (name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit, workingType) => {
+    const query = 'INSERT INTO job (name, description, requirements, salary, company_id, department_id, working_hours, application_limit, working_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [name, description, requirements, salary, companyId, departmentId, workingHours, applicationLimit, workingType]);
     return result;
 };
 
@@ -264,6 +264,12 @@ export const selectJobs = async () => {
     return result;
 };
 
+export const selectActiveJobs = async () => {
+    const query = 'SELECT * FROM job where active = TRUE';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
 export const selectJobsByCompanyId = async (id) => {
     const query = 'SELECT * FROM job where company_id = ?';
     const result = await databaseConnection.executeQuery(query, [id]);
@@ -393,5 +399,17 @@ export const updateBanToFalse = async (userId) => {
 export const updateCompanyBanToFalse = async (userId) => {
     const query = 'UPDATE company set banned = FALSE WHERE id = ?';
     const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
+export const updateJobActiveToFalse = async (id) => {
+    const query = 'UPDATE job set active = FALSE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const updateJobActiveToTrue = async (id) => {
+    const query = 'UPDATE job set active = TRUE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [id]);
     return result;
 };

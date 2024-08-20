@@ -27,6 +27,27 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/active', async (req, res) => {
+    try {
+
+        const jobs = await db.selectActiveJobs();
+        if (jobs) {
+
+            for (let job of jobs) {
+                const companyName = await db.selectCompanyNameById(job.company_id);
+                Object.assign(job, companyName);
+            }
+
+            return res.status(200).json(jobs);
+        }
+
+        return res.status(404).json({ message: 'No jobs' });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
 router.get('/student/applicant/:jobId', async (req, res) => {
     try {
 
@@ -86,6 +107,32 @@ router.delete('/:id', async (req, res) => {
         } else {
             return res.status(404).json({ message: 'Job not found' });
         }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.patch('/hide/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await db.updateJobActiveToFalse(id);
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.patch('/active/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await db.updateJobActiveToTrue(id);
+
+        res.status(200).json({ success: true });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: internalServerError, error: error.message });

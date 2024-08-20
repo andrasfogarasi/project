@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS job (
     application_limit INT,
     working_type VARCHAR(40),
     active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES company(id),
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
@@ -103,6 +104,7 @@ CREATE TABLE IF NOT EXISTS application (
 	message TEXT,
 	response TEXT,
 	UNIQUE KEY (student_id, job_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES student(id),
     FOREIGN KEY (job_id) REFERENCES job(id)
 );

@@ -22,6 +22,7 @@ const CreateNewJob = () => {
     workingHours: "",
     applicationLimit: "",
     departmentId: "",
+    workingType: "",
     companyId: 0,
   });
 
@@ -234,15 +235,15 @@ const CreateNewJob = () => {
         </div>
         <div className="input-box">
           <select
-            name="workType"
-            value={formData.workType}
+            name="workingType"
+            value={formData.workingType}
             onChange={handleChange}
             required
           >
             <option value="">Select Work Type</option>
-            <option value="remote">Remote</option>
-            <option value="office">Office</option>
-            <option value="remote_office">Remote & Office</option>
+            <option value="Remote">Remote</option>
+            <option value="Office">Office</option>
+            <option value="Remote & Office">Remote & Office</option>
           </select>
         </div>
         <button type="submit">Add new job</button>
