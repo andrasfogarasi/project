@@ -66,7 +66,35 @@ router.get('/student/applicant/:jobId', async (req, res) => {
                 result.push(user[0]);
             }
 
-            console.log(result);
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).json({ message: 'No users' });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.get('/student/rejected/:jobId', async (req, res) => {
+    try {
+
+        const { jobId } = req.params;
+        console.log(jobId);
+        const applications = await db.selectRejectedApplicantsByJobId(jobId);
+
+        if (applications) {
+            let result = [];
+
+            for (let application of applications) {
+
+                let userId = await db.selectUserIdByStudentId(application.student_id);
+                const user = await db.selectUserById(userId.user_id);
+
+                result.push(user[0]);
+            }
+
             return res.status(200).json(result);
         } else {
             return res.status(404).json({ message: 'No users' });

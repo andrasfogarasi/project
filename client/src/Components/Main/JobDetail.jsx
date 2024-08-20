@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
+import { formatDate } from "../../Functions/FormatDate.js";
 
 const JobDetail = () => {
   const location = useLocation();
@@ -296,6 +297,7 @@ const JobDetail = () => {
       <Header />
       <div className="job-post">
         <h1>{job.name}</h1>
+        <h3>Created at: {formatDate(job.created_at)}</h3>
         <h2>Company name: {companyNameForView}</h2>
         <h3>Department name: {departmentName}</h3>
 
@@ -367,6 +369,11 @@ const JobDetail = () => {
           <Link to={`/job/${jobId}/student`}>
             <button type="submit" class="company-button">
               View accepted students
+            </button>
+          </Link>
+          <Link to={`/job/${jobId}/rejectedStudent`}>
+            <button type="submit" class="company-button">
+              View rejected students
             </button>
           </Link>
 

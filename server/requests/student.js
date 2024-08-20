@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import PDFParser from 'pdf2json';
+import path from 'path';
 import * as db from '../db/queries.js';
 
 const router = express.Router();
@@ -9,18 +10,35 @@ router.use(express.json());
 const internalServerError = 'Internal Server Error';
 const failedInserting = 'Inserting failed!';
 
-const storage = multer.memoryStorage();
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-
-        if (file.mimetype === 'application/pdf') {
-            cb(null, true);
-        } else {
-            cb(new Error('Only PDF files are allowed'), false);
-        }
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 100000000 },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('documentUpload');
+
+function checkFileType(file, cb) {
+    // Allowed file extensions
+    const filetypes = /pdf/;
+    // Check file extension
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    // Check MIME type
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: PDFs Only!');
+    }
+}
 
 router.post('/', async (req, res) => {
     try {
@@ -67,6 +85,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+/*
 const extractDataFromPDF = (pdfBuffer) => {
     return new Promise((resolve, reject) => {
         const pdfParser = new PDFParser();
@@ -105,9 +124,24 @@ const extractDataFromPDF = (pdfBuffer) => {
 
         pdfParser.parseBuffer(pdfBuffer);
     });
-};
+};*/
 
+router.post('/upload/:userId', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+        } else {
+            if (req.file == undefined) {
+                res.status(400).send('Error: No File Selected!');
+            } else {
+                res.send(`File Uploaded: ${req.file.filename}`);
+            }
+        }
+    });
+});
 
+/*
 router.post('/uploadFile/:userId', upload.single('file'), async (req, res) => {
     try {
 
@@ -161,7 +195,7 @@ router.post('/uploadFile/:userId', upload.single('file'), async (req, res) => {
         console.error('Error processing PDF:', error);
         res.status(500).json({ success: false, message: 'Error processing PDF' });
     }
-});
+});*/
 
 router.get('/:userId', async (req, res) => {
     const { userId } = req.params;

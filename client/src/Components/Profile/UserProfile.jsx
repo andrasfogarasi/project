@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import ProfileHeader from "../Headers/ProfileHeader.jsx";
 import BannedPage from "../Error/BannedPage.jsx";
+import axios from "axios";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -24,7 +25,7 @@ const UserProfile = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const UserProfile = () => {
   };
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -186,29 +187,22 @@ const UserProfile = () => {
 
   const handleFileSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedFile) return;
-
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("documentUpload", file);
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/student/uploadFile/${userId}`,
+      const res = await axios.post(
+        `http://localhost:5000/student/upload/${userId}`,
+        formData,
         {
-          method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
-
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        console.error("Uploading failed:", response.status);
-        alert("Failed to upload file");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file");
+      console.log(res.data);
+    } catch (err) {
+      console.error(err.response.data);
     }
   };
 
@@ -350,7 +344,7 @@ const UserProfile = () => {
                     </form>
                   </div>
 
-                  <div class="form-section">
+                  <div className="form-section">
                     <h2>Upload Your CV</h2>
                     <form onSubmit={handleFileSubmit}>
                       <div>

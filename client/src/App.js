@@ -20,6 +20,7 @@ import Problems from './Components/Admin/Problems';
 import Departments from './Components/Admin/Departments';
 import MyApplications from './Components/Application/MyApplications';
 import Accepts from './Components/Application/Accepts';
+import Rejects from './Components/Application/Rejects';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='/register/company' element={<RegisterCompany />} />
           <Route path='/job/:jobId' element={<JobDetail />} />
           <Route path='/job/:jobId/student' element={<Accepts />} />
+          <Route path='/job/:jobId/rejectedStudent' element={<Rejects />} />
           <Route path='/profile' element={<UserProfile />} />
           <Route path='/company' element={<CompanyProfile />} />
           <Route path='/application' element={<MyApplications />} />
