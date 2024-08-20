@@ -88,6 +88,8 @@ CREATE TABLE IF NOT EXISTS job (
     department_id INT,  
     working_hours VARCHAR(20) NOT NULL,  
     application_limit INT,
+    working_type VARCHAR(40),
+    active BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (company_id) REFERENCES company(id),
     FOREIGN KEY (department_id) REFERENCES department(id)
 );

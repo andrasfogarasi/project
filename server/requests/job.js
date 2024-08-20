@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('student/applicant/:jobId', async (req, res) => {
+router.get('/student/applicant/:jobId', async (req, res) => {
     try {
 
         const { jobId } = req.params;
@@ -40,11 +40,12 @@ router.get('student/applicant/:jobId', async (req, res) => {
             for (let application of applications) {
 
                 let userId = await db.selectUserIdByStudentId(application.student_id);
-                const user = await db.selectUserById(userId);
+                const user = await db.selectUserById(userId.user_id);
 
-                result.push(user);
+                result.push(user[0]);
             }
 
+            console.log(result);
             return res.status(200).json(result);
         } else {
             return res.status(404).json({ message: 'No users' });

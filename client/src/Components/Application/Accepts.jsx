@@ -3,12 +3,14 @@ import { Link, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Header from "../Headers/Header.jsx";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
+import BannedPage from "../Error/BannedPage.jsx";
 
 const Accepts = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
+  const [banned, setBanned] = useState(false);
   const { jobId } = useParams();
 
   useEffect(() => {
@@ -41,14 +43,19 @@ const Accepts = () => {
       if (decodedToken.exp && decodedToken.exp < now) {
         localStorage.removeItem("token");
       } else if (decodedToken) {
-        if (decodedToken.flag === "2" || decodedToken.flag === "4") {
-          setHasAccess(true);
-          fetchUsers();
+        if (decodedToken.banned) {
+          setBanned(true);
+        } else {
+          if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+            setHasAccess(true);
+            fetchUsers();
+          }
         }
       }
     }
   }, [jobId]);
 
+  if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!hasAccess) return <NotFoundPage />;
