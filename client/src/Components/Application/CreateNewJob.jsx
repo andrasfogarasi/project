@@ -177,6 +177,7 @@ const CreateNewJob = () => {
             onChange={handleChange}
             rows="5"
             cols="40"
+            required
           />
         </div>
         <div className="input-box">
@@ -187,6 +188,7 @@ const CreateNewJob = () => {
             onChange={handleChange}
             rows="5"
             cols="40"
+            required
           />
         </div>
         <div className="input-box">

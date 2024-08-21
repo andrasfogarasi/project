@@ -4,6 +4,11 @@ import util from 'util';
 import path from 'path';
 import * as db from '../db/queries.js';
 
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
 router.use(express.json());
 
@@ -23,7 +28,7 @@ const upload = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     }
-}).single('documentUpload');
+}).single('document');
 const uploadAsync = util.promisify(upload);
 
 function checkFileType(file, cb) {
@@ -91,6 +96,8 @@ router.post('/upload/:studentId', async (req, res) => {
         }
 
         const { studentId } = req.params;
+        let fileName = req.file.filename;
+        console.log(req.file.filename);
 
         await db.updateStudentCV(req.file.filename, studentId);
         res.status(200).json({ success: true });
@@ -125,6 +132,19 @@ router.get('/:userId', async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: internalServerError, error: error.message });
     }
+});
+
+router.get('/download-cv/:fileName', (req, res) => {
+    const { fileName } = req.params;
+    console.log(fileName);
+    const filePath = path.join(__dirname, '..', 'uploads', fileName);
+
+    res.download(filePath, fileName, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ message: 'Error downloading the file', error: err.message });
+        }
+    });
 });
 
 router.get('/id/:companyId', async (req, res) => {

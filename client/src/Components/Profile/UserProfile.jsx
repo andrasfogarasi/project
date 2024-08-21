@@ -190,7 +190,7 @@ const UserProfile = () => {
   const handleFileSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("documentUpload", file);
+    formData.append("document", file);
 
     try {
       const res = await axios.post(
@@ -202,9 +202,14 @@ const UserProfile = () => {
           },
         }
       );
-      console.log(res.data);
+
+      if (res.status === 200) {
+        window.location.reload();
+      } else {
+        console.error("Error:", res.data);
+      }
     } catch (err) {
-      console.error(err.response.data);
+      console.error("Error:", err.response ? err.response.data : err.message);
     }
   };
 
@@ -231,6 +236,32 @@ const UserProfile = () => {
       console.error("Network error:", error);
     }
   };
+
+  async function downloadCV(filename) {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/student/download-cv/${filename}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to download the CV");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Your_Current_CV.pdf");
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the CV:", error);
+    }
+  }
 
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
@@ -281,23 +312,14 @@ const UserProfile = () => {
 
                   {!studentData.cv_filename ? (
                     <>
-                      <div className="download-template">
-                        <a
-                          href="/path/to/cv-template.pdf"
-                          download="CV_Template.pdf"
-                        >
-                          Download CV Template
-                        </a>
-                      </div>
-
                       <h2>Upload Your CV</h2>
                       <form onSubmit={handleFileSubmit}>
                         <div>
-                          <label htmlFor="documentUpload">Upload PDF:</label>
+                          <label htmlFor="document">Upload PDF:</label>
                           <input
                             type="file"
-                            id="documentUpload"
-                            name="documentUpload"
+                            id="document"
+                            name="document"
                             accept=".pdf"
                             onChange={handleFileChange}
                             required
@@ -305,16 +327,20 @@ const UserProfile = () => {
                         </div>
                         <button type="submit">Upload</button>
                       </form>
+
+                      <div className="download-template">
+                        <a href="/cv-template.pdf" download="CV_Template.pdf">
+                          Download CV Template
+                        </a>
+                      </div>
                     </>
                   ) : (
                     <div className="download-existing-cv">
-                      <p>Your current CV:</p>
-                      <a
-                        href={studentData.cv_filename}
-                        download="Your_Current_CV.pdf"
+                      <button
+                        onClick={() => downloadCV(studentData.cv_filename)}
                       >
                         Download Your CV
-                      </a>
+                      </button>
                     </div>
                   )}
 
