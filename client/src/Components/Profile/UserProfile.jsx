@@ -22,6 +22,7 @@ const UserProfile = () => {
   const [universities, setUniversities] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [studentId, setStudentId] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
@@ -74,6 +75,7 @@ const UserProfile = () => {
           const data = await response.json();
 
           setStudentData(data.student);
+          setStudentId(data.student.id);
           setLanguageName(data.language.language_name);
           setuniversityName(data.university.university_name);
         }
@@ -192,7 +194,7 @@ const UserProfile = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/student/upload/${userId}`,
+        `http://localhost:5000/student/upload/${studentId}`,
         formData,
         {
           headers: {
@@ -277,33 +279,44 @@ const UserProfile = () => {
                     ) : null}
                   </div>
 
-                  <div className="form-section">
-                    <h2>Upload Your CV</h2>
+                  {!studentData.cv_filename ? (
+                    <>
+                      <div className="download-template">
+                        <a
+                          href="/path/to/cv-template.pdf"
+                          download="CV_Template.pdf"
+                        >
+                          Download CV Template
+                        </a>
+                      </div>
 
-                    <div className="download-template">
+                      <h2>Upload Your CV</h2>
+                      <form onSubmit={handleFileSubmit}>
+                        <div>
+                          <label htmlFor="documentUpload">Upload PDF:</label>
+                          <input
+                            type="file"
+                            id="documentUpload"
+                            name="documentUpload"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            required
+                          />
+                        </div>
+                        <button type="submit">Upload</button>
+                      </form>
+                    </>
+                  ) : (
+                    <div className="download-existing-cv">
+                      <p>Your current CV:</p>
                       <a
-                        href="/path/to/cv-template.pdf"
-                        download="CV_Template.pdf"
+                        href={studentData.cv_filename}
+                        download="Your_Current_CV.pdf"
                       >
-                        Download CV Template
+                        Download Your CV
                       </a>
                     </div>
-
-                    <form onSubmit={handleFileSubmit}>
-                      <div>
-                        <label htmlFor="documentUpload">Upload PDF:</label>
-                        <input
-                          type="file"
-                          id="documentUpload"
-                          name="documentUpload"
-                          accept=".pdf"
-                          onChange={handleFileChange}
-                          required
-                        />
-                      </div>
-                      <button type="submit">Upload</button>
-                    </form>
-                  </div>
+                  )}
 
                   <Link to="/application">
                     <button className="register-link">My Applications</button>

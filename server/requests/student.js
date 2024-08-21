@@ -83,19 +83,17 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/upload/:userId', async (req, res) => {
+router.post('/upload/:studentId', async (req, res) => {
     try {
         await uploadAsync(req, res);
         if (req.file === undefined) {
             return res.status(400).send('Error: No File Selected!');
         }
-        res.send(`File Uploaded: ${req.file.filename}`);
 
-        const { userId } = req.params;
-        console.log(userId);
+        const { studentId } = req.params;
 
-        await db.updateStudentCV(userId);
-        console.log(`CV updated for user ${userId}`);
+        await db.updateStudentCV(req.file.filename, studentId);
+        res.status(200).json({ success: true });
     } catch (err) {
         console.error(err);
         res.status(400).send(err.message);
