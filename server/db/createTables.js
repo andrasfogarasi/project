@@ -36,7 +36,6 @@ export const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         flag VARCHAR(10) NOT NULL,
-        company_id INT,
         banned BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (company_id) REFERENCES company(id)
     );
@@ -63,12 +62,11 @@ export const createTables = async () => {
         university_id INT,
         birthday_date DATE,
         cv_filename VARCHAR(30),  
-        mother_tongue_id INT,
         presentation TEXT,  
         CNP VARCHAR(13),
+        university_course VARCHAR(20),
         FOREIGN KEY (user_id) REFERENCES user(id),
         FOREIGN KEY (university_id) REFERENCES university(id),
-        FOREIGN KEY (mother_tongue_id) REFERENCES language(language_id)
     );
     `);
 
