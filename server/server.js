@@ -18,6 +18,9 @@ import applicant from './requests/applicant.js';
 import problem from './requests/problem.js';
 import user from './requests/user.js';
 import createNewDepartment from './requests/createNewDepartment.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const port = 5000;
@@ -27,12 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.API_URL,
     credentials: true
 }));
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', process.env.API_URL);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');

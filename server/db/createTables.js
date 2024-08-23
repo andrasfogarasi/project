@@ -66,7 +66,7 @@ export const createTables = async () => {
         CNP VARCHAR(13),
         university_course VARCHAR(20),
         FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (university_id) REFERENCES university(id),
+        FOREIGN KEY (university_id) REFERENCES university(id)
     );
     `);
 

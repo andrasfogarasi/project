@@ -36,7 +36,10 @@ const JobDetail = () => {
     if (!job) {
       const fetchJob = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/job/${jobId}`);
+          const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/job/${jobId}`
+          );
+
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
