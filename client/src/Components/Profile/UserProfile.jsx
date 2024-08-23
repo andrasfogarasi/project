@@ -194,7 +194,7 @@ const UserProfile = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/student/upload/${studentId}`,
+        `${process.env.REACT_APP_API_URL}/student/upload/${studentId}`,
         formData,
         {
           headers: {
