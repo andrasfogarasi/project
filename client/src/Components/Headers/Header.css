@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   padding: 15px 30px;
-  background-color: #9b4b00; 
+  background-color: #290101; 
   z-index: 1000; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
@@ -71,7 +71,7 @@ li + li {
 
 li a {
   display: block;
-  color: #070707;
+  color: #FFFF00;
   text-align: center;
   padding: 10px;
   text-decoration: none;

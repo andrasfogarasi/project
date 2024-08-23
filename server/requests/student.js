@@ -97,7 +97,6 @@ router.post('/upload/:studentId', async (req, res) => {
 
         const { studentId } = req.params;
         let fileName = req.file.filename;
-        console.log(req.file.filename);
 
         await db.updateStudentCV(req.file.filename, studentId);
         res.status(200).json({ success: true });
