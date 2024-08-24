@@ -227,7 +227,7 @@ const CreateNewJob = () => {
             onChange={handleChange}
             required
           >
-            <option value="">Select Department</option>
+            <option value="">Select Work Department</option>
             {departments.map((department) => (
               <option key={department.id} value={department.id}>
                 {department.department_name}
@@ -242,7 +242,7 @@ const CreateNewJob = () => {
             onChange={handleChange}
             required
           >
-            <option value="">Select Work Type</option>
+            <option value="">Select Workplace</option>
             <option value="Remote">Remote</option>
             <option value="Office">Office</option>
             <option value="Remote & Office">Remote & Office</option>
