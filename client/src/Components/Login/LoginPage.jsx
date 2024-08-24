@@ -81,13 +81,11 @@ const LoginPage = () => {
         <button id="loginButton" type="submit" onClick={handleLoginButton}>
           Login
         </button>
-      </form>
 
-      <div>
         <button className="register-link">
           <Link to="/register">Create new account</Link>
         </button>
-      </div>
+      </form>
 
       <Routes>
         <Route path="register" element={<RegisterPage />} />
