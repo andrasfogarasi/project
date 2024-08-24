@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
         const result = await db.insertCompany(companyName, email, encryptedPassword, flag, telNumber, location);
 
         const companyId = await db.selectCompanyIdByEmail(email);
-        const token = jwt.sign({ companyId: companyId, flag: flag, companyName: companyName }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ companyId: companyId, flag: flag, companyName: companyName, wait: true }, JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('authToken', token, cookieOptions);
         return res.status(200).json({ token });

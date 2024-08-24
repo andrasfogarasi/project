@@ -65,8 +65,9 @@ router.post('/', async (req, res) => {
             const flag = await db.selectCompanyFlagById(companyId.id);
             const companyName = await db.selectCompanyNameById(companyId.id);
             const banned = await db.selectCompanyBannedById(companyId.id);
+            const wait = await db.selectCompanyWaitingById(companyId.id);
 
-            const token = jwt.sign({ companyId: companyId, flag: flag.flag, banned: banned.banned, companyName: companyName.company_name }, JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ companyId: companyId, flag: flag.flag, banned: banned.banned, companyName: companyName.company_name, wait: wait.waiting }, JWT_SECRET, { expiresIn: '1h' });
 
             res.cookie('authToken', token, cookieOptions);
             return res.status(200).json({ token });

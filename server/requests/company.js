@@ -16,6 +16,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/wait', async (req, res) => {
+    try {
+
+        const result = await db.selectWaitingCompanies();
+        return res.status(200).json(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
 router.get('/:companyId', async (req, res) => {
     const { id } = req.params;
 
@@ -109,6 +120,26 @@ router.post('/unblock/:companyId', async (req, res) => {
         }
 
         await db.updateCompanyBanToFalse(companyId);
+        res.status(200).json({ success: true });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: internalServerError, error: error.message });
+    }
+});
+
+router.post('/addAccess/:companyId', async (req, res) => {
+    try {
+
+        const { companyId } = req.params;
+        const company = await db.selectCompanyById(companyId);
+
+        if (company === undefined) {
+            const errorMessage = 'Company not found!';
+            return res.status(404).json({ message: failedInserting, error: errorMessage });
+        }
+
+        await db.updateCompanyWaitToFalse(companyId);
         res.status(200).json({ success: true });
 
     } catch (error) {

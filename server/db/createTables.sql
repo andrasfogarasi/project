@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS company (
     location VARCHAR(60),
 	flag VARCHAR(2) NOT NULL,
     banned BOOLEAN DEFAULT FALSE,
+    waiting BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rating INT DEFAULT 0        -- lenne egy ful, ahol lehet ertekelni a ceget
 );
@@ -34,8 +35,7 @@ CREATE TABLE IF NOT EXISTS user (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     flag VARCHAR(2) NOT NULL,
-	banned BOOLEAN DEFAULT FALSE,
-	FOREIGN KEY (company_id) REFERENCES company(id)
+	banned BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS university (

@@ -24,7 +24,7 @@ const UserProfile = () => {
   const [userId, setUserId] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [languageName, setLanguageName] = useState(null);
+  const [courseName, setCourseName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -33,7 +33,7 @@ const UserProfile = () => {
   const [formData, setFormData] = useState({
     universityId: "",
     birthdayDate: "",
-    languageId: "",
+    universityCourse: "",
     presentation: "",
     userId: 0,
   });
@@ -76,7 +76,7 @@ const UserProfile = () => {
 
           setStudentData(data.student);
           setStudentId(data.student.id);
-          setLanguageName(data.language.language_name);
+          setCourseName(data.student.university_course);
           setuniversityName(data.university.university_name);
         }
       } catch (error) {
@@ -288,6 +288,9 @@ const UserProfile = () => {
           <Link to="/admin/department">
             <button className="register-link">Add new department</button>
           </Link>
+          <Link to="/admin/addAccess">
+            <button className="register-link">Add access for companies</button>
+          </Link>
         </>
       ) : (
         <>
@@ -305,8 +308,8 @@ const UserProfile = () => {
                       <h3>University: {universityName}</h3>
                     ) : null}
 
-                    {languageName ? (
-                      <h3>Mother tongue: {languageName}</h3>
+                    {courseName ? (
+                      <h3>University programme: {courseName}</h3>
                     ) : null}
                   </div>
 
@@ -328,11 +331,35 @@ const UserProfile = () => {
                         <button type="submit">Upload</button>
                       </form>
 
+                      <br />
                       <div className="download-template">
                         <a href="/cv-template.pdf" download="CV_Template.pdf">
                           Download CV Template
                         </a>
                       </div>
+
+                      <h2>Add a language</h2>
+                      <form onSubmit={handleFileSubmit}>
+                        <div className="input-box">
+                          <select
+                            name="languageId"
+                            value={formData.languageId}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="">Select language</option>
+                            {languages.map((language) => (
+                              <option
+                                key={language.language_id}
+                                value={language.language_id}
+                              >
+                                {language.language_name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <button type="submit">Add</button>
+                      </form>
                     </>
                   ) : (
                     <div className="download-existing-cv">
@@ -364,34 +391,18 @@ const UserProfile = () => {
                           required
                         />
                       </div>
-                      <div className="input-box">
-                        <select
-                          name="languageId"
-                          value={formData.languageId}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">Select mother tongue</option>
-                          {languages.map((language) => (
-                            <option
-                              key={language.language_id}
-                              value={language.language_id}
-                            >
-                              {language.language_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
                       <div>
                         <label htmlFor="presentation">Presentation:</label>
-                        <input
-                          type="text"
+                        <textarea
                           id="presentation"
                           name="presentation"
                           value={formData.presentation}
                           onChange={handleChange}
+                          rows="4"
+                          cols="26"
                         />
                       </div>
+
                       <div className="input-box">
                         <select
                           name="universityId"
@@ -406,6 +417,18 @@ const UserProfile = () => {
                             </option>
                           ))}
                         </select>
+                      </div>
+                      <div>
+                        <label htmlFor="universityCourse">
+                          University programme:
+                        </label>
+                        <input
+                          type="text"
+                          id="universityCourse"
+                          name="universityCourse"
+                          value={formData.universityCourse}
+                          onChange={handleChange}
+                        />
                       </div>
                       <button type="submit">Submit</button>
                     </form>

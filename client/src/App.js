@@ -21,6 +21,7 @@ import Departments from './Components/Admin/Departments';
 import MyApplications from './Components/Application/MyApplications';
 import Accepts from './Components/Application/Accepts';
 import Rejects from './Components/Application/Rejects';
+import WaitingCompanies from './Components/Admin/WaitingCompanies';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path='admin/user' element={<Users />} />
           <Route path='admin/company' element={<Companies />} />
           <Route path='admin/problem' element={<Problems />} />
+          <Route path='admin/addAccess' element={<WaitingCompanies />} />
           <Route path='admin/department' element={<Departments />} />
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />

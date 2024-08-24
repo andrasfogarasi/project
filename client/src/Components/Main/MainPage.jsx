@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Headers/Header.jsx";
+import WaitPage from "../Error/WaitPage.jsx";
 
 const MainPage = () => {
   const [jobPosts, setJobPosts] = useState([]);
@@ -14,6 +15,7 @@ const MainPage = () => {
   const [cId, setCompanyId] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [waiting, setWaiting] = useState(false);
   const jobsPerPage = 6;
 
   const fetchJobPosts = async () => {
@@ -79,6 +81,9 @@ const MainPage = () => {
         fetchJobPosts();
       } else if (decodedToken) {
         if (decodedToken.flag === "2" || decodedToken.flag === "4") {
+          if (decodedToken.wait) {
+            setWaiting(true);
+          }
           fetchJobPostsByCompanyId(decodedToken.companyId.id);
           setCompanyId(decodedToken.companyId.id);
         } else {
@@ -145,6 +150,7 @@ const MainPage = () => {
   const totalPages = Math.ceil(jobPosts.length / jobsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (waiting) return <WaitPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 

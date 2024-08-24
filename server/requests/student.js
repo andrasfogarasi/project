@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     try {
 
         console.log(req.body);
-        let { universityId, birthdayDate, languageId, presentation, userId } = req.body;
+        let { universityId, birthdayDate, universityCourse, presentation, userId } = req.body;
 
         const today = new Date();
         const birthDate = new Date(birthdayDate);
@@ -70,16 +70,8 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: failedInserting, error: errorMessage });
         }
 
-        languageId = parseInt(languageId, 10);
-        const language = await db.selectLanguageByLanguageId(languageId);
-
-        if (language === undefined) {
-            const errorMessage = 'Language not found!';
-            return res.status(404).json({ message: failedInserting, error: errorMessage });
-        }
-
         universityId = parseInt(universityId, 10);
-        const result = await db.insertStudent(userId, universityId, birthdayDate, languageId, presentation);
+        const result = await db.insertStudent(userId, universityId, birthdayDate, universityCourse, presentation);
 
         res.status(200).json({ success: true });
     } catch (error) {
@@ -115,13 +107,10 @@ router.get('/:userId', async (req, res) => {
         if (result.length > 0) {
             const student = result[0];
 
-            let languageName = await db.selectLanguageNameByLanguageId(student.mother_tongue_id);
-            languageName = languageName[0];
-
             let universityName = await db.selectUniversityeNameById(student.university_id);
             universityName = universityName[0];
 
-            const response = { student: student, language: languageName, university: universityName };
+            const response = { student: student, university: universityName };
 
             return res.status(200).json(response);
         } else {

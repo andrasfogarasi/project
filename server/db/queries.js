@@ -6,9 +6,9 @@ export const insertUser = async (username, email, firstname, lastname, password,
     return result;
 };
 
-export const insertStudent = async (userId, universityId, birthdayDate, motherTongueId, presentation) => {
-    const query = 'INSERT INTO student (user_id, university_id, birthday_date, mother_tongue_id, presentation) VALUES (?, ?, ?, ?, ?)';
-    const result = await databaseConnection.executeQuery(query, [userId, universityId, birthdayDate, motherTongueId, presentation]);
+export const insertStudent = async (userId, universityId, birthdayDate, universityCourse, presentation) => {
+    const query = 'INSERT INTO student (user_id, university_id, birthday_date, university_course, presentation) VALUES (?, ?, ?, ?, ?)';
+    const result = await databaseConnection.executeQuery(query, [userId, universityId, birthdayDate, universityCourse, presentation]);
     return result;
 };
 
@@ -84,6 +84,12 @@ export const selectCompanies = async () => {
     return result;
 };
 
+export const selectWaitingCompanies = async () => {
+    const query = 'SELECT * FROM company where waiting = TRUE';
+    const result = await databaseConnection.executeQuery(query);
+    return result;
+};
+
 export const selectUserIdByEmail = async (email) => {
     const query = 'SELECT id FROM user WHERE email LIKE ?';
     const [result] = await databaseConnection.executeQuery(query, [email]);
@@ -146,6 +152,12 @@ export const selectCompanyNameById = async (id) => {
 
 export const selectCompanyBannedById = async (id) => {
     const query = 'SELECT banned FROM company WHERE id = ?';
+    const [result] = await databaseConnection.executeQuery(query, [id]);
+    return result;
+};
+
+export const selectCompanyWaitingById = async (id) => {
+    const query = 'SELECT waiting FROM company WHERE id = ?';
     const [result] = await databaseConnection.executeQuery(query, [id]);
     return result;
 };
@@ -404,6 +416,12 @@ export const updateBanToFalse = async (userId) => {
 
 export const updateCompanyBanToFalse = async (userId) => {
     const query = 'UPDATE company set banned = FALSE WHERE id = ?';
+    const result = await databaseConnection.executeQuery(query, [userId]);
+    return result;
+};
+
+export const updateCompanyWaitToFalse = async (userId) => {
+    const query = 'UPDATE company set waiting = FALSE WHERE id = ?';
     const result = await databaseConnection.executeQuery(query, [userId]);
     return result;
 };

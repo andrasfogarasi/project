@@ -21,6 +21,7 @@ export const createTables = async () => {
         location VARCHAR(60),
         flag VARCHAR(2) NOT NULL,
         banned BOOLEAN DEFAULT FALSE,
+        waiting BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         rating INT DEFAULT 0    
     );
@@ -36,8 +37,7 @@ export const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         flag VARCHAR(10) NOT NULL,
-        banned BOOLEAN DEFAULT FALSE,
-        FOREIGN KEY (company_id) REFERENCES company(id)
+        banned BOOLEAN DEFAULT FALSE
     );
     `);
 
