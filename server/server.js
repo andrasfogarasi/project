@@ -18,6 +18,7 @@ import applicant from './requests/applicant.js';
 import problem from './requests/problem.js';
 import user from './requests/user.js';
 import createNewDepartment from './requests/createNewDepartment.js';
+import spokenLanguage from './requests/spokenLanguage.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -58,6 +59,7 @@ app.use('/applicant', applicant);
 app.use('/problem', problem);
 app.use('/user', user);
 app.use('/createNewDepartment', createNewDepartment);
+app.use('/spoken_language', spokenLanguage);
 
 createTables().then(() => {
     app.listen(5000, () => {

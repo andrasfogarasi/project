@@ -27,6 +27,7 @@ const UserProfile = () => {
   const [courseName, setCourseName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
   const [file, setFile] = useState(null);
+  const [spokenLanguages, setspokenLanguages] = useState([]);
 
   const navigate = useNavigate();
 
@@ -77,6 +78,24 @@ const UserProfile = () => {
       }
     };
 
+    const fetchSpokenLanguages = async (studentId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/spoken_language/${studentId}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setspokenLanguages(data);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const fetchStudentData = async (userId) => {
       try {
         const response = await fetch(`http://localhost:5000/student/${userId}`);
@@ -89,6 +108,7 @@ const UserProfile = () => {
           setStudentId(data.student.id);
           setCourseName(data.student.university_course);
           setuniversityName(data.university.university_name);
+          fetchSpokenLanguages(data.student.id);
         }
       } catch (error) {
         setError(error);
@@ -352,6 +372,18 @@ const UserProfile = () => {
                     ) : null}
                   </div>
 
+                  <h2>Known languages:</h2>
+                  <h3>
+                    {spokenLanguages.map((language) => (
+                      <option
+                        key={language.language_id}
+                        value={language.language_id}
+                      >
+                        {language.language_name}
+                      </option>
+                    ))}
+                  </h3>
+
                   {!studentData.cv_filename ? (
                     <>
                       <h2>Upload Your CV</h2>
@@ -383,7 +415,7 @@ const UserProfile = () => {
                           <select
                             name="languageId"
                             value={languageFormData.languageId}
-                            onChange={handleChange}
+                            onChange={handleLanguageChange}
                             required
                           >
                             <option value="">Select language</option>

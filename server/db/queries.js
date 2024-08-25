@@ -192,6 +192,12 @@ export const selectLanguageIdByLanguageName = async (languageName) => {
     return result;
 };
 
+export const selectSpokenLanguageByStudentId = async (studentId) => {
+    const query = 'SELECT * FROM spoken_language join language ON language.language_id = spoken_language.student_id where student_id = ?';
+    const result = await databaseConnection.executeQuery(query, [studentId]);
+    return result;
+};
+
 export const selectStudentById = async (userId) => {
     const query = 'SELECT * FROM student where user_id = ?';
     const result = await databaseConnection.executeQuery(query, [userId]);
