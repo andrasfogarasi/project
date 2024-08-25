@@ -226,14 +226,29 @@ const UserProfile = () => {
 
   const handleLanguageSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post(
-        "https://yourserver.com/api/language",
-        formData
+      const response = await fetch(
+        `http://localhost:5000/language/${studentId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(languageFormData),
+          credentials: "include",
+        }
       );
-      console.log("Response:", response.data);
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Inserting failed:", response.statusText);
+        alert("Error");
+      }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Network error:", error);
     }
   };
 
@@ -363,11 +378,11 @@ const UserProfile = () => {
                       </div>
 
                       <h2>Add a language</h2>
-                      <form onSubmit={handleFileSubmit}>
+                      <form onSubmit={handleLanguageSubmit}>
                         <div className="input-box">
                           <select
                             name="languageId"
-                            value={formData.languageId}
+                            value={languageFormData.languageId}
                             onChange={handleChange}
                             required
                           >

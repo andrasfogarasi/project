@@ -17,4 +17,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/:studentId', async (req, res) => {
+    try {
+
+        const { studentId } = req.params;
+        const { languageId } = req.body;
+        await db.insertSpokenLanguage(studentId, languageId);
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: failedInserting, error: error.message });
+    }
+});
+
 export default router;

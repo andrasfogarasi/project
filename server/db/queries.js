@@ -36,6 +36,12 @@ export const insertProblem = async (userId, description) => {
     return result;
 };
 
+export const insertSpokenLanguage = async (studentId, languageId) => {
+    const query = 'INSERT INTO spoken_language (student_id, language_id) VALUES (?, ?)';
+    const result = await databaseConnection.executeQuery(query, [studentId, languageId]);
+    return result;
+};
+
 export const insertDepartment = async (name) => {
     const query = 'INSERT INTO department (department_name) VALUES ( ?)';
     const result = await databaseConnection.executeQuery(query, [name]);
