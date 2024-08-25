@@ -111,7 +111,7 @@ const CompanyProfile = () => {
             }}
             className="delete-button"
           >
-            <FontAwesomeIcon icon={faTrash} /> Delete User
+            <FontAwesomeIcon icon={faTrash} /> Delete Company
           </button>
         </>
       ) : null}

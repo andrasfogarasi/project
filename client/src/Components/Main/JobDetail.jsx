@@ -228,7 +228,9 @@ const JobDetail = () => {
   };
 
   const handleDeleteButton = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     try {
       const response = await fetch(`http://localhost:5000/job/${jobId}`, {

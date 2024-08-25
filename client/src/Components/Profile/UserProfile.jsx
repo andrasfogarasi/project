@@ -38,6 +38,17 @@ const UserProfile = () => {
     userId: 0,
   });
 
+  const [languageFormData, setLanguageFormData] = useState({
+    languageId: "",
+  });
+
+  const handleLanguageChange = (e) => {
+    setLanguageFormData({
+      ...languageFormData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -210,6 +221,19 @@ const UserProfile = () => {
       }
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
+    }
+  };
+
+  const handleLanguageSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://yourserver.com/api/language",
+        formData
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
 
