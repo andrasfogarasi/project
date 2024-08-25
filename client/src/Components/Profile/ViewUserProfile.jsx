@@ -5,6 +5,7 @@ import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import { useParams } from "react-router-dom";
 import BannedPage from "../Error/BannedPage.jsx";
+import Header from "../Headers/Header.jsx";
 
 const ViewUserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -14,9 +15,11 @@ const ViewUserProfile = () => {
   const [studentData, setStudentData] = useState(null);
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
-  const [languageName, setLanguageName] = useState(null);
   const [universityName, setuniversityName] = useState(null);
-  const { id } = useParams();
+  const [studentId, setStudentId] = useState(null);
+  const [courseName, setCourseName] = useState(null);
+  const [spokenLanguages, setspokenLanguages] = useState([]);
+  const { profileId } = useParams();
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
@@ -35,18 +38,38 @@ const ViewUserProfile = () => {
       }
     };
 
+    const fetchSpokenLanguages = async (studentId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/spoken_language/${studentId}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setspokenLanguages(data);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const fetchStudentData = async (userId) => {
       try {
         const response = await fetch(`http://localhost:5000/student/${userId}`);
         if (!response.ok) {
           setStudentData(null);
         } else {
-          const data = await response.json();
+          let data = await response.json();
 
-          if (data.student && data.language && data.university) {
-            setStudentData(data.student);
-            setLanguageName(data.language.language_name);
+          if (data.student && data.university) {
+            setStudentData(data.student[0]);
+            setStudentId(data.student.id);
+            setCourseName(data.student.university_course);
             setuniversityName(data.university.university_name);
+            fetchSpokenLanguages(data.student.id);
           }
         }
       } catch (error) {
@@ -67,8 +90,8 @@ const ViewUserProfile = () => {
           } else {
             setHasAccess(true);
             setUserName(decodedToken.name);
-            fetchUserData(id);
-            fetchStudentData(id);
+            fetchUserData(profileId);
+            fetchStudentData(profileId);
           }
         }
       } catch (error) {
@@ -80,7 +103,7 @@ const ViewUserProfile = () => {
       setLoading(false);
       setError(new Error("No token found"));
     }
-  }, [id]);
+  }, [profileId]);
 
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
@@ -89,9 +112,7 @@ const ViewUserProfile = () => {
 
   return (
     <div>
-      <div className="header">
-        <h1>{userName}</h1>
-      </div>
+      <Header />
 
       {userData && (
         <div className="job-post">
@@ -100,13 +121,11 @@ const ViewUserProfile = () => {
           <h2>Last name: {userData.last_name}</h2>
           <h3>Email: {userData.email}</h3>
 
-          {studentData && (
+          {studentData ?? (
             <div>
               <h3>Presentation: {userData.presentation}</h3>
 
               {universityName && <h3>University: {universityName}</h3>}
-
-              {languageName && <h3>Mother tongue: {languageName}</h3>}
             </div>
           )}
         </div>
