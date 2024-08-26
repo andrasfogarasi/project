@@ -16,7 +16,6 @@ const ViewUserProfile = () => {
   const [hasAccess, setHasAccess] = useState(false);
   const [banned, setBanned] = useState(false);
   const [universityName, setuniversityName] = useState(null);
-  const [studentId, setStudentId] = useState(null);
   const [courseName, setCourseName] = useState(null);
   const [spokenLanguages, setspokenLanguages] = useState([]);
   const { profileId } = useParams();
@@ -66,7 +65,6 @@ const ViewUserProfile = () => {
 
           if (data.student && data.university) {
             setStudentData(data.student[0]);
-            setStudentId(data.student.id);
             setCourseName(data.student.university_course);
             setuniversityName(data.university.university_name);
             fetchSpokenLanguages(data.student.id);
@@ -79,7 +77,7 @@ const ViewUserProfile = () => {
       }
     };
 
-    const token = getTokenWithExpiry("token");
+    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -126,6 +124,20 @@ const ViewUserProfile = () => {
               <h3>Presentation: {userData.presentation}</h3>
 
               {universityName && <h3>University: {universityName}</h3>}
+
+              {courseName ? <h3>University programme: {courseName}</h3> : null}
+
+              <h2>Known languages:</h2>
+              <h3>
+                {spokenLanguages.map((language) => (
+                  <option
+                    key={language.language_id}
+                    value={language.language_id}
+                  >
+                    {language.language_name}
+                  </option>
+                ))}
+              </h3>
             </div>
           )}
         </div>

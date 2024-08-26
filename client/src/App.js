@@ -22,6 +22,7 @@ import MyApplications from './Components/Application/MyApplications';
 import Accepts from './Components/Application/Accepts';
 import Rejects from './Components/Application/Rejects';
 import WaitingCompanies from './Components/Admin/WaitingCompanies';
+import ViewCompanyProfile from './Components/Profile/ViewCompanyProfile';
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
           <Route path='admin/department' element={<Departments />} />
           <Route path='/report' element={<SendProblem />} />
           <Route path='/profile/:profileId' element={<ViewUserProfile />} />
+          <Route path='/company/:companyId' element={<ViewCompanyProfile />} />
           <Route path='/company/createJob' element={<CreateNewJob />} />
           <Route path='/company/job/applicant/:jobId' element={<Applicants />} />
           <Route path="*" element={<NotFoundPage />} />

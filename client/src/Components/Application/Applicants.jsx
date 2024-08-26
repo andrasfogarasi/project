@@ -156,7 +156,7 @@ const Applicants = () => {
           <div key={applicant.id} className="job-post">
             <Link
               to={{
-                pathname: `/job/${applicant.id}`,
+                pathname: `/profile/${applicant.id}`,
                 state: { job: applicant },
               }}
             >

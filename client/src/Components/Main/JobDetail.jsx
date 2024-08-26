@@ -303,7 +303,12 @@ const JobDetail = () => {
       <div className="job-post">
         <h1>{job.name}</h1>
         <h3>Created at: {formatDate(job.created_at)}</h3>
-        <h2>Company name: {companyNameForView}</h2>
+        <div key={job.company_id}>
+          <Link to={{ pathname: `/company/${job.company_id}` }}>
+            <h2>Company name: {companyNameForView}</h2>
+          </Link>
+        </div>
+
         <h3>Department name: {departmentName}</h3>
 
         <h3>Description: {job.description}</h3>

@@ -109,7 +109,9 @@ const Users = () => {
       <div className="job-list">
         {users.map((user) => (
           <div key={user.id} className="job-post">
-            <Link to={{ pathname: `/job/${user.id}`, state: { job: user } }}>
+            <Link
+              to={{ pathname: `/profile/${user.id}`, state: { job: user } }}
+            >
               <h2>{user.username}</h2>
             </Link>
             <button
