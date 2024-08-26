@@ -41,6 +41,7 @@ const UserProfile = () => {
 
   const [languageFormData, setLanguageFormData] = useState({
     languageId: "",
+    languageLevel: "",
   });
 
   const handleLanguageChange = (e) => {
@@ -379,7 +380,7 @@ const UserProfile = () => {
                         key={language.language_id}
                         value={language.language_id}
                       >
-                        {language.language_name}
+                        {language.language_name} - {language.level}
                       </option>
                     ))}
                   </h3>
@@ -429,6 +430,24 @@ const UserProfile = () => {
                             ))}
                           </select>
                         </div>
+
+                        <div className="input-box">
+                          <select
+                            name="languageLevel"
+                            value={languageFormData.languageLevel}
+                            onChange={handleLanguageChange}
+                            required
+                          >
+                            <option value="">Select level</option>
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="C1">C1</option>
+                            <option value="C2">C2</option>
+                          </select>
+                        </div>
+
                         <button type="submit">Add</button>
                       </form>
                     </>

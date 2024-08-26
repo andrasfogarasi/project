@@ -21,8 +21,8 @@ router.post('/:studentId', async (req, res) => {
     try {
 
         const { studentId } = req.params;
-        const { languageId } = req.body;
-        await db.insertSpokenLanguage(studentId, languageId);
+        const { languageId, languageLevel } = req.body;
+        await db.insertSpokenLanguage(studentId, languageId, languageLevel);
 
         res.status(200).json({ success: true });
     } catch (error) {
