@@ -62,7 +62,7 @@ app.use('/createNewDepartment', createNewDepartment);
 app.use('/spoken_language', spokenLanguage);
 
 createTables().then(() => {
-    app.listen(5000, () => {
-        console.log(`Server listening on http://localhost:${port}/...`);
+    app.listen(port, () => {
+        console.log(`Server listening on ${process.env.SERVER_HOST_NAME}:${port}/...`);
     });
 });
