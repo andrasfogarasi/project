@@ -39,14 +39,15 @@ CREATE TABLE student (
     id INT IDENTITY(1,1) PRIMARY KEY,
     user_id INT UNIQUE FOREIGN KEY REFERENCES [user](id),
     university_id INT FOREIGN KEY REFERENCES university(id),
-    university_course VARCHAR(20),
+    university_department VARCHAR(20),
 	cv_filename VARCHAR(30)
 );
 
 CREATE TABLE spoken_language (
     id INT IDENTITY(1,1) PRIMARY KEY,
     student_id INT FOREIGN KEY REFERENCES student(id),
-    language_id INT FOREIGN KEY REFERENCES language(language_id)
+    language_id INT FOREIGN KEY REFERENCES language(language_id),
+    language_level VARCHAR(3)
 );
 
 CREATE TABLE department (
