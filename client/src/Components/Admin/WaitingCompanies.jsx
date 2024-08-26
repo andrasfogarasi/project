@@ -96,7 +96,9 @@ const WaitingCompanies = () => {
         {companies.map((company) => (
           <div key={company.id} className="job-post">
             <Link
-              to={{ pathname: `/job/${company.id}`, state: { job: company } }}
+              to={{
+                pathname: `/company/${company.id}`,
+              }}
             >
               <h2>{company.company_name}</h2>
             </Link>

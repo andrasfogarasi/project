@@ -1,18 +1,13 @@
 import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import NotFoundPage from "../Error/NotFoundPage.jsx";
-import ProfileHeader from "../Headers/ProfileHeader.jsx";
+import { useParams } from "react-router-dom";
+import Header from "../Headers/Header";
 
 const ViewCompanyProfile = () => {
   const [companyData, setCompanyData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [hasAccess, setHasAccess] = useState(false);
   const { companyId } = useParams();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompanyData = async (companyId) => {
@@ -33,40 +28,15 @@ const ViewCompanyProfile = () => {
       }
     };
 
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-
-        if (decodedToken && decodedToken.flag) {
-          if (decodedToken.banned) {
-            setBanned(true);
-          } else {
-            setHasAccess(true);
-            setUserName(decodedToken.name);
-            fetchUserData(profileId);
-            fetchStudentData(profileId);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        setError(new Error("Invalid token"));
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
-      setError(new Error("No token found"));
-    }
-  }, []);
+    fetchCompanyData(companyId);
+  }, [companyId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!hasAccess) return <NotFoundPage />;
 
   return (
     <div>
-      <ProfileHeader />
+      <Header />
       {companyData ? (
         <>
           <div className="job-post">

@@ -1,7 +1,6 @@
 import "../Main/MainPage.css";
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { getTokenWithExpiry } from "../../Functions/tokenUtils.js";
 import NotFoundPage from "../Error/NotFoundPage.jsx";
 import { useParams } from "react-router-dom";
 import BannedPage from "../Error/BannedPage.jsx";
@@ -45,7 +44,6 @@ const ViewUserProfile = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setspokenLanguages(data);
         }
       } catch (error) {
@@ -103,6 +101,32 @@ const ViewUserProfile = () => {
     }
   }, [profileId]);
 
+  async function downloadCV(filename) {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/student/download-cv/${filename}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to download the CV");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Your_Current_CV.pdf");
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the CV:", error);
+    }
+  }
+
   if (banned) return <BannedPage />;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -124,10 +148,9 @@ const ViewUserProfile = () => {
               <h3>Presentation: {userData.presentation}</h3>
 
               {universityName && <h3>University: {universityName}</h3>}
-
               {courseName ? <h3>University programme: {courseName}</h3> : null}
 
-              <h2>Known languages:</h2>
+              <h2>Known languages</h2>
               <h3>
                 {spokenLanguages.map((language) => (
                   <option
@@ -138,6 +161,14 @@ const ViewUserProfile = () => {
                   </option>
                 ))}
               </h3>
+
+              {studentData && studentData.cv_filename ? (
+                <div className="download-existing-cv">
+                  <button onClick={() => downloadCV(studentData.cv_filename)}>
+                    Download Your CV
+                  </button>
+                </div>
+              ) : null}
             </div>
           )}
         </div>
