@@ -48,8 +48,10 @@ const RegisterUser = () => {
         setTokenWithExpiry("token", token, 3600 * 1000);
         navigate("/");
       } else {
-        console.error("Login failed:", response.statusText);
-        alert("Error");
+        const errorData = await response.json();
+        const errorMessage = errorData.error || "An unknown error occurred";
+        console.error("Register failed:", errorMessage);
+        alert(`Error: ${errorMessage}`);
       }
     } catch (error) {
       console.error("Network error:", error);
