@@ -108,7 +108,7 @@ const JobDetail = () => {
     const fetchCompanyName = async (companyId) => {
       try {
         const response = await fetch(
-          `http://localhost:5000/company/${companyId}/name`
+          `${process.env.REACT_APP_API_URL}/company/${companyId}/name`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -124,7 +124,7 @@ const JobDetail = () => {
     const fetchDepartment = async (departmentId) => {
       try {
         const response = await fetch(
-          `http://localhost:5000/department/${departmentId}`
+          `${process.env.REACT_APP_API_URL}/department/${departmentId}`
         );
 
         if (!response.ok) {
