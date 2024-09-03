@@ -182,7 +182,7 @@ const CreateNewJob = () => {
         </div>
         <div className="input-box">
           <textarea
-            placeholder="Requirement"
+            placeholder="Requirements"
             name="requirements"
             value={formData.requirements}
             onChange={handleChange}

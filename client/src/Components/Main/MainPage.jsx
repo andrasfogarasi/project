@@ -161,7 +161,7 @@ const MainPage = () => {
       {cId ? (
         <div>
           <Link to={{ pathname: `/company/createJob` }}>
-            <button className="new-job-button">
+            <button class="new-company-button">
               <FontAwesomeIcon icon={faPlus} /> Add New Job
             </button>
           </Link>
